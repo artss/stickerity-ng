@@ -1,5 +1,5 @@
-AllCache
-========
+Brand new Stickerity
+====================
 
 1. Install [docker-ce](https://www.docker.com/community-edition).
 
