@@ -1,0 +1,18 @@
+@import '../../vars.css';
+
+.header {
+  height: var(--headerHeight);
+  padding: 0 16px;
+}
+
+.logo {
+  display: block;
+  line-height: var(--headerHeight);
+  font-family: var(--decorationFont);
+  font-size: 24px;
+  font-weight: 600;
+  text-decoration: none;
+  text-transform: lowercase;
+  color: #ccc;
+}
+

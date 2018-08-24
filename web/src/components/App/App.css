@@ -1,0 +1,18 @@
+@import '../../vars.css';
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  width: 100%;
+  max-width: var(--bodyWidth);
+  margin: 0 auto;
+}
+
+.title {
+  color: #666;
+}
+
+.upload {
+  width: 100%;
+}

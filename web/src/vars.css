@@ -1,0 +1,14 @@
+/* stylelint-disable custom-property-empty-line-before */
+
+:root {
+  --bodyColor: #eceff1;
+  --bodyWidth: 1200px;
+
+  --baseColor: #444;
+  --baseFont: Roboto, sans-serif;
+  --decorationFont: Montserrat, sans-serif;
+
+  --baseFontSize: 14px;
+
+  --headerHeight: 56px;
+}
