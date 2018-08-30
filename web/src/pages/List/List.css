@@ -1,0 +1,10 @@
+@import '../../vars.css';
+
+.list {
+  margin: 16px;
+}
+
+.title {
+  composes: title from '../../components/Sticker/Sticker.css';
+  margin: 0 24px 0 0;
+}

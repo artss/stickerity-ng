@@ -1,0 +1,31 @@
+@import '../../vars.css';
+
+.sticker {
+  padding: 16px;
+  color: var(--baseColor);
+  text-decoration: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  border-bottom-right-radius: 16px;
+
+  &::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: block;
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    transform: rotate(45deg);
+    background-color: inherit;
+  }
+}
+
+.title {
+  display: block;
+  font-family: var(--decorationFont);
+  font-size: 18px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--baseColor);
+}

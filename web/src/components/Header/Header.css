@@ -6,7 +6,6 @@
 }
 
 .logo {
-  display: block;
   line-height: var(--headerHeight);
   font-family: var(--decorationFont);
   font-size: 24px;

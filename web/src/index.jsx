@@ -21,7 +21,7 @@ const initialState = {
     {
       id: 1,
       type: 'notes',
-      title: 'Brand new skickerity',
+      title: 'Brand new skickerity test long title',
       color: 'fff',
       items: [
         {
