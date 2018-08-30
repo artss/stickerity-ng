@@ -4,11 +4,21 @@
   margin: 16px;
 }
 
-.title {
+.head {
   composes: title from '../../components/Sticker/Sticker.css';
+  display: flex;
   margin: 0 24px 0 0;
 }
 
-.items {
+.back {
+  margin: -8px 8px 0 -8px;
+}
 
+.title {
+  flex: 1;
+}
+
+.items {
+  list-style: none;
+  padding: 0;
 }

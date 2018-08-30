@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Helmet } from 'react-helmet';
+import { Link } from 'react-router-dom';
+import { IconButton } from 'react-toolbox/lib/button';
 
 import { listType } from '../../proptypes/list';
 import Sticker from '../../components/Sticker';
@@ -35,7 +37,13 @@ class List extends PureComponent {
           <title>{title}</title>
         </Helmet>
 
-        <h1 className={styles.title}>{title}</h1>
+        <h1 className={styles.head}>
+          <Link to="/">
+            <IconButton className={styles.back} icon="arrow_back" />
+          </Link>
+
+          <div className={styles.title}>{title}</div>
+        </h1>
 
         <ul className={styles.items}>
           {items.map(item => (
