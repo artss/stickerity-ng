@@ -9,10 +9,10 @@ export default function NoteItem({
   text,
 }) {
   return (
-    <div>
+    <li>
       <Link to={`/lists/${$listId}/${$id}`}>{title}</Link>
       <div>{text}</div>
-    </div>
+    </li>
   );
 }
 

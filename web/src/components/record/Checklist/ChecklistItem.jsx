@@ -9,9 +9,9 @@ export default function NoteItem({
   text,
 }) {
   return (
-    <div>
+    <li>
       <Checkbox checked={checked} label={text} />
-    </div>
+    </li>
   );
 }
 
