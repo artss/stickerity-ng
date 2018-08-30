@@ -19,12 +19,13 @@ import App from './components/App';
 const initialState = {
   lists: [
     {
-      id: 1,
-      type: 'notes',
+      $id: '1',
+      type: 'Note',
       title: 'Brand new skickerity test long title',
       color: 'fff',
       items: [
         {
+          $id: '1',
           title: 'End-to-end encryption',
           text: 'I don\'t know how will it work, but it will',
         },
@@ -32,12 +33,13 @@ const initialState = {
     },
 
     {
-      id: 2,
-      type: 'passwords',
+      $id: '2',
+      type: 'Password',
       title: 'Passwords',
       color: 'fea',
       items: [
         {
+          $id: '1',
           title: 'point',
           icon: 'https://i.point.im/icon-128.png',
           url: 'point.im',
@@ -46,6 +48,7 @@ const initialState = {
         },
 
         {
+          $id: '2',
           title: 'VK',
           icon: '',
           url: 'vk.com',
@@ -54,6 +57,7 @@ const initialState = {
         },
 
         {
+          $id: '3',
           title: 'facebook',
           icon: '',
           url: 'facebook.com',
@@ -64,27 +68,31 @@ const initialState = {
     },
 
     {
-      id: 3,
-      type: 'checklist',
+      $id: '3',
+      type: 'Checklist',
       title: 'To buy',
       color: 'dfe',
       items: [
         {
+          $id: '1',
           text: 'Bread',
           checked: true,
         },
 
         {
+          $id: '2',
           text: 'Milk',
           checked: false,
         },
 
         {
+          $id: '3',
           text: 'Potatoes',
           checked: false,
         },
 
         {
+          $id: '4',
           text: 'Tomatoes',
           checked: false,
         },

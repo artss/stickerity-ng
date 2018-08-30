@@ -18,7 +18,7 @@ export default class Item extends PureComponent {
 
   render() {
     const {
-      id,
+      $id,
       color,
       title,
       items,
@@ -26,7 +26,7 @@ export default class Item extends PureComponent {
 
     return (
       <Sticker color={color} className={styles.item}>
-        <Link to={`/lists/${id}`} className={styles.itemTitle}>{title}</Link>
+        <Link to={`/lists/${$id}`} className={styles.itemTitle}>{title}</Link>
 
         <div className={styles.itemQty}>
           {items.length} items

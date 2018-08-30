@@ -18,10 +18,10 @@ class Lists extends PureComponent {
 
     return (
       <div className={styles.lists}>
-        {lists.map(item => (
+        {lists.map(list => (
           <Item
-            key={item.id}
-            {...item}
+            key={list.$id}
+            {...list}
           />
         ))}
       </div>
