@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
 
 import { listType } from '../../proptypes/list';
 
@@ -18,6 +19,10 @@ class Lists extends PureComponent {
 
     return (
       <div className={styles.lists}>
+        <Helmet>
+          <title>My lists</title>
+        </Helmet>
+
         {lists.map(list => (
           <Item
             key={list.$id}

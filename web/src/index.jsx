@@ -20,7 +20,7 @@ const initialState = {
   lists: [
     {
       $id: '1',
-      type: 'Note',
+      $type: 'Note',
       title: 'Brand new skickerity test long title',
       color: 'fff',
       items: [
@@ -34,7 +34,7 @@ const initialState = {
 
     {
       $id: '2',
-      type: 'Password',
+      $type: 'Password',
       title: 'Passwords',
       color: 'fea',
       items: [
@@ -69,7 +69,7 @@ const initialState = {
 
     {
       $id: '3',
-      type: 'Checklist',
+      $type: 'Checklist',
       title: 'To buy',
       color: 'dfe',
       items: [
