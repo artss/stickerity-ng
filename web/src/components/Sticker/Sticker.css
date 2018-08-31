@@ -1,6 +1,7 @@
 @import '../../vars.css';
 
 .sticker {
+  position: relative;
   padding: 16px;
   color: var(--baseColor);
   text-decoration: none;

@@ -1,0 +1,44 @@
+@import '../../../vars.css';
+
+.root {
+  padding: 0;
+  position: relative;
+  border-top: solid 1px rgba(0, 0, 0, 0.1);
+
+  &:first-of-type {
+    border-top: 0;
+  }
+
+  @media (--tablet) {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.link {
+  flex: 1;
+  display: block;
+  margin: 8px 0;
+  padding: 8px 0;
+  text-decoration: none;
+}
+
+.title {
+  font-family: var(--decorationFont);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--linkColor);
+}
+
+.text {
+  font-family: var(--baseFont);
+  color: var(--baseColor);
+}
+
+.actions {
+  display: flex;
+
+  @media (--tablet) {
+    margin-top: 8px;
+  }
+}

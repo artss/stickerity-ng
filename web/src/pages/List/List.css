@@ -7,7 +7,7 @@
 .head {
   composes: title from '../../components/Sticker/Sticker.css';
   display: flex;
-  margin: 0 24px 0 0;
+  margin: 0 24px 8px 0;
 }
 
 .back {
@@ -18,7 +18,16 @@
   flex: 1;
 }
 
+.menu {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
+  font-size: var(--baseFontSize);
+}
+
 .items {
   list-style: none;
+  margin: 0;
   padding: 0;
 }

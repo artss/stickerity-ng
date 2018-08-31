@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { IconButton } from 'react-toolbox/lib/button';
+import {IconMenu, MenuItem } from 'react-toolbox/lib/menu';
 
 import { listType } from '../../proptypes/list';
 import Sticker from '../../components/Sticker';
@@ -44,6 +45,11 @@ class List extends PureComponent {
 
           <div className={styles.title}>{title}</div>
         </h1>
+
+        <IconMenu className={styles.menu} icon="more_vert" menuRipple>
+          <MenuItem value="edit" icon="edit" caption="Edit" />
+          <MenuItem value="delete" icon="delete" caption="Delete" />
+        </IconMenu>
 
         <ul className={styles.items}>
           {items.map(item => (

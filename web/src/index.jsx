@@ -27,7 +27,18 @@ const initialState = {
         {
           $id: '1',
           title: 'End-to-end encryption',
-          text: 'I don\'t know how will it work, but it will',
+          text: 'Придумать, как шифровать',
+        },
+
+        {
+          $id: '2',
+          text: 'Придумать лого',
+        },
+
+        {
+          $id: '3',
+          title: 'Material palette generator',
+          text: 'The Material palette generator can be used to generate a palette for any color you input. An algorithmic adjustment of hue, chroma, and lightness creates palettes that are both usable and aesthetically pleasing.\n\n## Input colors\n\nColor palettes can be generated based on the primary input color, and whether the desired palette should be analogous, complementary, or triadic in relation to the primary color. Alternatively, the tool can generate expanded palettes for any primary and secondary color input.\n\n## Color variations for accessibility\n\nThese palettes provide additional ways to use your primary and secondary colors, by providing lighter and darker options to separate surfaces and provide colors that meet accessibility standards.',
         },
       ],
     },
