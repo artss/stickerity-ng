@@ -8,11 +8,6 @@
   &:first-of-type {
     border-top: 0;
   }
-
-  @media (--tablet) {
-    display: flex;
-    justify-content: space-between;
-  }
 }
 
 .link {
@@ -35,10 +30,7 @@
   color: var(--baseColor);
 }
 
-.actions {
-  display: flex;
-
-  @media (--tablet) {
-    margin-top: 8px;
-  }
+.menu {
+  float: right;
+  margin: 8px -8px 8px 8px;
 }

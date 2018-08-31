@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { IconButton } from 'react-toolbox/lib/button';
-import {IconMenu, MenuItem } from 'react-toolbox/lib/menu';
+import { IconMenu, MenuItem } from 'react-toolbox/lib/menu';
 
 import { listType } from '../../proptypes/list';
 import Sticker from '../../components/Sticker';
