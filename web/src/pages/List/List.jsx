@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { IconButton } from 'react-toolbox/lib/button';
 import { IconMenu, MenuItem } from 'react-toolbox/lib/menu';
 
+import { getListById } from '../../selectors/lists';
 import { listType } from '../../proptypes/list';
 import Sticker from '../../components/Sticker';
 import NoteItem from '../../components/record/Note/NoteItem';
@@ -61,8 +62,8 @@ class List extends PureComponent {
   }
 }
 
-function mapStateToProps({ lists }, { match: { params: { id } } }) {
-  return lists.find(({ $id }) => $id === id);
+function mapStateToProps(state, { match: { params: { id } } }) {
+  return getListById(state, id);
 }
 
 export default withRouter(connect(mapStateToProps)(List));
