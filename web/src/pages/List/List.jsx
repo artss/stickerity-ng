@@ -62,8 +62,8 @@ class List extends PureComponent {
   }
 }
 
-function mapStateToProps(state, { match: { params: { id } } }) {
-  return getListById(state, id);
+function mapStateToProps({ lists }, { match: { params: { id } } }) {
+  return getListById(lists, id);
 }
 
 export default withRouter(connect(mapStateToProps)(List));
