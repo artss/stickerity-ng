@@ -9,15 +9,9 @@ import { IconMenu, MenuItem } from 'react-toolbox/lib/menu';
 import { getListById } from '../../selectors/lists';
 import { listType } from '../../proptypes/list';
 import Sticker from '../../components/Sticker';
-import NoteItem from '../../components/record/Note/NoteItem';
-import ChecklistItem from '../../components/record/Checklist/ChecklistItem';
+import getItemComponent from '../../components/types';
 
 import styles from './List.css';
-
-const typeMapping = {
-  Note: NoteItem,
-  Checklist: ChecklistItem,
-};
 
 class List extends PureComponent {
   static propTypes = listType;
@@ -31,7 +25,7 @@ class List extends PureComponent {
       items,
     } = this.props;
 
-    const Item = typeMapping[$type];
+    const Item = getItemComponent($type);
 
     return (
       <Sticker color={color} className={styles.root}>

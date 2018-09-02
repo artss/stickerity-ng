@@ -9,6 +9,7 @@ fi
 
 failed=0
 for file in ${files}; do
+echo '+++++++' $file
     git show :$file | ./node_modules/.bin/eslint $file
     if [[ $? != 0 ]] ; then
         failed=1
