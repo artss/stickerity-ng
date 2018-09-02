@@ -1,0 +1,30 @@
+{
+  "name": "stickerity-ng",
+  "version": "1.0.0",
+  "description": "Brand new Stickerity ====================",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-eslint": "^9.0.0",
+    "eslint": "^5.5.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.11.1",
+    "husky": "^0.14.3",
+    "stylelint": "^9.5.0",
+    "stylelint-config-css-modules": "^1.3.0",
+    "stylelint-config-standard": "^18.2.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/arts/stickerity-ng.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/arts/stickerity-ng#readme"
+}

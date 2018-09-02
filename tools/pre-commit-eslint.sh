@@ -1,6 +1,6 @@
 #!/bin/bash
-files=$(git diff --cached --name-only | grep '\.jsx\?$')
-#files=$(git diff --name-only | grep '\.jsx\?$')
+#files=$(git diff --cached --name-only | grep '\.jsx\?$')
+files=$(git diff --name-only | grep '\.jsx\?$')
 
 # Prevent ESLint help message if no files matched
 if [[ $files = "" ]] ; then
