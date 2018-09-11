@@ -1,4 +1,5 @@
 import NoteItem from './Note/NoteItem';
+import NotePage from './Note/NotePage';
 import ChecklistItem from './Checklist/ChecklistItem';
 
 const itemTypeMapping = {
@@ -6,6 +7,14 @@ const itemTypeMapping = {
   Checklist: ChecklistItem,
 };
 
-export default function getItemComponent($type) {
+const pageTypeMapping = {
+  Note: NotePage,
+};
+
+export function getItemComponent($type) {
   return itemTypeMapping[$type];
+}
+
+export function getPageComponent($type) {
+  return pageTypeMapping[$type];
 }

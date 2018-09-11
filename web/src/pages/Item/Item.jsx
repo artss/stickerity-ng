@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Helmet } from 'react-helmet';
@@ -6,35 +7,34 @@ import { Link } from 'react-router-dom';
 import { IconButton } from 'react-toolbox/lib/button';
 import { IconMenu, MenuItem } from 'react-toolbox/lib/menu';
 
-import { getListById } from '../../selectors/lists';
+import { getListById, getItemById } from '../../selectors/lists';
 import { listType } from '../../proptypes/list';
 import Sticker from '../../components/Sticker';
-import { getItemComponent } from '../../components/types';
+import { getPageComponent } from '../../components/types';
 
-import styles from './List.css';
+import styles from './Item.css';
 
-class List extends PureComponent {
-  static propTypes = listType;
+class ItemPage extends PureComponent {
+  static propTypes = {
+    list: PropTypes.shape(listType).isRequired,
+    item: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  };
 
   render() {
-    const {
-      $id,
-      $type,
-      title,
-      color,
-      items,
-    } = this.props;
+    const { list, item } = this.props;
 
-    const Item = getItemComponent($type);
+    const Item = getPageComponent(list.$type);
+
+    const title = Item.getTitle(item);
 
     return (
-      <Sticker color={color} className={styles.root}>
+      <Sticker color={list.color} className={styles.root}>
         <Helmet>
           <title>{title}</title>
         </Helmet>
 
         <h1 className={styles.head}>
-          <Link to="/">
+          <Link to={`/lists/${list.$id}`}>
             <IconButton className={styles.back} icon="arrow_back" />
           </Link>
 
@@ -46,18 +46,17 @@ class List extends PureComponent {
           <MenuItem value="delete" icon="delete" caption="Delete" />
         </IconMenu>
 
-        <ul className={styles.items}>
-          {items.map(item => (
-            <Item key={item.$id} $listId={$id} {...item} />
-          ))}
-        </ul>
+        <Item key={item.$id} $listId={list.$id} {...item} />
       </Sticker>
     );
   }
 }
 
-function mapStateToProps({ lists }, { match: { params: { listId } } }) {
-  return getListById(lists, listId);
+function mapStateToProps({ lists }, { match: { params: { listId, itemId } } }) {
+  const list = getListById(lists, listId);
+  const item = getItemById(list, itemId);
+
+  return { list, item };
 }
 
-export default withRouter(connect(mapStateToProps)(List));
+export default withRouter(connect(mapStateToProps)(ItemPage));
