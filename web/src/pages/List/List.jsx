@@ -42,8 +42,8 @@ class List extends PureComponent {
         </h1>
 
         <IconMenu className={styles.menu} icon="more_vert" menuRipple>
-          <MenuItem value="edit" icon="edit" caption="Edit" />
-          <MenuItem value="delete" icon="delete" caption="Delete" />
+          <MenuItem value="edit" icon="edit" caption="Edit list" />
+          <MenuItem value="delete" icon="delete" caption="Delete list" />
         </IconMenu>
 
         <ul className={styles.items}>
