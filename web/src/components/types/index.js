@@ -2,6 +2,7 @@ import NoteItem from './Note/NoteItem';
 import NotePage from './Note/NotePage';
 import ChecklistItem from './Checklist/ChecklistItem';
 
+// TODO: dynamic import
 const itemTypeMapping = {
   Note: NoteItem,
   Checklist: ChecklistItem,
