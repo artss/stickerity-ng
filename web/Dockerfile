@@ -1,8 +1,12 @@
-FROM node:10
+FROM node:10 as web-builder
 WORKDIR /srv/web
-COPY ./src package*.json *.config.js /srv/web/
-RUN npm install
-VOLUME ["/srv/web"]
-EXPOSE 5000
-CMD ["npm", "start-production"]
+COPY . /srv/web/
+ARG DOMAIN
+ARG PORT
+RUN npm install && \
+    npm run build
+# VOLUME ["/srv/web"]
 
+FROM nginx
+COPY --from=web-builder /srv/web/dist /srv/web/dist
+COPY nginx.conf /etc/nginx/conf.d/default.conf

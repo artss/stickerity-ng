@@ -1,0 +1,6 @@
+FROM node:10
+WORKDIR /srv/web
+COPY . /srv/web
+RUN npm install
+RUN ls -l
+CMD ["npm", "start"]
