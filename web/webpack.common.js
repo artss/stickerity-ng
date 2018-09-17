@@ -3,7 +3,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const staticDir = path.join(__dirname, 'dist', 'static');
+const staticDir = path.join(__dirname, 'dist');
 
 const cssLoader = [
   {
@@ -21,26 +21,12 @@ const cssLoader = [
 const config = {
   entry: {
     app: './src/index.jsx',
-    /*
-    lib: [
-      'classnames',
-      'history/createBrowserHistory',
-      'react',
-      'react-dom',
-      'react-helmet',
-      'react-router',
-      'react-router-dom',
-      // 'react-toolbox',
-      'redux',
-      'reselect',
-    ],
-    */
   },
 
   output: {
     path: staticDir,
     pathinfo: true,
-    filename: '[name].[chunkhash:6].js',
+    filename: '[name].[hash:6].js',
   },
 
   module: {
@@ -65,6 +51,8 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
+      filename: 'index.html',
+      inject: 'body',
     }),
   ],
 };
@@ -72,4 +60,5 @@ const config = {
 module.exports = {
   config,
   cssLoader,
+  staticDir,
 };

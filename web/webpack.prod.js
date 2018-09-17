@@ -17,7 +17,7 @@ const config = merge(common.config, {
   mode: 'production',
 
   output: {
-    publicPath: `//${DOMAIN}/static/`,
+    publicPath: `//${DOMAIN}/`,
   },
 
   optimization: {

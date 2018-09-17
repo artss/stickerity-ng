@@ -8,9 +8,10 @@
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf ./dist",
-    "build": "webpack --config webpack.prod.js",
+    "build": "run-s clean webpack-production",
+    "webpack-production": "webpack --config webpack.prod.js",
     "start": "webpack-dev-server --config webpack.dev.js",
-    "start-production": "node ./server.js",
+    "production": "node ./server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "husky": {
