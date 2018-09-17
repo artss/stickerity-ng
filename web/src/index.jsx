@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ? hot(module)(App)
     : App;
 
-  ReactDOM.hydrate(
+  ReactDOM.render(
     <Provider store={store}>
       <ConnectedRouter history={history}>
         <AppContainer />

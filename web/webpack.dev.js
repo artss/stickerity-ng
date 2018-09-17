@@ -33,6 +33,4 @@ const config = merge(common.config, {
   devtool: 'inline-source-map',
 });
 
-console.log(config);
-
 module.exports = config;
