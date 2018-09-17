@@ -8,6 +8,7 @@ services:
       DOMAIN: stickerity.local
     volumes:
       - ./web/src:/srv/web/src
+      - ./web/.babelrc:/srv/web/.babelrc
       - ./web/package.json:/srv/web/package.json
       - ./web/package-lock.json:/srv/web/package-lock.json
       - ./web/postcss.config.js:/srv/web/postcss.config.js
