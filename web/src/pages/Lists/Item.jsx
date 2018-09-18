@@ -29,7 +29,10 @@ export default class Item extends PureComponent {
         <Link to={`/lists/${$id}`} className={styles.itemTitle}>{title}</Link>
 
         <div className={styles.itemQty}>
-          {items.length} items
+          {items.length > 0
+            ? `${items.length} items`
+            : 'No items'
+          }
         </div>
 
         <IconMenu className={styles.itemMenu} icon="more_vert" menuRipple>

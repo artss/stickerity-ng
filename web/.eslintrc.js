@@ -29,5 +29,6 @@ module.exports = {
 
     'jsx-a11y/href-no-hash': 0,
     'react/jsx-one-expression-per-line': 0,
+    'import/prefer-default-export': 'off',
   }
 };

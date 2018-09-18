@@ -109,6 +109,13 @@ const initialState = {
         },
       ],
     },
+
+    {
+      $id: '4',
+      $type: 'Note',
+      title: 'Empty',
+      items: [],
+    },
   ],
   DEBUG: true,
 };

@@ -4,7 +4,6 @@ export const listType = {
   $id: PropTypes.string.isRequired,
   $type: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired,
+  color: PropTypes.string,
   items: PropTypes.array.isRequired,
 };
-
