@@ -1,7 +1,7 @@
 {
   "name": "stickerity-ng",
   "version": "1.0.0",
-  "description": "Brand new Stickerity ====================",
+  "description": "Brand new Stickerity",
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
@@ -17,7 +17,10 @@
     "stylelint-config-standard": "^18.2.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "eslint": "./tools/pre-commit-eslint.sh",
+    "stylelint": "./tools/pre-commit-stylelint.sh",
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "precommit": "npm run eslint && npm run stylelint && npm run test"
   },
   "repository": {
     "type": "git",
