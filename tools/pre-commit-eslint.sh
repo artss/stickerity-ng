@@ -1,6 +1,5 @@
 #!/bin/bash
-#files=$(git diff --cached --name-only | grep '\.jsx\?$')
-files=$(git diff --name-only | grep '\.jsx\?$')
+files=$(git diff --name-only HEAD | grep '\.jsx\?$')
 
 # Prevent ESLint help message if no files matched
 if [[ $files = "" ]] ; then
@@ -9,7 +8,6 @@ fi
 
 failed=0
 for file in ${files}; do
-echo '+++++++' $file
     git show :$file | ./node_modules/.bin/eslint $file
     if [[ $? != 0 ]] ; then
         failed=1

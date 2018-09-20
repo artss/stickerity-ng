@@ -11,8 +11,8 @@ const COPIED_TIMEOUT = 2000;
 
 export default class PasswordItem extends PureComponent {
   static propTypes = {
-    $listId: PropTypes.string.isRequired,
-    $id: PropTypes.string.isRequired,
+    // $listId: PropTypes.string.isRequired,
+    // $id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     login: PropTypes.string.isRequired,
     password: PropTypes.string.isRequired,
@@ -27,17 +27,25 @@ export default class PasswordItem extends PureComponent {
     const { login } = this.props;
     copy(login);
     this.setState({ loginCopied: true });
-    setTimeout(() => this.setState({ loginCopied: false }), COPIED_TIMEOUT);
+    this.loginCopiedTimeout = setTimeout(
+      () => this.setState({ loginCopied: false }),
+      COPIED_TIMEOUT
+    );
   }
 
   copyPassword = () => {
     const { password } = this.props;
     copy(password);
     this.setState({ passwordCopied: true });
-    setTimeout(() => this.setState({ passwordCopied: false }), COPIED_TIMEOUT);
+    this.passwordCopiedTimeout = setTimeout(
+      () => this.setState({ passwordCopied: false }),
+      COPIED_TIMEOUT
+    );
   }
 
   resetCopied = () => {
+    clearTimeout(this.loginCopiedTimeout);
+    clearTimeout(this.passwordCopiedTimeout);
     this.setState({
       loginCopied: false,
       passwordCopied: false,
