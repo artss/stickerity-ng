@@ -8,6 +8,7 @@ import thunk from 'redux-thunk';
 import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
 import { hot } from 'react-hot-loader';
 
+import reducers from './reducers';
 import getHistory from './util/history';
 
 // must be imported before all components
@@ -117,9 +118,9 @@ const initialState = {
       items: [],
     },
   ],
-  DEBUG: true,
+
+  user: {},
 };
-const reducers = (state = initialState) => state;
 
 document.addEventListener('DOMContentLoaded', () => {
   const history = getHistory();
