@@ -112,9 +112,36 @@ const initialState = {
 
     {
       $id: '4',
-      $type: 'Note',
-      title: 'Empty',
-      items: [],
+      $type: 'Event',
+      title: 'Birthdays',
+      items: [
+        {
+          title: 'Nikita Geegoordah',
+          year: 1961,
+          month: 3,
+          day: 27,
+          annual: true,
+          wholeDay: true,
+        },
+
+        {
+          title: 'Ivan Petrov',
+          year: 1980,
+          month: 9,
+          day: 24,
+          annual: true,
+          wholeDay: true,
+        },
+
+        {
+          title: 'Calendar (song)',
+          year: 1993,
+          month: 9,
+          day: 3,
+          annual: true,
+          wholeDay: true,
+        },
+      ],
     },
   ],
   DEBUG: true,

@@ -9,23 +9,38 @@ import { IconMenu, MenuItem } from 'react-toolbox/lib/menu';
 import { getListById } from '../../selectors/lists';
 import { listType } from '../../proptypes/list';
 import Sticker from '../../components/Sticker';
-import { getItemComponent } from '../../components/types';
+import { getListComponent, getItemComponent } from '../../components/types';
 
 import styles from './List.css';
 
 class List extends PureComponent {
   static propTypes = listType;
 
-  render() {
-    const {
-      $id,
-      $type,
-      title,
-      color,
-      items,
-    } = this.props;
+  renderItems() {
+    const { $id, $type, items } = this.props;
+
+    const TypeList = getListComponent($type);
+
+    if (TypeList) {
+      return <TypeList items={items} />;
+    }
 
     const Item = getItemComponent($type);
+
+    return (
+      <ul className={styles.items}>
+        {items.map(item => (
+          <Item key={item.$id} $listId={$id} {...item} />
+        ))}
+      </ul>
+    );
+  }
+
+  render() {
+    const {
+      title,
+      color,
+    } = this.props;
 
     return (
       <Sticker color={color} className={styles.root}>
@@ -46,11 +61,7 @@ class List extends PureComponent {
           <MenuItem value="delete" icon="delete" caption="Delete list" />
         </IconMenu>
 
-        <ul className={styles.items}>
-          {items.map(item => (
-            <Item key={item.$id} $listId={$id} {...item} />
-          ))}
-        </ul>
+        {this.renderItems()}
       </Sticker>
     );
   }
