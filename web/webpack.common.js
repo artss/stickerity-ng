@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const staticDir = path.join(__dirname, 'dist');
@@ -49,6 +50,10 @@ const config = {
   },
 
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+    }),
+
     new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: 'index.html',
