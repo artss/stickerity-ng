@@ -1,52 +1,56 @@
+const PREFIX = 'saymyname';
 const DELIMITER = '.';
 
-const symbol = Symbol('initialState');
+const initialStateSymbol = Symbol('initialState');
+const run = Symbol('run');
 
-function partial(fn) {
+function action(fn, type) {
   return (...args) => {
-    if (args.length < 2) {
-      return () => ({ type: fn, payload: args[0] });
+    if (args[0] === run) {
+      return fn(...args.slice(1));
     }
-    return fn(...args);
+
+    return { type, args };
   };
 }
 
-export function identify(obj, prefix = [], delimiter) {
-  Object.keys(obj).forEach((key) => {
-    const item = obj[key];
-
-    const itemPrefix = [...prefix, key];
-    const itemPrefixString = itemPrefix.join(delimiter || DELIMITER);
+function identify(reducers, path = [], delimiter) {
+  Object.keys(reducers).forEach((key) => {
+    const itemPath = [...path, key];
+    const itemPathString = itemPath.join(delimiter || DELIMITER);
+    let item = reducers[key];
 
     if (typeof item === 'function') {
+      item = action(item, itemPathString);
+      item.toString = () => itemPathString;
+
       /* eslint-disable no-param-reassign */
-      obj[key] = partial(item);
-      obj[key].toString = () => itemPrefixString;
+      reducers[key] = item;
+      reducers[Symbol.for(itemPathString)] = item;
       /* eslint-enable no-param-reassign */
     } else if (typeof item === 'object') {
-      identify(item, itemPrefix, delimiter);
+      identify(item, itemPath, delimiter);
     }
   });
 
-  return obj;
+  return reducers;
 }
 
 export function saymyname(reducers, initialState, prefix, delimiter) {
   return {
-    ...identify(reducers, [prefix || 'saymyname'], delimiter),
-    [symbol]: initialState,
+    ...identify(reducers, [prefix || PREFIX], delimiter),
+    [initialStateSymbol]: initialState,
   };
 }
 
 export function makeReducers(reducers) {
-  global.reducers = reducers;
   return Object.keys(reducers).reduce(
     (memo, key) => ({
       ...memo,
-      [key]: (state = reducers[key][symbol], action, ...args) => {
-        const reducer = reducers[action.toString()];
+      [key]: (state = reducers[key][initialStateSymbol], { type, args }) => {
+        const reducer = reducers[key][Symbol.for(type)];
         return reducer
-          ? reducer(state, ...args)
+          ? reducer.call(null, run, state, ...args)
           : state;
       },
     }),

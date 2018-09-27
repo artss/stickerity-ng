@@ -1,7 +1,7 @@
 import { saymyname } from '../util/saymyname';
 
 export default saymyname({
-  setUser(state) {
-    return state;
+  setUser(state, name) {
+    return { ...state, name };
   },
-}, []);
+}, [], 'user');

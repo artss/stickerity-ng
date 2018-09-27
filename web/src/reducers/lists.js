@@ -4,4 +4,4 @@ export default saymyname({
   addList(state) {
     return state;
   },
-}, []);
+}, [], 'lists');
