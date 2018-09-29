@@ -50,7 +50,7 @@ export function makeReducers(reducers) {
       [key]: (state = reducers[key][initialStateSymbol], { type, args }) => {
         const reducer = reducers[key][Symbol.for(type)];
         return reducer
-          ? reducer.call(null, run, state, ...args)
+          ? reducer(run, state, ...args)
           : state;
       },
     }),
