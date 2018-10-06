@@ -8,4 +8,33 @@
 
 .weekDayName {
   font-family: var(--decorationFont);
+  text-align: center;
+}
+
+.day {
+  margin: 0;
+  padding: 0;
+  min-width: auto;
+  border-radius: 4px;
+  overflow: hidden;
+  text-align: center;
+  font-weight: 400;
+}
+
+.today {
+  font-weight: 700;
+  background-color: #eee;
+}
+
+.dayEvents {
+  position: absolute;
+  display: block;
+  left: 50%;
+  bottom: 2px;
+  padding: 1px 2px;
+  line-height: 1;
+  font-size: 12px;
+  border-radius: 25%;
+  background-color: #c42;
+  color: #fff;
 }

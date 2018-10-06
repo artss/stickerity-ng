@@ -1,8 +1,11 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
+import { Button } from 'react-toolbox/lib/button';
 
 import range from '../../util/range';
 import * as dates from '../../constants/dates';
+import { eventType } from '../../proptypes/event';
 
 import s from './Calendar.css';
 
@@ -22,18 +25,30 @@ export default class Calendar extends PureComponent {
     month: PropTypes.number.isRequired,
     // day: PropTypes.number,
     firstDayOfWeek: PropTypes.number,
+    events: PropTypes.objectOf(
+      PropTypes.arrayOf(
+        PropTypes.shape(eventType)
+      )
+    ),
   };
 
   static defaultProps = {
     // day: null,
     firstDayOfWeek: dates.MONDAY,
+    events: {},
   };
 
   onDayClick = () => {}
 
   render() {
-    const { year, month, firstDayOfWeek } = this.props;
+    const {
+      year,
+      month,
+      firstDayOfWeek,
+      events,
+    } = this.props;
 
+    const now = new Date();
     const firstDay = new Date(year, month - 1, 1);
     const lastDay = new Date(year, month, 0);
 
@@ -55,7 +70,25 @@ export default class Calendar extends PureComponent {
         {range(skipDays).map(n => <div key={`skip${n}`} />)}
 
         {range(1, lastDay.getDate() + 1)
-          .map(n => <div key={`day${n}`}>{n}</div>)
+          .map(n => (
+            <Button
+              key={`day${n}`}
+              className={cx(
+                s.day,
+                year === now.getFullYear()
+                && month === now.getMonth() + 1
+                && n === now.getDate()
+                && s.today
+              )}
+            >
+              <span className={s.dayNumber}>{n}</span>
+              {events[n] && (
+                <div className={s.dayEvents}>
+                  {events[n].length}
+                </div>
+              )}
+            </Button>
+          ))
         }
       </div>
     );
