@@ -1,26 +1,20 @@
 @import '../../../vars.css';
 
-.root {
-  display: flex;
-  padding: 16px 0;
-  position: relative;
-  border-top: solid 1px rgba(0, 0, 0, 0.1);
+.dateSelector {
+  display: grid;
+  grid-template-columns: 40px 1fr 1fr 40px;
+  grid-gap: 8px;
+  align-items: center;
+  min-width: 240px;
+  max-width: 360px;
+}
 
-  &:first-of-type {
-    border-top: 0;
+.selectorButton {
+  margin-bottom: 6px;
+}
+
+.yearSelector {
+  input {
+    text-align: right;
   }
-}
-
-.info {
-  flex: 1 1 auto;
-}
-
-.title {
-  font-family: var(--decorationFont);
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.menu {
-  flex: 0 0 auto;
 }

@@ -1,12 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import cx from 'classnames';
-import { Button } from 'react-toolbox/lib/button';
 
 import range from '../../util/range';
 import * as dates from '../../constants/dates';
 import { eventType } from '../../proptypes/event';
-
+import Day from './Day';
 import s from './Calendar.css';
 
 const weekDayNames = {
@@ -30,15 +28,15 @@ export default class Calendar extends PureComponent {
         PropTypes.shape(eventType)
       )
     ),
+    onDayClick: PropTypes.func,
   };
 
   static defaultProps = {
     // day: null,
     firstDayOfWeek: dates.MONDAY,
     events: {},
+    onDayClick: null,
   };
-
-  onDayClick = () => {}
 
   render() {
     const {
@@ -46,6 +44,7 @@ export default class Calendar extends PureComponent {
       month,
       firstDayOfWeek,
       events,
+      onDayClick,
     } = this.props;
 
     const now = new Date();
@@ -71,23 +70,17 @@ export default class Calendar extends PureComponent {
 
         {range(1, lastDay.getDate() + 1)
           .map(n => (
-            <Button
+            <Day
               key={`day${n}`}
-              className={cx(
-                s.day,
+              day={n}
+              today={
                 year === now.getFullYear()
                 && month === now.getMonth() + 1
                 && n === now.getDate()
-                && s.today
-              )}
-            >
-              <span className={s.dayNumber}>{n}</span>
-              {events[n] && (
-                <div className={s.dayEvents}>
-                  {events[n].length}
-                </div>
-              )}
-            </Button>
+              }
+              events={events[n]}
+              onClick={onDayClick}
+            />
           ))
         }
       </div>
