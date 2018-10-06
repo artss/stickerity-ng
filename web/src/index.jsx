@@ -114,9 +114,10 @@ const initialState = {
     {
       $id: '4',
       $type: 'Event',
-      title: 'Birthdays',
+      title: 'Events',
       items: [
         {
+          $id: '1',
           title: 'Nikita Geegoordah',
           year: 1961,
           month: 3,
@@ -126,6 +127,7 @@ const initialState = {
         },
 
         {
+          $id: '2',
           title: 'Ivan Petrov',
           year: 1980,
           month: 9,
@@ -135,6 +137,7 @@ const initialState = {
         },
 
         {
+          $id: '3',
           title: '3th sept (song)',
           year: 1993,
           month: 9,
@@ -144,12 +147,66 @@ const initialState = {
         },
 
         {
+          $id: '4',
           title: 'Mika',
           year: 1988,
           month: 10,
           day: 3,
           annual: true,
           wholeDay: true,
+        },
+
+        {
+          $id: '5',
+          title: 'Future',
+          description: 'Should not display in 2018',
+          year: 2019,
+          month: 10,
+          day: 3,
+          hour: 11,
+          min: 0,
+        },
+
+        {
+          $id: '6',
+          title: 'Проснуться',
+          description: 'Нахуй будильники',
+          year: 2018,
+          month: 10,
+          day: 7,
+          hour: 6,
+          min: 30,
+        },
+
+        {
+          $id: '7',
+          title: 'Посрать',
+          year: 2018,
+          month: 10,
+          day: 7,
+          hour: 6,
+          min: 50,
+        },
+
+        {
+          $id: '8',
+          title: 'Покурить',
+          year: 2018,
+          month: 10,
+          day: 7,
+          hour: 6,
+          min: 40,
+        },
+
+        {
+          $id: '9',
+          title: 'Автошкола',
+          description: 'Последнее занятие',
+          year: 2018,
+          month: 10,
+          day: 7,
+          hour: 10,
+          min: 0,
         },
       ],
     },

@@ -2,20 +2,10 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import range from '../../util/range';
-import * as dates from '../../constants/dates';
+import { weekDayShortNames, MONDAY } from '../../constants/dates';
 import { eventType } from '../../proptypes/event';
 import Day from './Day';
 import s from './Calendar.css';
-
-const weekDayNames = {
-  [dates.SUNDAY]: 'SU',
-  [dates.MONDAY]: 'MO',
-  [dates.TUESDAY]: 'TU',
-  [dates.WEDNESDAY]: 'WE',
-  [dates.THURSDAY]: 'TH',
-  [dates.FRIDAY]: 'FR',
-  [dates.SATURDAY]: 'SA',
-};
 
 export default class Calendar extends PureComponent {
   static propTypes = {
@@ -33,7 +23,7 @@ export default class Calendar extends PureComponent {
 
   static defaultProps = {
     // day: null,
-    firstDayOfWeek: dates.MONDAY,
+    firstDayOfWeek: MONDAY,
     events: {},
     onDayClick: null,
   };
@@ -61,7 +51,7 @@ export default class Calendar extends PureComponent {
               key={`weekDayName${n}`}
               className={s.weekDayName}
             >
-              {weekDayNames[n % 7]}
+              {weekDayShortNames[n % 7]}
             </div>
           ))
         }

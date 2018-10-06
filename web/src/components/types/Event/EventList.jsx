@@ -8,6 +8,7 @@ import { MONDAY } from '../../../constants/dates';
 import { eventType } from '../../../proptypes/event';
 import { getMonthEvents } from '../../../selectors/events';
 import Calendar from '../../Calendar';
+import Agenda from '../../Agenda';
 import s from './EventList.css';
 
 const months = [
@@ -127,6 +128,12 @@ export default class EventList extends PureComponent {
           month={month}
           events={events}
           onDayClick={this.onDayClick}
+        />
+
+        <Agenda
+          year={year}
+          month={month}
+          events={events}
         />
       </div>
     );
