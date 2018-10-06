@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { eventType } from '../../proptypes/event';
 import { weekDayShortNames } from '../../constants/dates';
+
 import Event from './Event';
 
 import s from './Agenda.css';

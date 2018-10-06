@@ -118,6 +118,7 @@ const initialState = {
       items: [
         {
           $id: '1',
+          type: 2,
           title: 'Nikita Geegoordah',
           year: 1961,
           month: 3,
@@ -128,6 +129,7 @@ const initialState = {
 
         {
           $id: '2',
+          type: 2,
           title: 'Ivan Petrov',
           year: 1980,
           month: 9,
@@ -138,6 +140,7 @@ const initialState = {
 
         {
           $id: '3',
+          type: 1,
           title: '3th sept (song)',
           year: 1993,
           month: 9,
@@ -148,8 +151,9 @@ const initialState = {
 
         {
           $id: '4',
+          type: 2,
           title: 'Mika',
-          year: 1988,
+          // year: 1988,
           month: 10,
           day: 3,
           annual: true,
@@ -158,6 +162,7 @@ const initialState = {
 
         {
           $id: '5',
+          type: 5,
           title: 'Future',
           description: 'Should not display in 2018',
           year: 2019,
@@ -169,6 +174,7 @@ const initialState = {
 
         {
           $id: '6',
+          type: 5,
           title: 'Проснуться',
           description: 'Нахуй будильники',
           year: 2018,
@@ -180,6 +186,7 @@ const initialState = {
 
         {
           $id: '7',
+          type: 4,
           title: 'Посрать',
           year: 2018,
           month: 10,
@@ -190,6 +197,7 @@ const initialState = {
 
         {
           $id: '8',
+          type: 5,
           title: 'Покурить',
           year: 2018,
           month: 10,
@@ -200,6 +208,7 @@ const initialState = {
 
         {
           $id: '9',
+          type: 3,
           title: 'Автошкола',
           description: 'Последнее занятие',
           year: 2018,

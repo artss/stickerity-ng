@@ -8,7 +8,7 @@
 }
 
 .dayWrap {
-  flex: 0 0 64px;
+  flex: 0 0 48px;
   margin-right: 16px;
   text-align: center;
 }
@@ -21,5 +21,34 @@
 
 .dayOfWeek {
   font-family: var(--decorationFont);
+  color: #aaa;
+}
+
+.event {
+  display: flex;
+  margin: 16px 0;
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.eventIcon {
+  flex: 0 0 24px;
+  margin-right: 16px;
+}
+
+.eventInfo {
+  flex: 1 0 auto;
+}
+
+.eventTitle {
+  margin: 0;
+  font-family: var(--decorationFont);
+  font-size: 16px;
+  line-height: 1;
+}
+
+.eventDescription {
   color: #aaa;
 }
