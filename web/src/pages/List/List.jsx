@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
@@ -8,6 +9,7 @@ import { IconMenu, MenuItem } from 'react-toolbox/lib/menu';
 
 import { getListById } from '../../selectors/lists';
 import { listType } from '../../proptypes/list';
+import { updateItem } from '../../actions/lists';
 import Sticker from '../../components/Sticker';
 import { getListComponent, getItemComponent } from '../../components/types';
 
@@ -17,7 +19,12 @@ class List extends PureComponent {
   static propTypes = listType;
 
   renderItems() {
-    const { $id, $type, items } = this.props;
+    const {
+      $id,
+      $type,
+      items,
+      updateItem, // eslint-disable-line no-shadow
+    } = this.props;
 
     const TypeList = getListComponent($type);
 
@@ -30,7 +37,12 @@ class List extends PureComponent {
     return (
       <ul className={styles.items}>
         {items.map(item => (
-          <Item key={item.$id} $listId={$id} {...item} />
+          <Item
+            key={item.$id}
+            $listId={$id}
+            {...item}
+            updateItem={updateItem}
+          />
         ))}
       </ul>
     );
@@ -71,4 +83,8 @@ function mapStateToProps({ lists }, { match: { params: { listId } } }) {
   return getListById(lists, listId);
 }
 
-export default withRouter(connect(mapStateToProps)(List));
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ updateItem }, dispatch);
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(List));

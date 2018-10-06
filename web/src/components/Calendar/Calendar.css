@@ -1,0 +1,11 @@
+@import '../../vars.css';
+
+.monthCalendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 16px;
+}
+
+.weekDayName {
+  font-family: var(--decorationFont);
+}

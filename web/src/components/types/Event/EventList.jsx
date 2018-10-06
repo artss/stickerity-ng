@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Month from 'react-toolbox/lib/date_picker/CalendarMonth';
+import 'react-toolbox/lib/date_picker/DatePicker';
 
+import { MONDAY } from '../../../constants/dates';
+import Calendar from '../../Calendar';
 import styles from './EventList.css';
-
-/* eslint-disable react/prefer-stateless-function, react/no-unused-prop-types */
 
 export default class EventList extends PureComponent {
   static propTypes = {
@@ -22,12 +22,27 @@ export default class EventList extends PureComponent {
     ).isRequired,
   };
 
+  onSelect = () => {}
+
   render() {
-    // const { items } = this.props;
+    const { items: allItems } = this.props;
+
+    const now = new Date();
+    const currentMonth = now.getMonth() + 1;
+    const currentYear = now.getFullYear();
+
+    const items = allItems
+      .filter(({ annual, year, month }) => (
+        month === currentMonth
+        && (annual || year === currentYear)
+      ))
+      .sort((a, b) => (
+        a.month * 31 + a.day < b.month * 31 + b.day
+      ));
 
     return (
       <div className={styles.items}>
-        <Month sundayFirstDayOfWeek={false} />
+        <Calendar firstDayOfWeek={MONDAY} year={currentYear} month={currentMonth} items={items} />
       </div>
     );
   }

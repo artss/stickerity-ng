@@ -6,6 +6,7 @@ services:
       dockerfile: Dockerfile.dev
     environment:
       DOMAIN: stickerity.local
+      NODE_ENV: development
     volumes:
       - ./web/src:/srv/web/src
       - ./web/.babelrc:/srv/web/.babelrc

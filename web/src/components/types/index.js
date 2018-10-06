@@ -3,10 +3,11 @@ import NoteItem from './Note/NoteItem';
 import NotePage from './Note/NotePage';
 import ChecklistItem from './Checklist/ChecklistItem';
 import PasswordItem from './Password/PasswordItem';
+import EventList from './Event/EventList';
 
 // TODO: dynamic import
 const listTypeMapping = {
-  // Event: EventList,
+  Event: EventList,
 };
 
 const itemTypeMapping = {
