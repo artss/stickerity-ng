@@ -4,6 +4,7 @@ import NotePage from './Note/NotePage';
 import ChecklistItem from './Checklist/ChecklistItem';
 import PasswordItem from './Password/PasswordItem';
 import EventList from './Event/EventList';
+import EventPage from './Event/EventPage';
 
 // TODO: dynamic import
 const listTypeMapping = {
@@ -18,6 +19,7 @@ const itemTypeMapping = {
 
 const pageTypeMapping = {
   Note: NotePage,
+  Event: EventPage,
 };
 
 export function getListComponent($type) {
