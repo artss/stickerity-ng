@@ -39,13 +39,14 @@
   }
 }
 
+.eventInfo {
+  flex: 1 0 auto;
+  max-width: calc(100% - 48px);
+}
+
 .eventIcon {
   flex: 0 0 24px;
   margin: var(--baseFontSize) 16px 0 0;
-}
-
-.eventInfo {
-  flex: 1 0 auto;
 }
 
 .eventTime {
