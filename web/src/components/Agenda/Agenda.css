@@ -3,7 +3,7 @@
 .day {
   display: flex;
   margin: 16px 0;
-  padding: 16px 0;
+  padding-top: 16px;
   border-top: solid 1px #eee;
 }
 
@@ -32,6 +32,10 @@
 
   &:first-child {
     margin-top: 0;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
   }
 }
 
