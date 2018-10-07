@@ -50,6 +50,7 @@
 }
 
 .eventTime {
+  white-space: nowrap;
   color: #888;
 }
 
