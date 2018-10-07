@@ -186,7 +186,7 @@ const initialState = {
 
         {
           $id: '7',
-          type: 4,
+          type: 5,
           title: 'Посрать',
           year: 2018,
           month: 10,
@@ -216,6 +216,17 @@ const initialState = {
           day: 7,
           hour: 10,
           min: 0,
+        },
+
+        {
+          $id: '10',
+          type: 4,
+          title: 'Поездка на маршрутке',
+          year: 2018,
+          month: 10,
+          day: 7,
+          hour: 9,
+          min: 30,
         },
       ],
     },

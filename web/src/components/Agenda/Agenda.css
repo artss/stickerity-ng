@@ -37,11 +37,15 @@
 
 .eventIcon {
   flex: 0 0 24px;
-  margin-right: 16px;
+  margin: var(--baseFontSize) 16px 0 0;
 }
 
 .eventInfo {
   flex: 1 0 auto;
+}
+
+.eventTime {
+  color: #888;
 }
 
 .eventTitle {
