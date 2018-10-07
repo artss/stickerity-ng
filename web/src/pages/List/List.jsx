@@ -29,7 +29,7 @@ class List extends PureComponent {
     const TypeList = getListComponent($type);
 
     if (TypeList) {
-      return <TypeList items={items} />;
+      return <TypeList $listId={$id} items={items} />;
     }
 
     const Item = getItemComponent($type);

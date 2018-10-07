@@ -15,6 +15,7 @@ const eventSorter = (year, month, day) => (a, b) => (
 
 export default class Day extends PureComponent {
   static propTypes = {
+    $listId: PropTypes.string.isRequired,
     year: PropTypes.number.isRequired,
     month: PropTypes.number.isRequired,
     day: PropTypes.number.isRequired,
@@ -25,6 +26,7 @@ export default class Day extends PureComponent {
 
   render() {
     const {
+      $listId,
       year,
       month,
       day,
@@ -47,7 +49,7 @@ export default class Day extends PureComponent {
         <div className={s.events}>
           {events
             .sort(eventSorter(year, month, day))
-            .map(event => <Event key={event.$id} {...event} />)
+            .map(event => <Event key={event.$id} $listId={$listId} {...event} />)
           }
         </div>
       </div>

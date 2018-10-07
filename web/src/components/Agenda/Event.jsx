@@ -1,4 +1,6 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import { eventType } from '../../proptypes/event';
 
@@ -6,13 +8,22 @@ import EventIcon from './EventIcon';
 import s from './Agenda.css';
 
 export default class Event extends PureComponent {
-  static propTypes = eventType;
+  static propTypes = {
+    $listId: PropTypes.string.isRequired,
+    ...eventType,
+  };
 
   render() {
-    const { title, type, description } = this.props;
+    const {
+      $listId,
+      $id,
+      title,
+      type,
+      description,
+    } = this.props;
 
     return (
-      <div className={s.event}>
+      <Link className={s.event} to={`/lists/${$listId}/${$id}`}>
         <div className={s.eventIcon}>
           <EventIcon type={type} />
         </div>
@@ -22,7 +33,7 @@ export default class Event extends PureComponent {
 
           {description && <div className={s.eventDescription}>{description}</div>}
         </div>
-      </div>
+      </Link>
     );
   }
 }

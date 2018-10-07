@@ -29,9 +29,7 @@ const months = [
 
 export default class EventList extends PureComponent {
   static propTypes = {
-    // $listId: PropTypes.string.isRequired,
-    // $id: PropTypes.string.isRequired,
-    // title: PropTypes.string.isRequired,
+    $listId: PropTypes.string.isRequired,
     items: PropTypes.arrayOf(PropTypes.shape(eventType)).isRequired,
   };
 
@@ -87,7 +85,7 @@ export default class EventList extends PureComponent {
   onDayClick = () => {}
 
   render() {
-    const { items } = this.props;
+    const { $listId, items } = this.props;
     const { year, month } = this.state;
 
     const events = getMonthEvents(items, year, month);
@@ -131,6 +129,7 @@ export default class EventList extends PureComponent {
         />
 
         <Agenda
+          $listId={$listId}
           year={year}
           month={month}
           events={events}

@@ -6,12 +6,7 @@ import { eventTypeType } from '../../proptypes/event';
 
 export default function EventIcon({ type }) {
   const { icon } = eventTypes[type];
-
-  if (!icon) {
-    return null;
-  }
-
-  return <FontIcon value={icon} />;
+  return icon ? <FontIcon value={icon} /> : null;
 }
 
 EventIcon.propTypes = {

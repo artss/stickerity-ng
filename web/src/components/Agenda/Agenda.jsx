@@ -8,6 +8,7 @@ import s from './Agenda.css';
 
 export default class Agenda extends PureComponent {
   static propTypes = {
+    $listId: PropTypes.string.isRequired,
     year: PropTypes.number.isRequired,
     month: PropTypes.number.isRequired,
     events: PropTypes.objectOf(
@@ -22,7 +23,12 @@ export default class Agenda extends PureComponent {
   };
 
   render() {
-    const { year, month, events } = this.props;
+    const {
+      $listId,
+      year,
+      month,
+      events,
+    } = this.props;
 
     return (
       <div className={s.root}>
@@ -31,6 +37,7 @@ export default class Agenda extends PureComponent {
           .map(day => (
             <Day
               key={day}
+              $listId={$listId}
               year={year}
               month={month}
               day={Number(day)}

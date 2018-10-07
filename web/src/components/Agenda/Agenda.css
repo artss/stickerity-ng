@@ -27,6 +27,8 @@
 .event {
   display: flex;
   margin: 16px 0;
+  color: var(--baseColor);
+  text-decoration: none;
 
   &:first-child {
     margin-top: 0;
