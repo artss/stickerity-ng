@@ -1,3 +1,5 @@
+.vimrc
+.idea
 ssl
 node_modules
 docker-compose.dev.yml
