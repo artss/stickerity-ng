@@ -92,41 +92,43 @@ export default class EventList extends PureComponent {
 
     return (
       <div className={s.root}>
-        <div className={s.dateSelector}>
-          <IconButton
-            className={s.selectorButton}
-            icon="keyboard_arrow_left"
-            onClick={this.onMonthDecrement}
-          />
+        <div className={s.calendarWrap}>
+          <div className={s.dateSelector}>
+            <IconButton
+              className={s.selectorButton}
+              icon="keyboard_arrow_left"
+              onClick={this.onMonthDecrement}
+            />
 
-          <Dropdown
-            className={s.monthSelector}
-            value={month}
-            source={months}
-            onChange={this.onMonthChange}
-          />
+            <Dropdown
+              className={s.monthSelector}
+              value={month}
+              source={months}
+              onChange={this.onMonthChange}
+            />
 
-          <Input
-            className={s.yearSelector}
-            type="number"
-            value={year}
-            onChange={this.onYearChange}
-          />
+            <Input
+              className={s.yearSelector}
+              type="number"
+              value={year}
+              onChange={this.onYearChange}
+            />
 
-          <IconButton
-            className={s.selectorButton}
-            icon="keyboard_arrow_right"
-            onClick={this.onMonthIncrement}
+            <IconButton
+              className={s.selectorButton}
+              icon="keyboard_arrow_right"
+              onClick={this.onMonthIncrement}
+            />
+          </div>
+
+          <Calendar
+            firstDayOfWeek={MONDAY}
+            year={year}
+            month={month}
+            events={events}
+            onDayClick={this.onDayClick}
           />
         </div>
-
-        <Calendar
-          firstDayOfWeek={MONDAY}
-          year={year}
-          month={month}
-          events={events}
-          onDayClick={this.onDayClick}
-        />
 
         <Agenda
           $listId={$listId}
