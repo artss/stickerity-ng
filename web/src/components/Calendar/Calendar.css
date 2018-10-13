@@ -1,0 +1,41 @@
+@import '../../vars.css';
+
+.monthCalendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 8px;
+}
+
+.weekDayName {
+  font-family: var(--decorationFont);
+  text-align: center;
+}
+
+.day {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  min-width: auto;
+  border-radius: 4px;
+  overflow: hidden;
+  text-align: center;
+  font-weight: 400;
+}
+
+.today {
+  font-weight: 700;
+
+  &,
+  &:hover {
+    background-color: #eee;
+  }
+}
+
+.dayEvents {
+  position: absolute;
+  display: block;
+  right: 0;
+  bottom: 0;
+  border: solid 6px;
+  border-color: transparent #48c #48c transparent;
+}

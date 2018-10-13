@@ -6,6 +6,7 @@
   "rules": {
     "indentation": 2,
     "string-quotes": "single",
+    "no-missing-end-of-source-newline": true,
     "no-duplicate-selectors": true,
     "color-hex-case": "lower",
     "color-hex-length": "short",

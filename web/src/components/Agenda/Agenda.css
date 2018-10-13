@@ -1,0 +1,66 @@
+@import '../../vars.css';
+
+.day {
+  display: flex;
+  margin: 16px 0;
+  padding-top: 16px;
+  border-top: solid 1px #eee;
+}
+
+.dayWrap {
+  flex: 0 0 48px;
+  margin-right: 16px;
+  text-align: center;
+}
+
+.dayNumber {
+  font-family: var(--decorationFont);
+  font-size: 24px;
+  line-height: 1;
+}
+
+.dayOfWeek {
+  font-family: var(--decorationFont);
+  color: #aaa;
+}
+
+.event {
+  display: flex;
+  margin: 16px 0;
+  color: var(--baseColor);
+  text-decoration: none;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.eventInfo {
+  flex: 1 0 auto;
+  max-width: calc(100% - 48px);
+}
+
+.eventIcon {
+  flex: 0 0 24px;
+  margin: var(--baseFontSize) 16px 0 0;
+}
+
+.eventTime {
+  white-space: nowrap;
+  color: #888;
+}
+
+.eventTitle {
+  margin: 0;
+  font-family: var(--decorationFont);
+  font-size: 16px;
+  line-height: 1;
+}
+
+.eventDescription {
+  color: #aaa;
+}
