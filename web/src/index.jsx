@@ -153,7 +153,7 @@ const initialState = {
           $id: '4',
           type: 2,
           title: 'Mika',
-          // year: 1988,
+          year: 1988,
           month: 10,
           day: 3,
           annual: true,

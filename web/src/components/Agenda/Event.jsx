@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import { formatTime } from '../../util/format';
-import { eventType } from '../../proptypes/event';
+import { eventType, eventDefaultProps } from '../../proptypes/event';
 
 import EventIcon from './EventIcon';
 import s from './Agenda.css';
@@ -13,6 +13,8 @@ export default class Event extends PureComponent {
     $listId: PropTypes.string.isRequired,
     ...eventType,
   };
+
+  static defaultProps = eventDefaultProps;
 
   render() {
     const {
