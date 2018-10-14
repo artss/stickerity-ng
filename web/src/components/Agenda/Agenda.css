@@ -24,10 +24,6 @@
   color: #aaa;
 }
 
-.events {
-  flex: 1 0 auto;
-}
-
 .event {
   display: flex;
   margin: 16px 0;

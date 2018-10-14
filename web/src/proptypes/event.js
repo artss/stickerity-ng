@@ -15,6 +15,8 @@ export const eventType = {
 };
 
 export const eventDefaultProps = {
+  title: '',
+  description: '',
   hour: 0,
   min: 0,
 };

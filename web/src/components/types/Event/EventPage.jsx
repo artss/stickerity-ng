@@ -38,7 +38,12 @@ class EventPage extends PureComponent {
   };
 
   static getTitle({ title, description }) {
-    return title || description.substr(0, 16);
+    return title
+      || (
+        description
+          ? description.substr(0, 16)
+          : 'Event'
+      );
   }
 
   render() {
@@ -58,6 +63,9 @@ class EventPage extends PureComponent {
 
     const date = new Date(year, month - 1, day, hour, min);
 
+    // TODO: validation
+    const titleError = !title && !description && 'Ether title or description should be filled';
+
     return (
       <div>
         <Input
@@ -65,6 +73,7 @@ class EventPage extends PureComponent {
           name="title"
           value={title}
           onChange={this.onInputChange}
+          error={titleError}
         />
 
         <Input
