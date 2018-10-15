@@ -12,3 +12,9 @@
   align-items: center;
   justify-content: center;
 }
+
+.copied {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
