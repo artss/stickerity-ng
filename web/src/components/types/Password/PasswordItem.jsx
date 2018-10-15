@@ -1,101 +1,44 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { IconButton } from 'react-toolbox/lib/button';
-import { IconMenu, MenuItem } from 'react-toolbox/lib/menu';
-import { Snackbar } from 'react-toolbox/lib/snackbar';
-import copy from 'copy-to-clipboard';
+import { FontIcon } from 'react-toolbox/lib/font_icon';
+import { Link } from 'react-router-dom';
 
-import styles from './PasswordItem.css';
+import { passwordType } from '../../../proptypes/password';
+import CopyButton from '../../CopyButton';
 
-const COPIED_TIMEOUT = 2000;
+import s from './PasswordItem.css';
 
 export default class PasswordItem extends PureComponent {
-  static propTypes = {
-    // $listId: PropTypes.string.isRequired,
-    // $id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    login: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired,
-  };
-
-  state = {
-    loginCopied: false,
-    passwordCopied: false,
-  };
-
-  copyLogin = () => {
-    const { login } = this.props;
-    copy(login);
-    this.setState({ loginCopied: true });
-    this.loginCopiedTimeout = setTimeout(
-      () => this.setState({ loginCopied: false }),
-      COPIED_TIMEOUT
-    );
-  }
-
-  copyPassword = () => {
-    const { password } = this.props;
-    copy(password);
-    this.setState({ passwordCopied: true });
-    this.passwordCopiedTimeout = setTimeout(
-      () => this.setState({ passwordCopied: false }),
-      COPIED_TIMEOUT
-    );
-  }
-
-  resetCopied = () => {
-    clearTimeout(this.loginCopiedTimeout);
-    clearTimeout(this.passwordCopiedTimeout);
-    this.setState({
-      loginCopied: false,
-      passwordCopied: false,
-    });
-  }
+  static propTypes = passwordType;
 
   render() {
-    const { title, login } = this.props;
-    const { loginCopied, passwordCopied } = this.state;
+    const {
+      $listId,
+      $id,
+      title,
+      login,
+      password,
+    } = this.props;
 
     return (
-      <li className={styles.root}>
-        <div className={styles.info}>
-          <div className={styles.title}>{title}</div>
-          <div className={styles.text}>{login}</div>
-        </div>
+      <li className={s.root}>
+        <Link className={s.info} to={`/lists/${$listId}/${$id}`}>
+          <div className={s.title}>{title}</div>
+          <div className={s.text}>{login}</div>
+        </Link>
 
-        <IconButton
-          icon={loginCopied ? 'done' : 'person'}
-          title="Copy login"
-          onClick={this.copyLogin}
-        />
-        <IconButton
-          icon={passwordCopied ? 'done' : 'file_copy'}
-          title="Copy password"
-          onClick={this.copyPassword}
-        />
+        <CopyButton text={login} className={s.button}>
+          <FontIcon
+            value="person"
+            title="Copy login"
+          />
+        </CopyButton>
 
-        <IconMenu className={styles.menu} icon="more_vert" menuRipple>
-          <MenuItem value="edit" icon="edit" caption="Edit entry" />
-          <MenuItem value="delete" icon="delete" caption="Delete entry" />
-        </IconMenu>
-
-        <Snackbar
-          type="accept"
-          action="Dismiss"
-          label={`Login for ${title} is copied`}
-          active={loginCopied}
-          timeout={COPIED_TIMEOUT}
-          onClick={this.resetCopied}
-        />
-
-        <Snackbar
-          type="accept"
-          action="Dismiss"
-          label={`Password for ${title} is copied`}
-          active={passwordCopied}
-          timeout={COPIED_TIMEOUT}
-          onClick={this.resetCopied}
-        />
+        <CopyButton text={password} className={s.button}>
+          <FontIcon
+            value="file_copy"
+            title="Copy password"
+          />
+        </CopyButton>
       </li>
     );
   }

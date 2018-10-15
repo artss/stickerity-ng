@@ -16,6 +16,7 @@ import s from './EventPage.css';
 class EventPage extends PureComponent {
   static propTypes = {
     $listId: PropTypes.string.isRequired,
+    $id: PropTypes.string.isRequired,
     updateItem: PropTypes.func.isRequired,
     ...eventType,
   };
