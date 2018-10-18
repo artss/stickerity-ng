@@ -28,18 +28,21 @@ const initialState = {
         {
           $id: '1',
           title: 'End-to-end encryption',
-          text: 'Придумать, как шифровать',
+          // eslint-disable-next-line
+          text: {"blocks":[{"key":"dblal","text":"Придумать, как шифровать","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}},
         },
 
         {
           $id: '2',
-          text: 'Придумать лого',
+          // eslint-disable-next-line
+          text: {"blocks":[{"key":"cnb63","text":"Придумать лого","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}},
         },
 
         {
           $id: '3',
           title: 'Material palette generator',
-          text: 'The Material palette generator can be used to generate a palette for any color you input. An algorithmic adjustment of hue, chroma, and lightness creates palettes that are both usable and aesthetically pleasing.\n\n## Input colors\n\nColor palettes can be generated based on the primary input color, and whether the desired palette should be analogous, complementary, or triadic in relation to the primary color. Alternatively, the tool can generate expanded palettes for any primary and secondary color input.\n\n## Color variations for accessibility\n\nThese palettes provide additional ways to use your primary and secondary colors, by providing lighter and darker options to separate surfaces and provide colors that meet accessibility standards.',
+          // eslint-disable-next-line
+          text: {"blocks":[{"key":"87l8k","text":"The Material palette generator can be used to generate a palette for any color you input. An algorithmic adjustment of hue, chroma, and lightness creates palettes that are both usable and aesthetically pleasing.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"6qcp3","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"en81n","text":"## Input colors","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"5chif","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"b804s","text":"Color palettes can be generated based on the primary input color, and whether the desired palette should be analogous, complementary, or triadic in relation to the primary color. Alternatively, the tool can generate expanded palettes for any primary and secondary color input.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"bk15i","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"a53vk","text":"## Color variations for accessibility","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"c7mlb","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"d4ju","text":"These palettes provide additional ways to use your primary and secondary colors, by providing lighter and darker options to separate surfaces and provide colors that meet accessibility standards.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}},
         },
       ],
     },

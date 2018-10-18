@@ -5,7 +5,10 @@ import {
   ContentState,
   EditorState,
   RichUtils,
+  convertToRaw,
+  convertFromRaw,
 } from 'draft-js';
+import debounce from 'debounce';
 
 import Toolbar from './Toolbar';
 import s from './NoteEditor.css';
@@ -13,15 +16,16 @@ import s from './NoteEditor.css';
 export default class NoteEditor extends PureComponent {
   static propTypes = {
     // name: PropTypes.string,
-    value: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.instanceOf(ContentState),
-    ]),
+    // TODO: value type
+    // eslint-disable-next-line react/forbid-prop-types
+    value: PropTypes.object,
+    onChange: PropTypes.func,
   };
 
   static defaultProps = {
     // name: null,
     value: null,
+    onChange: null,
   };
 
   constructor(props) {
@@ -32,7 +36,7 @@ export default class NoteEditor extends PureComponent {
     if (typeof props.value === 'string') {
       editorState = EditorState.createWithContent(ContentState.createFromText(props.value));
     } else if (props.value) {
-      editorState = EditorState.createWithContent(props.value);
+      editorState = EditorState.createWithContent(convertFromRaw(props.value));
     } else {
       editorState = EditorState.createEmpty();
     }
@@ -80,14 +84,22 @@ export default class NoteEditor extends PureComponent {
     });
   }
 
+  // eslint-disable-next-line react/sort-comp
+  debouncedOnChange = debounce((editorState) => {
+    const { onChange } = this.props;
+    if (onChange) {
+      onChange(convertToRaw(editorState.getCurrentContent()));
+    }
+  }, 400)
+
   onChange = (editorState) => {
     this.setState({ editorState }, this.updateToolbarPosition);
+    this.debouncedOnChange(editorState);
   }
 
   onToggle = (style) => {
-    this.setState(({ editorState }) => (
-      { editorState: RichUtils.toggleInlineStyle(editorState, style) }
-    ));
+    const { editorState } = this.state;
+    this.onChange(RichUtils.toggleInlineStyle(editorState, style));
   }
 
   handleKeyCommand = (command) => {

@@ -4,5 +4,6 @@ export const noteType = {
   $listId: PropTypes.string.isRequired,
   $id: PropTypes.string.isRequired,
   title: PropTypes.string,
-  text: PropTypes.string.isRequired,
+  // TODO: text type
+  text: PropTypes.object.isRequired,
 };

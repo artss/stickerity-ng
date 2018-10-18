@@ -10,14 +10,15 @@ import NoteEditor from '../../NoteEditor';
 
 import s from './NotePage.css';
 
+
 class NotePage extends PureComponent {
   static propTypes = {
     ...noteType,
     updateItem: PropTypes.func.isRequired,
   };
 
-  static getTitle({ title, text }) {
-    return title || text.substr(0, 16);
+  static getTitle({ title }) {
+    return title || 'Note';
   }
 
   onInputChange = (value, e) => {
@@ -25,6 +26,11 @@ class NotePage extends PureComponent {
     const { $listId, $id, updateItem: update } = this.props;
     update($listId, $id, { [name]: value });
   };
+
+  onTextChange = (text) => {
+    const { $listId, $id, updateItem: update } = this.props;
+    update($listId, $id, { text });
+  }
 
   render() {
     const {
@@ -45,7 +51,10 @@ class NotePage extends PureComponent {
         />
 
         <div className={s.text}>
-          <NoteEditor value={text} />
+          <NoteEditor
+            value={text}
+            onChange={this.onTextChange}
+          />
         </div>
       </div>
     );
