@@ -9,6 +9,7 @@ import { passwordType } from '../../../proptypes/password';
 import { updateItem } from '../../../actions/lists';
 import CopyButton from '../../CopyButton';
 import DebouncedInput from '../../DebouncedInput';
+import PasswordGenerationForm from './PasswordGenerationForm';
 
 import s from './PasswordPage.css';
 
@@ -24,6 +25,7 @@ class PasswordPage extends PureComponent {
 
   state = {
     showPassword: false,
+    showGenerationForm: false,
   };
 
   onInputChange = (value, e) => {
@@ -36,6 +38,15 @@ class PasswordPage extends PureComponent {
     this.setState(({ showPassword }) => ({ showPassword: !showPassword }));
   }
 
+  toggleGenerationForm = () => {
+    this.setState(({ showGenerationForm }) => ({ showGenerationForm: !showGenerationForm }));
+  }
+
+  onGenerate = (password) => {
+    const { $listId, $id, updateItem: update } = this.props;
+    update($listId, $id, { password });
+  }
+
   render() {
     const {
       title,
@@ -43,7 +54,7 @@ class PasswordPage extends PureComponent {
       url,
       password,
     } = this.props;
-    const { showPassword } = this.state;
+    const { showPassword, showGenerationForm } = this.state;
 
     return (
       <div className={s.root}>
@@ -103,6 +114,20 @@ class PasswordPage extends PureComponent {
             <FontIcon value="file_copy" />
           </CopyButton>
         </div>
+
+        {showGenerationForm
+          ? (
+            <PasswordGenerationForm
+              onAccept={this.onGenerate}
+              onCancel={this.toggleGenerationForm}
+            />
+          )
+          : (
+            <Button onClick={this.toggleGenerationForm} raised primary>
+              Generate password
+            </Button>
+          )
+        }
       </div>
     );
   }

@@ -19,6 +19,13 @@ export default class DebouncedInput extends PureComponent {
     wait: 400,
   };
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return {
+      ...prevState,
+      value: nextProps.value,
+    };
+  }
+
   constructor(props) {
     super(props);
 
