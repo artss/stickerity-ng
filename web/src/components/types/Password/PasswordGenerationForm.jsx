@@ -96,9 +96,9 @@ export default class PasswordGenerationForm extends PureComponent {
           onChange={this.onChange}
         />
 
-        <div className={s.generatedPasswordWrap}>
-          <div className={s.generatedPassword}>{password}</div>
-          <IconButton icon="refresh" onClick={this.generate} />
+        <div className={s.field}>
+          <Input className={s.input} value={password} />
+          <IconButton className={s.button} icon="refresh" onClick={this.generate} />
         </div>
 
         <Button onClick={this.onAccept} raised primary>

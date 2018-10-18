@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Button } from 'react-toolbox/lib/button';
+import { Button, IconButton } from 'react-toolbox/lib/button';
 import { FontIcon } from 'react-toolbox/lib/font_icon';
 
 import { passwordType } from '../../../proptypes/password';
@@ -45,6 +45,7 @@ class PasswordPage extends PureComponent {
   onGenerate = (password) => {
     const { $listId, $id, updateItem: update } = this.props;
     update($listId, $id, { password });
+    this.setState({ showGenerationForm: false });
   }
 
   render() {
@@ -77,9 +78,13 @@ class PasswordPage extends PureComponent {
             onChange={this.onInputChange}
           />
 
-          <a href={url} target="_blank" rel="noopener noreferrer" className={s.button}>
-            <FontIcon value="open_in_new" />
-          </a>
+          <IconButton
+            className={s.button}
+            icon="open_in_new"
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+          />
         </div>
 
         <div className={s.field}>
@@ -106,9 +111,7 @@ class PasswordPage extends PureComponent {
             onChange={this.onInputChange}
           />
 
-          <Button className={s.button} onClick={this.togglePassword}>
-            <FontIcon value="remove_red_eye" />
-          </Button>
+          <IconButton className={s.button} icon="remove_red_eye" onClick={this.togglePassword} />
 
           <CopyButton text={password} className={s.button}>
             <FontIcon value="file_copy" />
