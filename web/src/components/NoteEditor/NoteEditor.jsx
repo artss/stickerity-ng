@@ -90,6 +90,16 @@ export default class NoteEditor extends PureComponent {
     ));
   }
 
+  handleKeyCommand = (command) => {
+    const { editorState } = this.state;
+    const newState = RichUtils.handleKeyCommand(editorState, command);
+    if (newState) {
+      this.onChange(newState);
+      return true;
+    }
+    return false;
+  }
+
   render() {
     const { editorState, toolbarPosition } = this.state;
 
@@ -97,9 +107,10 @@ export default class NoteEditor extends PureComponent {
       <div className={s.root}>
         <div className={s.editor}>
           <Editor
+            ref={this.refEditor}
             editorState={editorState}
             onChange={this.onChange}
-            ref={this.refEditor}
+            handleKeyCommand={this.handleKeyCommand}
           />
         </div>
 
