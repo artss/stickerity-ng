@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button } from 'react-toolbox/lib/button';
@@ -12,7 +13,10 @@ import DebouncedInput from '../../DebouncedInput';
 import s from './PasswordPage.css';
 
 class PasswordPage extends PureComponent {
-  static propTypes = passwordType;
+  static propTypes = {
+    ...passwordType,
+    updateItem: PropTypes.func.isRequired,
+  };
 
   static getTitle({ title, url, login }) {
     return title || url || login;

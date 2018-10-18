@@ -1,8 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-// import { IconButton } from 'react-toolbox/lib/button';
 import { IconMenu, MenuItem } from 'react-toolbox/lib/menu';
+
+import { noteType } from '../../../proptypes/note';
+import { getPlainText } from '../../../selectors/notes';
+import { firstWords } from '../../../util/format';
 
 import styles from './NoteItem.css';
 
@@ -21,15 +23,12 @@ export default function NoteItem({
 
       <Link className={styles.link} to={`/lists/${$listId}/${$id}`}>
         <div className={styles.title}>{title}</div>
-        <div className={styles.text}>{text}</div>
+        <div className={styles.text}>
+          {firstWords(getPlainText(text), 20)}
+        </div>
       </Link>
     </li>
   );
 }
 
-NoteItem.propTypes = {
-  $listId: PropTypes.string.isRequired,
-  $id: PropTypes.string.isRequired,
-  title: PropTypes.string,
-  text: PropTypes.string.isRequired,
-};
+NoteItem.propTypes = noteType;
