@@ -45,7 +45,7 @@ class NotePage extends PureComponent {
         />
 
         <div className={s.text}>
-          <NoteEditor showButtons value={text} />
+          <NoteEditor value={text} />
         </div>
       </div>
     );

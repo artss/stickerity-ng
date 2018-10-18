@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { IconButton } from 'react-toolbox/lib/button';
 import {
   Editor,
   ContentState,
@@ -8,18 +7,11 @@ import {
   RichUtils,
 } from 'draft-js';
 
+import Toolbar from './Toolbar';
 import s from './NoteEditor.css';
-
-const TOGGLES = [
-  { icon: 'format_bold', style: 'BOLD' },
-  { icon: 'format_italic', style: 'ITALIC' },
-  { icon: 'format_underline', style: 'UNDERLINE' },
-  // { icon: 'format_clear', style: 'CLEAR' },
-];
 
 export default class NoteEditor extends PureComponent {
   static propTypes = {
-    showButtons: PropTypes.bool,
     // name: PropTypes.string,
     value: PropTypes.oneOfType([
       PropTypes.string,
@@ -28,7 +20,6 @@ export default class NoteEditor extends PureComponent {
   };
 
   static defaultProps = {
-    showButtons: false,
     // name: null,
     value: null,
   };
@@ -47,58 +38,76 @@ export default class NoteEditor extends PureComponent {
     }
 
     this.state = {
+      toolbarPosition: null,
       editorState,
     };
-
-    this.toggles = TOGGLES.reduce(
-      (toggles, { style }) => ({
-        ...toggles,
-        [style]: () => {
-          this.setState(({ editorState: state }) => ({
-            editorState: RichUtils.toggleInlineStyle(state, style),
-          }));
-          // this.editor.focus();
-        },
-      }),
-      {}
-    );
   }
 
   refEditor = (el) => {
     this.editor = el;
   }
 
-  onStateChange = (editorState) => {
-    this.setState({ editorState });
+  refToolbar = (el) => {
+    this.toolbar = el;
+  }
+
+  updateToolbarPosition = () => {
+    const { editorState } = this.state;
+
+    if (editorState.getSelection().isCollapsed()) {
+      this.setState({ toolbarPosition: null });
+      return;
+    }
+
+    const selection = window.getSelection();
+
+    if (selection.rangeCount === 0) {
+      this.setState({ toolbarPosition: null });
+      return;
+    }
+
+    const range = selection.getRangeAt(0);
+
+    const editorRect = this.editor.editor.getBoundingClientRect();
+    const toolbarRect = this.toolbar.getRect();
+    const rangeRect = range.getBoundingClientRect();
+
+    this.setState({
+      toolbarPosition: {
+        left: Math.min(rangeRect.left - editorRect.left, editorRect.width - toolbarRect.width),
+        top: rangeRect.top - editorRect.top,
+      },
+    });
+  }
+
+  onChange = (editorState) => {
+    this.setState({ editorState }, this.updateToolbarPosition);
+  }
+
+  onToggle = (style) => {
+    this.setState(({ editorState }) => (
+      { editorState: RichUtils.toggleInlineStyle(editorState, style) }
+    ));
   }
 
   render() {
-    const { showButtons } = this.props;
-    const { editorState } = this.state;
+    const { editorState, toolbarPosition } = this.state;
 
     return (
       <div className={s.root}>
-        {showButtons && (
-          <div className={s.buttons}>
-            {TOGGLES.map(({ icon, style }) => (
-              <IconButton
-                key={style}
-                className={s.button}
-                icon={icon}
-                ripple
-                onClick={this.toggles[style]}
-              />
-            ))}
-          </div>
-        )}
-
         <div className={s.editor}>
           <Editor
             editorState={editorState}
-            onChange={this.onStateChange}
+            onChange={this.onChange}
             ref={this.refEditor}
           />
         </div>
+
+        <Toolbar
+          ref={this.refToolbar}
+          position={toolbarPosition}
+          onToggle={this.onToggle}
+        />
       </div>
     );
   }
