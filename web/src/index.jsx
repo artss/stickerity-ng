@@ -23,7 +23,6 @@ const initialState = {
       $id: '1',
       $type: 'Note',
       title: 'Brand new skickerity test long title',
-      color: 'fff',
       items: [
         {
           $id: '1',
@@ -51,7 +50,6 @@ const initialState = {
       $id: '2',
       $type: 'Password',
       title: 'Passwords',
-      color: 'fea',
       items: [
         {
           $id: '1',
@@ -86,7 +84,6 @@ const initialState = {
       $id: '3',
       $type: 'Checklist',
       title: 'To buy',
-      color: 'dfe',
       items: [
         {
           $id: '1',

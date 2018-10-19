@@ -1,41 +1,26 @@
 @import '../../vars.css';
 
 .lists {
-  padding: 8px;
-  justify-content: stretch;
+  display: grid;
+  grid-gap: 16px;
+  padding: 16px;
 
   @media (--phone) {
-    display: flex;
-    flex-wrap: wrap;
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  &::after {
-    margin: 0 8px;
+  @media (--tablet) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 
-    @media (--phone) {
-      content: '';
-      flex: 1 0 40%;
-    }
-
-    @media (--tablet) {
-      flex: 1 0 25%;
-    }
+  @media (--desktop) {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
 .item {
   position: relative;
   display: block;
-  margin: 16px 8px;
-
-  @media (--phone) {
-    flex: 1 0 40%;
-    margin: 8px;
-  }
-
-  @media (--tablet) {
-    flex: 1 0 25%;
-  }
 }
 
 .itemTitle {
