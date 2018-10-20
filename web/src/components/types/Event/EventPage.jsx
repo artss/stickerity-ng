@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import cx from 'classnames';
+import { Helmet } from 'react-helmet';
 import { Input } from 'react-toolbox/lib/input';
 import DatePicker from 'react-toolbox/lib/date_picker';
 import TimePicker from 'react-toolbox/lib/time_picker';
@@ -10,6 +11,7 @@ import Checkbox from 'react-toolbox/lib/checkbox';
 
 import { eventType, eventDefaultProps } from '../../../proptypes/event';
 import { updateItem } from '../../../actions/items';
+import Sticker from '../../Sticker';
 
 import s from './EventPage.css';
 
@@ -38,19 +40,10 @@ class EventPage extends PureComponent {
     });
   };
 
-  static getTitle({ title, description }) {
-    return title
-      || (
-        description
-          ? description.substr(0, 16)
-          : 'Event'
-      );
-  }
-
   render() {
     const {
-      // $listId,
-      // $id,
+      $listId,
+      // $id,    `
       title,
       description,
       year,
@@ -64,11 +57,21 @@ class EventPage extends PureComponent {
 
     const date = new Date(year, month - 1, day, hour, min);
 
+    const headTitle = title || (description ? description.substr(0, 16) : 'Event');
+
     // TODO: validation
     const titleError = !title && !description && 'Ether title or description should be filled';
 
     return (
-      <div>
+      <Sticker
+        className={s.root}
+        backUrl={`/lists/${$listId}`}
+        title={headTitle}
+      >
+        <Helmet>
+          <title>{headTitle}</title>
+        </Helmet>
+
         <Input
           label="Title"
           name="title"
@@ -112,7 +115,7 @@ class EventPage extends PureComponent {
           checked={wholeDay}
           onChange={this.onInputChange}
         />
-      </div>
+      </Sticker>
     );
   }
 }

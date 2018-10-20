@@ -2,11 +2,13 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Helmet } from 'react-helmet';
 import { Button, IconButton } from 'react-toolbox/lib/button';
 import { FontIcon } from 'react-toolbox/lib/font_icon';
 
 import { passwordType } from '../../../proptypes/password';
 import { updateItem } from '../../../actions/items';
+import Sticker from '../../Sticker';
 import CopyButton from '../../CopyButton';
 import DebouncedInput from '../../DebouncedInput';
 import PasswordGenerationForm from './PasswordGenerationForm';
@@ -18,10 +20,6 @@ class PasswordPage extends PureComponent {
     ...passwordType,
     updateItem: PropTypes.func.isRequired,
   };
-
-  static getTitle({ title, url, login }) {
-    return title || url || login;
-  }
 
   state = {
     showPassword: false,
@@ -50,6 +48,7 @@ class PasswordPage extends PureComponent {
 
   render() {
     const {
+      $listId,
       title,
       login,
       url,
@@ -57,8 +56,18 @@ class PasswordPage extends PureComponent {
     } = this.props;
     const { showPassword, showGenerationForm } = this.state;
 
+    const headTitle = title || url || login;
+
     return (
-      <div className={s.root}>
+      <Sticker
+        className={s.root}
+        backUrl={`/lists/${$listId}`}
+        title={headTitle}
+      >
+        <Helmet>
+          <title>{headTitle}</title>
+        </Helmet>
+
         <div className={s.field}>
           <DebouncedInput
             className={s.input}
@@ -131,7 +140,7 @@ class PasswordPage extends PureComponent {
             </Button>
           )
         }
-      </div>
+      </Sticker>
     );
   }
 }

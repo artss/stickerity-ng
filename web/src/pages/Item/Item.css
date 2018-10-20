@@ -4,20 +4,6 @@
   margin: 16px;
 }
 
-.head {
-  composes: title from '../../components/Sticker/Sticker.css';
-  display: flex;
-  margin: 0 24px 8px 0;
-}
-
-.back {
-  margin: -8px 8px 0 -8px;
-}
-
-.title {
-  flex: 1;
-}
-
 .menu {
   position: absolute;
   top: 8px;

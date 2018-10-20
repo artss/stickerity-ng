@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
-import { IconButton } from 'react-toolbox/lib/button';
 import { IconMenu, MenuItem } from 'react-toolbox/lib/menu';
 
 import { getListById } from '../../selectors/lists';
@@ -15,7 +13,7 @@ import { updateItem } from '../../actions/items';
 import Sticker from '../../components/Sticker';
 import { getListComponent, getItemComponent } from '../../components/types';
 
-import styles from './List.css';
+import s from './List.css';
 
 class List extends PureComponent {
   static propTypes = {
@@ -42,7 +40,7 @@ class List extends PureComponent {
     const Item = getItemComponent($type);
 
     return (
-      <ul className={styles.items}>
+      <ul className={s.items}>
         {items.map(item => (
           <Item
             key={item.$id}
@@ -64,20 +62,17 @@ class List extends PureComponent {
     } = this.props;
 
     return (
-      <Sticker color={color} className={styles.root}>
+      <Sticker
+        color={color}
+        className={s.root}
+        backUrl="/"
+        title={title}
+      >
         <Helmet>
           <title>{title}</title>
         </Helmet>
 
-        <h1 className={styles.head}>
-          <Link to="/">
-            <IconButton className={styles.back} icon="arrow_back" />
-          </Link>
-
-          <div className={styles.title}>{title}</div>
-        </h1>
-
-        <IconMenu className={styles.menu} icon="more_vert" menuRipple>
+        <IconMenu className={s.menu} icon="more_vert" menuRipple>
           <MenuItem value="edit" icon="edit" caption="Edit list" />
           <MenuItem value="delete" icon="delete" caption="Delete list" />
         </IconMenu>

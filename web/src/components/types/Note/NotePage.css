@@ -1,3 +1,7 @@
+.root {
+  margin: 16px;
+}
+
 .text {
   font-family: var(--baseFont);
   color: var(--baseColor);
