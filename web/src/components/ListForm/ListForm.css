@@ -1,0 +1,8 @@
+.dropdownItem {
+  display: flex;
+  align-items: center;
+}
+
+.dropdownItemIcon {
+  margin-right: 8px;
+}

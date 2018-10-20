@@ -19,7 +19,7 @@
 }
 
 .item {
-  display: block;
+  display: flex;
 }
 
 .addListButtonSticker {
@@ -54,9 +54,44 @@
   color: #aaa;
 }
 
+.itemWrap {
+  display: flex;
+  text-decoration: none;
+}
+
+.itemIcon {
+  flex: 0 0 48px;
+  font-size: 32px;
+  color: #aaa;
+
+  &.Checklist {
+    color: #09af00;
+  }
+
+  &.Note {
+    color: #1c00db;
+  }
+
+  &.Password {
+    color: #006064;
+  }
+
+  &.Event {
+    color: #e54304;
+  }
+}
+
+.itemInfo {
+  flex: 1 1 auto;
+}
+
 .itemTitle {
   composes: title from '../../components/Sticker/Sticker.css';
   margin-right: 24px;
+}
+
+.itemQty {
+  color: #aaa;
 }
 
 .itemMenu {

@@ -15,6 +15,11 @@ function action(fn, type) {
 }
 
 function identify(reducers, path = [], delimiter) {
+  /* eslint-disable no-param-reassign */
+  Object.getOwnPropertySymbols(reducers).forEach((sym) => {
+    reducers[sym] = action(reducers[sym], Symbol.keyFor(sym));
+  });
+
   Object.keys(reducers).forEach((key) => {
     const itemPath = [...path, key];
     const itemPathString = itemPath.join(delimiter || DELIMITER);
@@ -24,16 +29,19 @@ function identify(reducers, path = [], delimiter) {
       item = action(item, itemPathString);
       item.toString = () => itemPathString;
 
-      /* eslint-disable no-param-reassign */
       reducers[key] = item;
       reducers[Symbol.for(itemPathString)] = item;
-      /* eslint-enable no-param-reassign */
     } else if (typeof item === 'object') {
       identify(item, itemPath, delimiter);
     }
   });
+  /* eslint-enable no-param-reassign */
 
   return reducers;
+}
+
+export function id(fn) {
+  return Symbol.for(fn.toString());
 }
 
 export function saymyname(reducers, initialState, prefix, delimiter) {
