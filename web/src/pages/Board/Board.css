@@ -19,8 +19,36 @@
 }
 
 .item {
-  position: relative;
   display: block;
+}
+
+.addListButtonSticker {
+  composes: item;
+  display: flex;
+  padding: 0;
+}
+
+.addListButton {
+  display: flex;
+  flex: 1 0 auto;
+  z-index: 1;
+  height: calc(100% + 16px);
+  align-items: center;
+  margin: 0;
+}
+
+.addListButtonIcon {
+  font-size: 48px;
+  color: #ccc;
+  border-radius: 50%;
+}
+
+.addListButtonText {
+  margin: 0 32px 0 0;
+  font-family: var(--decorationFont);
+  font-size: 18px;
+  text-transform: uppercase;
+  color: #aaa;
 }
 
 .itemTitle {
