@@ -12,3 +12,6 @@ export default function getHistory() {
   return history;
 }
 
+export function navigate(url, state) {
+  history.push(url, state);
+}
