@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Helmet } from 'react-helmet';
 
 import { noteType } from '../../../proptypes/note';
 import { updateItem } from '../../../actions/items';
@@ -45,6 +46,10 @@ class NotePage extends PureComponent {
         backUrl={`/lists/${$listId}`}
         title={headTitle}
       >
+        <Helmet>
+          <title>{headTitle}</title>
+        </Helmet>
+
         <DebouncedInput
           className={s.input}
           label="Title"
