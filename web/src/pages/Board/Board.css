@@ -19,13 +19,79 @@
 }
 
 .item {
-  position: relative;
-  display: block;
+  display: flex;
+}
+
+.addListButtonSticker {
+  composes: item;
+  display: flex;
+  padding: 0;
+}
+
+.addListButton {
+  display: flex;
+  flex: 1 0 auto;
+  z-index: 1;
+  height: calc(100% + 16px);
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 -16px;
+  padding: 16px;
+  text-decoration: none;
+}
+
+.addListButtonIcon {
+  font-size: 48px;
+  color: #ddd;
+  border-radius: 50%;
+}
+
+.addListButtonText {
+  margin: 0 32px 0 0;
+  font-family: var(--decorationFont);
+  font-size: 18px;
+  text-transform: uppercase;
+  color: #aaa;
+}
+
+.itemWrap {
+  display: flex;
+  text-decoration: none;
+}
+
+.itemIcon {
+  flex: 0 0 48px;
+  font-size: 32px;
+  color: #aaa;
+
+  &.Checklist {
+    color: #09af00;
+  }
+
+  &.Note {
+    color: #1c00db;
+  }
+
+  &.Password {
+    color: #006064;
+  }
+
+  &.Event {
+    color: #e54304;
+  }
+}
+
+.itemInfo {
+  flex: 1 1 auto;
 }
 
 .itemTitle {
   composes: title from '../../components/Sticker/Sticker.css';
   margin-right: 24px;
+}
+
+.itemQty {
+  color: #aaa;
 }
 
 .itemMenu {

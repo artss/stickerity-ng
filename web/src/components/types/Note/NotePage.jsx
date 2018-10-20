@@ -2,9 +2,11 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Helmet } from 'react-helmet';
 
 import { noteType } from '../../../proptypes/note';
 import { updateItem } from '../../../actions/items';
+import Sticker from '../../Sticker';
 import DebouncedInput from '../../DebouncedInput';
 import NoteEditor from '../../NoteEditor';
 
@@ -16,10 +18,6 @@ class NotePage extends PureComponent {
     ...noteType,
     updateItem: PropTypes.func.isRequired,
   };
-
-  static getTitle({ title }) {
-    return title || 'Note';
-  }
 
   onInputChange = (value, e) => {
     const { name } = e.target;
@@ -34,14 +32,24 @@ class NotePage extends PureComponent {
 
   render() {
     const {
-    // $listId,
-    // $id,
+      $listId,
+      // $id,
       title,
       text,
     } = this.props;
 
+    const headTitle = title || 'Note';
+
     return (
-      <div className={s.root}>
+      <Sticker
+        className={s.root}
+        backUrl={`/lists/${$listId}`}
+        title={headTitle}
+      >
+        <Helmet>
+          <title>{headTitle}</title>
+        </Helmet>
+
         <DebouncedInput
           className={s.input}
           label="Title"
@@ -56,7 +64,7 @@ class NotePage extends PureComponent {
             onChange={this.onTextChange}
           />
         </div>
-      </div>
+      </Sticker>
     );
   }
 }

@@ -1,13 +1,16 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import { Link } from 'react-router-dom';
+import { FontIcon } from 'react-toolbox/lib/font_icon';
 
-import styles from './Sticker.css';
+import s from './Sticker.css';
 
 export default class Sticker extends PureComponent {
   static propTypes = {
-    color: PropTypes.string,
     className: PropTypes.string,
+    backUrl: PropTypes.string,
+    title: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.node,
       PropTypes.arrayOf(PropTypes.node),
@@ -15,7 +18,8 @@ export default class Sticker extends PureComponent {
   };
 
   static defaultProps = {
-    color: 'fff',
+    backUrl: null,
+    title: null,
     className: null,
     children: null,
   };
@@ -23,13 +27,30 @@ export default class Sticker extends PureComponent {
   state = {};
 
   render() {
-    const { color, className, children } = this.props;
+    const {
+      className,
+      backUrl,
+      title,
+      children,
+    } = this.props;
 
     return (
       <div
-        className={cx(styles.sticker, className)}
-        style={{ backgroundColor: `#${color}` }}
+        className={cx(s.sticker, className)}
       >
+
+        {(backUrl || title) && (
+          <h1 className={s.head}>
+            {backUrl && (
+              <Link to={backUrl} className={s.back}>
+                <FontIcon className={s.backIcon} value="arrow_back" />
+              </Link>
+            )}
+
+            {title && <div className={s.title}>{title}</div>}
+          </h1>
+        )}
+
         {children}
       </div>
     );

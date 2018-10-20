@@ -1,4 +1,5 @@
-import { saymyname } from '../util/saymyname';
+import { saymyname, id } from '../util/saymyname';
+import lists from './lists';
 
 export default saymyname({
   updateItem(items, $listId, $id, payload) {
@@ -11,4 +12,6 @@ export default saymyname({
       )),
     };
   },
+
+  [id(lists.addList)]: (items, $id) => ({ ...items, [$id]: [] }),
 }, {}, 'items');

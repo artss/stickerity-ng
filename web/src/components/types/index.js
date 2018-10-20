@@ -1,4 +1,3 @@
-// import EventList from './Event/EventList';
 import NoteItem from './Note/NoteItem';
 import NotePage from './Note/NotePage';
 import ChecklistItem from './Checklist/ChecklistItem';
@@ -24,6 +23,13 @@ const pageTypeMapping = {
   Password: PasswordPage,
 };
 
+const iconTypeMapping = {
+  Checklist: 'done_all',
+  Note: 'notes',
+  Event: 'event_available',
+  Password: 'fingerprint',
+};
+
 export function getListComponent($type) {
   return listTypeMapping[$type];
 }
@@ -34,4 +40,8 @@ export function getItemComponent($type) {
 
 export function getPageComponent($type) {
   return pageTypeMapping[$type];
+}
+
+export function getIcon($type) {
+  return iconTypeMapping[$type];
 }

@@ -26,6 +26,20 @@
   }
 }
 
+.head {
+  display: flex;
+  margin: 0 24px 8px 0;
+}
+
+.back {
+  margin-right: 8px;
+  text-decoration: none;
+}
+
+.backIcon {
+  display: block;
+}
+
 .title {
   display: block;
   font-family: var(--decorationFont);
