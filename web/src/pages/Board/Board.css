@@ -34,12 +34,15 @@
   z-index: 1;
   height: calc(100% + 16px);
   align-items: center;
-  margin: 0;
+  justify-content: center;
+  margin: 0 0 -16px;
+  padding: 16px;
+  text-decoration: none;
 }
 
 .addListButtonIcon {
   font-size: 48px;
-  color: #ccc;
+  color: #ddd;
   border-radius: 50%;
 }
 

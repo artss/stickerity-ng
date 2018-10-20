@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { Button } from 'react-toolbox/lib/button';
+import { Link } from 'react-router-dom';
 import { FontIcon } from 'react-toolbox/lib/font_icon';
 
 import { listType } from '../../proptypes/list';
@@ -26,10 +26,10 @@ class Board extends PureComponent {
         </Helmet>
 
         <Sticker className={s.addListButtonSticker}>
-          <Button className={s.addListButton} onClick={this.addList}>
+          <Link className={s.addListButton} to="/lists/add">
             <FontIcon value="add" className={s.addListButtonIcon} />
             <div className={s.addListButtonText}>Add list</div>
-          </Button>
+          </Link>
         </Sticker>
 
         {lists.map(list => (
