@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { noteType } from '../../../proptypes/note';
-import { updateItem } from '../../../actions/lists';
+import { updateItem } from '../../../actions/items';
 import DebouncedInput from '../../DebouncedInput';
 import NoteEditor from '../../NoteEditor';
 

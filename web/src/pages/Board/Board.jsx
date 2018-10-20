@@ -5,11 +5,11 @@ import { Helmet } from 'react-helmet';
 
 import { listType } from '../../proptypes/list';
 
-import Item from './Item';
+import BoardItem from './BoardItem';
 
-import styles from './Lists.css';
+import s from './Board.css';
 
-class Lists extends PureComponent {
+class Board extends PureComponent {
   static propTypes = {
     lists: PropTypes.arrayOf(PropTypes.shape(listType)).isRequired,
   };
@@ -18,13 +18,13 @@ class Lists extends PureComponent {
     const { lists } = this.props;
 
     return (
-      <div className={styles.lists}>
+      <div className={s.board}>
         <Helmet>
-          <title>My lists</title>
+          <title>My Board</title>
         </Helmet>
 
         {lists.map(list => (
-          <Item
+          <BoardItem
             key={list.$id}
             {...list}
           />
@@ -38,4 +38,4 @@ function mapStateToProps({ lists }) {
   return { lists };
 }
 
-export default connect(mapStateToProps)(Lists);
+export default connect(mapStateToProps)(Board);

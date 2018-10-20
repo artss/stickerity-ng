@@ -9,7 +9,7 @@ import TimePicker from 'react-toolbox/lib/time_picker';
 import Checkbox from 'react-toolbox/lib/checkbox';
 
 import { eventType, eventDefaultProps } from '../../../proptypes/event';
-import { updateItem } from '../../../actions/lists';
+import { updateItem } from '../../../actions/items';
 
 import s from './EventPage.css';
 

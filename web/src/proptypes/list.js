@@ -5,5 +5,4 @@ export const listType = {
   $type: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   color: PropTypes.string,
-  items: PropTypes.array.isRequired,
 };

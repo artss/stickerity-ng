@@ -7,8 +7,10 @@ import { Link } from 'react-router-dom';
 import { IconButton } from 'react-toolbox/lib/button';
 import { IconMenu, MenuItem } from 'react-toolbox/lib/menu';
 
-import { getListById, getItemById } from '../../selectors/lists';
+import { getListById } from '../../selectors/lists';
+import { getItemById } from '../../selectors/items';
 import { listType } from '../../proptypes/list';
+import { itemType } from '../../proptypes/item';
 import Sticker from '../../components/Sticker';
 import { getPageComponent } from '../../components/types';
 
@@ -17,7 +19,7 @@ import styles from './Item.css';
 class ItemPage extends PureComponent {
   static propTypes = {
     list: PropTypes.shape(listType).isRequired,
-    item: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+    item: PropTypes.shape(itemType).isRequired,
   };
 
   render() {
@@ -52,9 +54,9 @@ class ItemPage extends PureComponent {
   }
 }
 
-function mapStateToProps({ lists }, { match: { params: { listId, itemId } } }) {
+function mapStateToProps({ lists, items }, { match: { params: { listId, itemId } } }) {
   const list = getListById(lists, listId);
-  const item = getItemById(list, itemId);
+  const item = getItemById(items[listId], itemId);
 
   return { list, item };
 }
