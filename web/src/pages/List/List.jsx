@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
@@ -9,19 +10,25 @@ import { IconMenu, MenuItem } from 'react-toolbox/lib/menu';
 
 import { getListById } from '../../selectors/lists';
 import { listType } from '../../proptypes/list';
-import { updateItem } from '../../actions/lists';
+import { itemType } from '../../proptypes/item';
+import { updateItem } from '../../actions/items';
 import Sticker from '../../components/Sticker';
 import { getListComponent, getItemComponent } from '../../components/types';
 
 import styles from './List.css';
 
 class List extends PureComponent {
-  static propTypes = listType;
+  static propTypes = {
+    list: PropTypes.shape(listType).isRequired,
+    items: PropTypes.arrayOf(PropTypes.shape(itemType)).isRequired,
+  };
 
   renderItems() {
     const {
-      $id,
-      $type,
+      list: {
+        $id,
+        $type,
+      },
       items,
       updateItem, // eslint-disable-line no-shadow
     } = this.props;
@@ -50,8 +57,10 @@ class List extends PureComponent {
 
   render() {
     const {
-      title,
-      color,
+      list: {
+        title,
+        color,
+      },
     } = this.props;
 
     return (
@@ -79,8 +88,11 @@ class List extends PureComponent {
   }
 }
 
-function mapStateToProps({ lists }, { match: { params: { listId } } }) {
-  return getListById(lists, listId);
+function mapStateToProps({ lists, items }, { match: { params: { listId } } }) {
+  return {
+    list: getListById(lists, listId),
+    items: items[listId],
+  };
 }
 
 function mapDispatchToProps(dispatch) {

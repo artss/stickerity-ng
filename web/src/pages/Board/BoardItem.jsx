@@ -1,17 +1,24 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { IconMenu, MenuItem } from 'react-toolbox/lib/menu';
 
 import { listType } from '../../proptypes/list';
+import { itemType } from '../../proptypes/item';
 import Sticker from '../../components/Sticker';
 
-import styles from './Lists.css';
+import styles from './Board.css';
 
-export default class Item extends PureComponent {
-  static propTypes = listType;
+class BoardItem extends PureComponent {
+  static propTypes = {
+    ...listType,
+    items: PropTypes.arrayOf(PropTypes.shape(itemType)),
+  };
 
   static defaultProps = {
-    color: 'fff',
+    // color: 'fff',
+    items: [],
   };
 
   state = {};
@@ -43,3 +50,9 @@ export default class Item extends PureComponent {
     );
   }
 }
+
+function mapStateToProps({ items }, { $id }) {
+  return { items: items[$id] };
+}
+
+export default connect(mapStateToProps)(BoardItem);

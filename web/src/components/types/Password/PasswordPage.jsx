@@ -6,7 +6,7 @@ import { Button, IconButton } from 'react-toolbox/lib/button';
 import { FontIcon } from 'react-toolbox/lib/font_icon';
 
 import { passwordType } from '../../../proptypes/password';
-import { updateItem } from '../../../actions/lists';
+import { updateItem } from '../../../actions/items';
 import CopyButton from '../../CopyButton';
 import DebouncedInput from '../../DebouncedInput';
 import PasswordGenerationForm from './PasswordGenerationForm';

@@ -20,9 +20,18 @@ export default class DebouncedInput extends PureComponent {
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
+    let { prevValue, value } = prevState;
+    const nextValue = nextProps.value;
+
+    if (nextProps.value !== prevState.prevValue) {
+      prevValue = nextValue;
+      value = nextValue;
+    }
+
     return {
       ...prevState,
-      value: nextProps.value,
+      prevValue,
+      value,
     };
   }
 
@@ -30,6 +39,7 @@ export default class DebouncedInput extends PureComponent {
     super(props);
 
     this.state = {
+      prevValue: props.value,
       value: props.value,
     };
 
