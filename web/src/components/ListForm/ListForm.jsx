@@ -33,9 +33,13 @@ DropdownItem.propTypes = {
 export default class ListForm extends PureComponent {
   static propTypes = {
     ...listType,
-    items: PropTypes.arrayOf(PropTypes.shape(itemType)).isRequired,
+    items: PropTypes.arrayOf(PropTypes.shape(itemType)),
     onChange: PropTypes.func.isRequired,
   };
+
+  static defaultProps = {
+    items: [],
+  }
 
   onChange = (value, e) => {
     const { onChange } = this.props;

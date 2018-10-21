@@ -11,3 +11,7 @@ export const addList = payload => (dispatch) => {
 export function updateList($id, payload) {
   return lists.updateList($id, payload);
 }
+
+export function deleteList($id) {
+  return lists.deleteList($id);
+}
