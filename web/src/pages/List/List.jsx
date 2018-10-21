@@ -12,6 +12,7 @@ import { itemType } from '../../proptypes/item';
 import { updateItem } from '../../actions/items';
 import Sticker from '../../components/Sticker';
 import { getListComponent, getItemComponent } from '../../components/types';
+import { navigate } from '../../util/history';
 
 import s from './List.css';
 
@@ -20,6 +21,11 @@ class List extends PureComponent {
     list: PropTypes.shape(listType).isRequired,
     items: PropTypes.arrayOf(PropTypes.shape(itemType)).isRequired,
   };
+
+  onEdit = () => {
+    const { list: { $id } } = this.props;
+    navigate(`/lists/${$id}/edit`);
+  }
 
   renderItems() {
     const {
@@ -73,7 +79,7 @@ class List extends PureComponent {
         </Helmet>
 
         <IconMenu className={s.menu} icon="more_vert" menuRipple>
-          <MenuItem value="edit" icon="edit" caption="Edit list" />
+          <MenuItem value="edit" icon="edit" caption="Edit list" onClick={this.onEdit} />
           <MenuItem value="delete" icon="delete" caption="Delete list" />
         </IconMenu>
 
