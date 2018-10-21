@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
-import { IconMenu, MenuItem } from 'react-toolbox/lib/menu';
 import { FontIcon } from 'react-toolbox/lib/font_icon';
 
 import { listType } from '../../proptypes/list';
 import { itemType } from '../../proptypes/item';
 import Sticker from '../../components/Sticker';
+import ListMenu from '../../components/ListMenu';
 import { getIcon } from '../../components/types';
 
 import s from './Board.css';
@@ -20,11 +20,8 @@ class BoardItem extends PureComponent {
   };
 
   static defaultProps = {
-    // color: 'fff',
     items: [],
   };
-
-  state = {};
 
   render() {
     const {
@@ -55,10 +52,7 @@ class BoardItem extends PureComponent {
           </div>
         </Link>
 
-        <IconMenu className={s.itemMenu} icon="more_vert" menuRipple>
-          <MenuItem value="edit" icon="edit" caption="Edit" />
-          <MenuItem value="delete" icon="delete" caption="Delete" />
-        </IconMenu>
+        <ListMenu $id={$id} />
       </Sticker>
     );
   }
