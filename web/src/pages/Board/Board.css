@@ -57,6 +57,7 @@
   font-family: var(--decorationFont);
   font-size: 18px;
   text-transform: uppercase;
+  color: var(--baseColor);
 }
 
 .itemWrap {
