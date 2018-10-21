@@ -4,11 +4,17 @@ import { Dropdown } from 'react-toolbox/lib/dropdown';
 import { FontIcon } from 'react-toolbox/lib/font_icon';
 
 import { listType } from '../../proptypes/list';
+import { itemType } from '../../proptypes/item';
 import { listTypes } from '../../constants/lists';
 import { getIcon } from '../types';
 import DebouncedInput from '../DebouncedInput';
 
 import s from './ListForm.css';
+
+const dropdownTheme = {
+  disabled: s.dropdownDisabled,
+  templateValue: s.dropdownTemplateValue,
+};
 
 function DropdownItem({ value, label }) {
   return (
@@ -27,14 +33,13 @@ DropdownItem.propTypes = {
 export default class ListForm extends PureComponent {
   static propTypes = {
     ...listType,
-    // eslint-disable-next-line react/forbid-prop-types
-    items: PropTypes.array,
+    items: PropTypes.arrayOf(PropTypes.shape(itemType)),
     onChange: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     items: [],
-  };
+  }
 
   onChange = (value, e) => {
     const { onChange } = this.props;
@@ -62,6 +67,7 @@ export default class ListForm extends PureComponent {
           template={DropdownItem}
           onChange={this.onChange}
           disabled={items.length > 0}
+          theme={dropdownTheme}
         />
       </div>
     );

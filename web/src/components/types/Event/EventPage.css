@@ -1,3 +1,7 @@
+.root {
+  margin: 16px;
+}
+
 .disabled {
   pointer-events: none;
   opacity: 0.5;

@@ -6,3 +6,9 @@
 .dropdownItemIcon {
   margin-right: 8px;
 }
+
+.dropdownDisabled {
+  .dropdownTemplateValue {
+    border-bottom: 0;
+  }
+}

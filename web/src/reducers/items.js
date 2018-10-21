@@ -14,4 +14,6 @@ export default saymyname({
   },
 
   [id(lists.addList)]: (items, $id) => ({ ...items, [$id]: [] }),
+
+  [id(lists.deleteList)]: (items, $id) => ({ ...items, [$id]: undefined }),
 }, {}, 'items');

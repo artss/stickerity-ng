@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import { Helmet } from 'react-helmet';
-import { IconMenu, MenuItem } from 'react-toolbox/lib/menu';
 
 import { getListById } from '../../selectors/lists';
 import { listType } from '../../proptypes/list';
 import { itemType } from '../../proptypes/item';
 import { updateItem } from '../../actions/items';
 import Sticker from '../../components/Sticker';
+import ListMenu from '../../components/ListMenu';
 import { getListComponent, getItemComponent } from '../../components/types';
 
 import s from './List.css';
@@ -18,7 +18,11 @@ import s from './List.css';
 class List extends PureComponent {
   static propTypes = {
     list: PropTypes.shape(listType).isRequired,
-    items: PropTypes.arrayOf(PropTypes.shape(itemType)).isRequired,
+    items: PropTypes.arrayOf(PropTypes.shape(itemType)),
+  };
+
+  static defaultProps = {
+    items: [],
   };
 
   renderItems() {
@@ -56,6 +60,7 @@ class List extends PureComponent {
   render() {
     const {
       list: {
+        $id,
         title,
         color,
       },
@@ -72,10 +77,7 @@ class List extends PureComponent {
           <title>{title}</title>
         </Helmet>
 
-        <IconMenu className={s.menu} icon="more_vert" menuRipple>
-          <MenuItem value="edit" icon="edit" caption="Edit list" />
-          <MenuItem value="delete" icon="delete" caption="Delete list" />
-        </IconMenu>
+        <ListMenu $id={$id} />
 
         {this.renderItems()}
       </Sticker>

@@ -12,4 +12,8 @@ export default saymyname({
         : list
     ));
   },
+
+  deleteList(lists, $id) {
+    return lists.filter(item => item.$id !== $id);
+  },
 }, [], 'lists');

@@ -12,6 +12,8 @@ export default function getHistory() {
   return history;
 }
 
-export function navigate(url, state) {
-  history.push(url, state);
+export function navigate(url, state, replace) {
+  return replace
+    ? history.replace(url, state)
+    : history.push(url, state);
 }

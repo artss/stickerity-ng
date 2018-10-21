@@ -38,6 +38,7 @@
 
 .backIcon {
   display: block;
+  color: var(--baseColor);
 }
 
 .title {
