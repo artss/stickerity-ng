@@ -4,23 +4,25 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import cx from 'classnames';
 import { Helmet } from 'react-helmet';
-import { Input } from 'react-toolbox/lib/input';
 import DatePicker from 'react-toolbox/lib/date_picker';
 import TimePicker from 'react-toolbox/lib/time_picker';
 import Checkbox from 'react-toolbox/lib/checkbox';
+import { FontIcon } from 'react-toolbox/lib/font_icon';
 
 import { eventType, eventDefaultProps } from '../../../proptypes/event';
-import { updateItem } from '../../../actions/items';
+import { updateItem, deleteItem } from '../../../actions/items';
+import { navigate } from '../../../util/history';
 import Sticker from '../../Sticker';
+import DeleteDialogButton from '../../DeleteDialogButton';
+import DebouncedInput from '../../DebouncedInput';
 
 import s from './EventPage.css';
 
 class EventPage extends PureComponent {
   static propTypes = {
-    $listId: PropTypes.string.isRequired,
-    $id: PropTypes.string.isRequired,
-    updateItem: PropTypes.func.isRequired,
     ...eventType,
+    updateItem: PropTypes.func.isRequired,
+    deleteItem: PropTypes.func.isRequired,
   };
 
   static defaultProps = eventDefaultProps;
@@ -39,6 +41,12 @@ class EventPage extends PureComponent {
       day: date.getDate(),
     });
   };
+
+  onDelete = () => {
+    const { $listId, $id, deleteItem: del } = this.props;
+    navigate(`/lists/${$listId}`, null, true);
+    del($listId, $id);
+  }
 
   render() {
     const {
@@ -72,7 +80,15 @@ class EventPage extends PureComponent {
           <title>{headTitle}</title>
         </Helmet>
 
-        <Input
+        <DeleteDialogButton
+          className={s.deleteButton}
+          title={title || headTitle}
+          action={this.onDelete}
+        >
+          <FontIcon value="delete_outline" />
+        </DeleteDialogButton>
+
+        <DebouncedInput
           label="Title"
           name="title"
           value={title}
@@ -80,7 +96,7 @@ class EventPage extends PureComponent {
           error={titleError}
         />
 
-        <Input
+        <DebouncedInput
           label="Description"
           multiline
           name="description"
@@ -125,7 +141,7 @@ function mapStateToProps() {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updateItem }, dispatch);
+  return bindActionCreators({ updateItem, deleteItem }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventPage);

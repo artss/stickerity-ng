@@ -20,6 +20,7 @@ class NotePage extends PureComponent {
   static propTypes = {
     ...noteType,
     updateItem: PropTypes.func.isRequired,
+    deleteItem: PropTypes.func.isRequired,
   };
 
   onInputChange = (value, e) => {
