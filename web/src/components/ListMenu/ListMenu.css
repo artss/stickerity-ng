@@ -7,3 +7,11 @@
 .caption {
   font-size: var(--baseFontSize);
 }
+
+.deleteButton {
+  padding: 0;
+  text-transform: none;
+  width: 100%;
+  height: 48px;
+  text-align: left;
+}

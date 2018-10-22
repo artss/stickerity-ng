@@ -13,6 +13,13 @@ export default saymyname({
     };
   },
 
+  deleteItem(items, $listId, $id) {
+    return {
+      ...items,
+      [$listId]: items[$listId].filter(item => item.$id !== $id),
+    };
+  },
+
   [lists.addList]: (items, $id) => ({ ...items, [$id]: [] }),
 
   [lists.deleteList]: (items, $id) => ({ ...items, [$id]: undefined }),

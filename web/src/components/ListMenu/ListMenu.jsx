@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { IconMenu, MenuItem } from 'react-toolbox/lib/menu';
-import Dialog from 'react-toolbox/lib/dialog';
 
 import { getListById } from '../../selectors/lists';
 import { deleteList } from '../../actions/lists';
 import { navigate } from '../../util/history';
 
+import DeleteDialogButton from '../DeleteDialogButton';
 import s from './ListMenu.css';
 
 class ListMenu extends PureComponent {
@@ -17,28 +17,6 @@ class ListMenu extends PureComponent {
     title: PropTypes.string.isRequired,
     deleteList: PropTypes.func.isRequired,
   };
-
-  state = {
-    showDialog: false,
-  };
-
-  actions = [
-    {
-      label: 'No, thanks',
-      onClick: () => {
-        this.setState({ showDialog: false });
-      },
-    },
-
-    {
-      label: 'Yes, please',
-      onClick: () => {
-        const { $id, deleteList: del } = this.props;
-        navigate('/', null, true);
-        del($id);
-      },
-    },
-  ];
 
   onAddItemClick = () => {
 
@@ -49,17 +27,14 @@ class ListMenu extends PureComponent {
     navigate(`/lists/${$id}/edit`);
   }
 
-  onDeleteClick = () => {
-    this.setState({ showDialog: true });
-  }
-
-  handleToggle = () => {
-    this.setState(({ showDialog }) => ({ showDialog: !showDialog }));
+  onDelete = () => {
+    const { $id, deleteList: del } = this.props;
+    navigate('/', null, true);
+    del($id);
   }
 
   render() {
     const { title } = this.props;
-    const { showDialog } = this.state;
 
     return (
       <Fragment>
@@ -78,25 +53,20 @@ class ListMenu extends PureComponent {
             onClick={this.onEditClick}
           />
 
-          <MenuItem
-            icon="delete_outline"
-            theme={s}
-            caption="Delete list"
-            onClick={this.onDeleteClick}
-          />
+          <DeleteDialogButton
+            title={title}
+            className={s.deleteButton}
+            action={this.onDelete}
+          >
+            <MenuItem
+              icon="delete_outline"
+              theme={s}
+              caption="Delete list"
+              onClick={this.onDeleteClick}
+            />
+          </DeleteDialogButton>
         </IconMenu>
 
-        <Dialog
-          actions={this.actions}
-          active={showDialog}
-          onEscKeyDown={this.handleToggle}
-          onOverlayClick={this.handleToggle}
-          title="Delete list"
-        >
-          <p>
-            Do you really want to delete {title || 'the list'}?
-          </p>
-        </Dialog>
       </Fragment>
     );
   }

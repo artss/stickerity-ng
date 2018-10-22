@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Helmet } from 'react-helmet';
+import { FontIcon } from 'react-toolbox/lib/font_icon';
 
 import { noteType } from '../../../proptypes/note';
-import { updateItem } from '../../../actions/items';
+import { updateItem, deleteItem } from '../../../actions/items';
+import { navigate } from '../../../util/history';
 import Sticker from '../../Sticker';
+import DeleteDialogButton from '../../DeleteDialogButton';
 import DebouncedInput from '../../DebouncedInput';
 import NoteEditor from '../../NoteEditor';
 
@@ -30,6 +33,12 @@ class NotePage extends PureComponent {
     update($listId, $id, { text });
   }
 
+  onDelete = () => {
+    const { $listId, $id, deleteItem: del } = this.props;
+    navigate(`/lists/${$listId}`, null, true);
+    del($listId, $id);
+  }
+
   render() {
     const {
       $listId,
@@ -50,6 +59,14 @@ class NotePage extends PureComponent {
           <title>{headTitle}</title>
         </Helmet>
 
+        <DeleteDialogButton
+          className={s.deleteButton}
+          title={title || headTitle}
+          action={this.onDelete}
+        >
+          <FontIcon value="delete_outline" />
+        </DeleteDialogButton>
+
         <DebouncedInput
           className={s.input}
           label="Title"
@@ -64,6 +81,8 @@ class NotePage extends PureComponent {
             onChange={this.onTextChange}
           />
         </div>
+
+
       </Sticker>
     );
   }
@@ -74,7 +93,7 @@ function mapStateToProps() {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updateItem }, dispatch);
+  return bindActionCreators({ updateItem, deleteItem }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotePage);
