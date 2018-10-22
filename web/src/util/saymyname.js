@@ -1,5 +1,6 @@
 const PREFIX = 'saymyname';
 const DELIMITER = '.';
+const START = '@';
 
 const initialStateSymbol = Symbol('initialState');
 const run = Symbol('run');
@@ -14,7 +15,7 @@ function action(fn, type) {
   };
 }
 
-function identify(reducers, path = [], delimiter) {
+function identify(reducers, path = [], delimiter = DELIMITER) {
   /* eslint-disable no-param-reassign */
   Object.getOwnPropertySymbols(reducers).forEach((sym) => {
     reducers[sym] = action(reducers[sym], Symbol.keyFor(sym));
@@ -22,7 +23,9 @@ function identify(reducers, path = [], delimiter) {
 
   Object.keys(reducers).forEach((key) => {
     const itemPath = [...path, key];
-    const itemPathString = itemPath.join(delimiter || DELIMITER);
+    const itemPathString = key.startsWith(START)
+      ? key
+      : START + itemPath.join(delimiter);
     let item = reducers[key];
 
     if (typeof item === 'function') {
@@ -38,10 +41,6 @@ function identify(reducers, path = [], delimiter) {
   /* eslint-enable no-param-reassign */
 
   return reducers;
-}
-
-export function id(fn) {
-  return Symbol.for(fn.toString());
 }
 
 export function saymyname(reducers, initialState, prefix, delimiter) {

@@ -1,4 +1,4 @@
-import { saymyname, id } from '../util/saymyname';
+import { saymyname } from '../util/saymyname';
 import lists from './lists';
 
 export default saymyname({
@@ -13,7 +13,7 @@ export default saymyname({
     };
   },
 
-  [id(lists.addList)]: (items, $id) => ({ ...items, [$id]: [] }),
+  [lists.addList]: (items, $id) => ({ ...items, [$id]: [] }),
 
-  [id(lists.deleteList)]: (items, $id) => ({ ...items, [$id]: undefined }),
+  [lists.deleteList]: (items, $id) => ({ ...items, [$id]: undefined }),
 }, {}, 'items');
