@@ -34,7 +34,7 @@ class ListMenu extends PureComponent {
       label: 'Yes, please',
       onClick: () => {
         const { $id, deleteList: del } = this.props;
-        navigate('/');
+        navigate('/', null, true);
         del($id);
       },
     },
