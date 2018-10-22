@@ -26,18 +26,12 @@ export default class PasswordItem extends PureComponent {
           <div className={s.text}>{login}</div>
         </Link>
 
-        <CopyButton text={login} className={s.button}>
-          <FontIcon
-            value="person"
-            title="Copy login"
-          />
+        <CopyButton text={login} className={s.button} tooltip="Copy login">
+          <FontIcon value="person_outline" />
         </CopyButton>
 
-        <CopyButton text={password} className={s.button}>
-          <FontIcon
-            value="file_copy"
-            title="Copy password"
-          />
+        <CopyButton text={password} className={s.button} tooltip="Copy password">
+          <FontIcon value="fingerprint" />
         </CopyButton>
       </li>
     );

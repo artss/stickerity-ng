@@ -5,8 +5,11 @@ import copy from 'copy-to-clipboard';
 import { Button } from 'react-toolbox/lib/button';
 import { FontIcon } from 'react-toolbox/lib/font_icon';
 import { Snackbar } from 'react-toolbox/lib/snackbar';
+import Tooltip from 'react-toolbox/lib/tooltip';
 
 import s from './CopyButton.css';
+
+const TooltipButton = Tooltip(Button);
 
 const COPIED_TIMEOUT = 2000;
 
@@ -15,10 +18,12 @@ export default class Copy extends PureComponent {
     text: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
+    tooltip: PropTypes.string,
   };
 
   static defaultProps = {
     className: null,
+    tooltip: null,
   };
 
   state = {
@@ -42,14 +47,15 @@ export default class Copy extends PureComponent {
   }
 
   render() {
-    const { children, className } = this.props;
+    const { children, className, tooltip } = this.props;
     const { copied } = this.state;
 
     return (
       <Fragment>
-        <Button
+        <TooltipButton
           className={cx(s.button, className)}
           onClick={this.copy}
+          tooltip={tooltip}
         >
           {copied
             ? (
@@ -59,7 +65,7 @@ export default class Copy extends PureComponent {
             )
             : children
           }
-        </Button>
+        </TooltipButton>
 
         <Snackbar
           type="accept"

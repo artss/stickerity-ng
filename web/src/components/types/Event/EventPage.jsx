@@ -43,7 +43,7 @@ class EventPage extends PureComponent {
   render() {
     const {
       $listId,
-      // $id,    `
+      // $id,
       title,
       description,
       year,

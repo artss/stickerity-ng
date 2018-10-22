@@ -120,7 +120,11 @@ class PasswordPage extends PureComponent {
             onChange={this.onInputChange}
           />
 
-          <IconButton className={s.button} icon="remove_red_eye" onClick={this.togglePassword} />
+          <IconButton
+            className={s.button}
+            icon={showPassword ? 'visibility_off' : 'visibility'}
+            onClick={this.togglePassword}
+          />
 
           <CopyButton text={password} className={s.button}>
             <FontIcon value="file_copy" />

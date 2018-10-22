@@ -40,6 +40,10 @@ class ListMenu extends PureComponent {
     },
   ];
 
+  onAddItemClick = () => {
+
+  }
+
   onEditClick = () => {
     const { $id } = this.props;
     navigate(`/lists/${$id}/edit`);
@@ -61,14 +65,21 @@ class ListMenu extends PureComponent {
       <Fragment>
         <IconMenu theme={s} className={s.root} icon="more_vert" menuRipple>
           <MenuItem
-            icon="edit"
+            icon="add"
+            theme={s}
+            caption="Add item"
+            onClick={this.onAddItemClick}
+          />
+
+          <MenuItem
+            icon="tune"
             theme={s}
             caption="List settings"
             onClick={this.onEditClick}
           />
 
           <MenuItem
-            icon="delete"
+            icon="delete_outline"
             theme={s}
             caption="Delete list"
             onClick={this.onDeleteClick}
