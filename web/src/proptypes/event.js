@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 export const eventTypeType = PropTypes.number;
 
 export const eventType = {
-  $id: PropTypes.string.isRequired,
+  $id: PropTypes.string,
   type: eventTypeType,
   year: PropTypes.number,
-  month: PropTypes.number.isRequired,
-  day: PropTypes.number.isRequired,
+  month: PropTypes.number,
+  day: PropTypes.number,
   hour: PropTypes.number,
   min: PropTypes.number,
   annual: PropTypes.bool,

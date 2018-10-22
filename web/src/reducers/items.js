@@ -2,6 +2,13 @@ import { saymyname } from '../util/saymyname';
 import lists from './lists';
 
 export default saymyname({
+  addItem(items, $listId, $id, payload) {
+    return {
+      ...items,
+      [$listId]: [{ $id, ...payload }].concat(items[$listId]),
+    };
+  },
+
   updateItem(items, $listId, $id, payload) {
     return {
       ...items,

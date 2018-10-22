@@ -19,12 +19,14 @@ export default class NoteEditor extends PureComponent {
     // TODO: value type
     // eslint-disable-next-line react/forbid-prop-types
     value: PropTypes.object,
+    placeholder: PropTypes.string,
     onChange: PropTypes.func,
   };
 
   static defaultProps = {
     // name: null,
     value: null,
+    placeholder: '',
     onChange: null,
   };
 
@@ -113,6 +115,7 @@ export default class NoteEditor extends PureComponent {
   }
 
   render() {
+    const { placeholder } = this.props;
     const { editorState, toolbarPosition } = this.state;
 
     return (
@@ -123,6 +126,7 @@ export default class NoteEditor extends PureComponent {
             editorState={editorState}
             onChange={this.onChange}
             handleKeyCommand={this.handleKeyCommand}
+            placeholder={placeholder}
           />
         </div>
 

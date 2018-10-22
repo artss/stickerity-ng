@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 
 export const noteType = {
-  $listId: PropTypes.string.isRequired,
-  $id: PropTypes.string.isRequired,
+  $listId: PropTypes.string,
+  $id: PropTypes.string,
   title: PropTypes.string,
   // TODO: text type
-  text: PropTypes.object.isRequired,
+  text: PropTypes.object,
 };
