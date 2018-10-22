@@ -11,6 +11,7 @@ import Sticker from '../../components/Sticker';
 import ListMenu from '../../components/ListMenu';
 import { getIcon } from '../../components/types';
 
+import ss from '../../components/Sticker/Sticker.css';
 import s from './Board.css';
 
 class BoardItem extends PureComponent {
@@ -41,7 +42,7 @@ class BoardItem extends PureComponent {
           />
 
           <div className={s.itemInfo}>
-            <div className={s.itemTitle}>{title}</div>
+            <div className={cx(ss.title, s.itemTitle)}>{title}</div>
 
             <div className={s.itemQty}>
               {items.length > 0
