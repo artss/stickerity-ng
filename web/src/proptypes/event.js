@@ -13,10 +13,3 @@ export const eventType = {
   annual: PropTypes.bool,
   wholeDay: PropTypes.bool,
 };
-
-export const eventDefaultProps = {
-  title: '',
-  description: '',
-  hour: 0,
-  min: 0,
-};

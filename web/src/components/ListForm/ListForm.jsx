@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown } from 'react-toolbox/lib/dropdown';
+import Dropdown from 'react-toolbox/lib/dropdown';
 import { FontIcon } from 'react-toolbox/lib/font_icon';
 
 import { listType } from '../../proptypes/list';

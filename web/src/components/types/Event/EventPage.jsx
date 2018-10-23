@@ -1,59 +1,75 @@
+/* eslint-disable react/default-props-match-prop-types */
+
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import cx from 'classnames';
 import { Helmet } from 'react-helmet';
 import DatePicker from 'react-toolbox/lib/date_picker';
 import TimePicker from 'react-toolbox/lib/time_picker';
 import Checkbox from 'react-toolbox/lib/checkbox';
+import Dropdown from 'react-toolbox/lib/dropdown';
 import { FontIcon } from 'react-toolbox/lib/font_icon';
 
-import { eventType, eventDefaultProps } from '../../../proptypes/event';
-import { updateItem, deleteItem } from '../../../actions/items';
-import { navigate } from '../../../util/history';
+import { eventType } from '../../../proptypes/event';
+import { eventTypes, TODO } from '../../../constants/events';
 import Sticker from '../../Sticker';
 import DeleteDialogButton from '../../DeleteDialogButton';
 import DebouncedInput from '../../DebouncedInput';
 
 import s from './EventPage.css';
 
-class EventPage extends PureComponent {
+const dropdownTheme = {
+  disabled: s.dropdownDisabled,
+  templateValue: s.dropdownTemplateValue,
+};
+
+function DropdownItem({ label, icon }) {
+  return (
+    <div className={s.dropdownItem}>
+      <FontIcon className={s.dropdownItemIcon} value={icon} />
+      {label}
+    </div>
+  );
+}
+
+DropdownItem.propTypes = {
+  label: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
+};
+
+const eventTypesList = Object.keys(eventTypes).map((key) => {
+  const { title: label, icon } = eventTypes[key];
+  return {
+    value: Number(key),
+    label,
+    icon,
+  };
+});
+
+export default class EventPage extends PureComponent {
   static propTypes = {
     ...eventType,
-    updateItem: PropTypes.func.isRequired,
-    deleteItem: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
   };
 
-  static defaultProps = eventDefaultProps;
+  static get defaultProps() {
+    const now = new Date();
 
-  onInputChange = (value, ev) => {
-    const { name } = ev.target;
-    const { $listId, $id, updateItem: update } = this.props;
-    update($listId, $id, { [name]: value });
-  };
-
-  onDateChange = (date) => {
-    const { $listId, $id, updateItem: update } = this.props;
-    update($listId, $id, {
-      year: date.getFullYear(),
-      month: date.getMonth() + 1,
-      day: date.getDate(),
-    });
-  };
-
-  onDelete = () => {
-    const { $listId, $id, deleteItem: del } = this.props;
-    navigate(`/lists/${$listId}`, null, true);
-    del($listId, $id);
+    return {
+      type: TODO,
+      year: now.getFullYear(),
+      month: now.getMonth() + 1,
+      day: now.getDate() + 1,
+      hour: 8,
+      min: 0,
+    };
   }
 
-  render() {
+  onInputChange = (value, e) => {
+    const { name } = e.target;
     const {
-      $listId,
-      // $id,
-      title,
-      description,
+      type,
       year,
       month,
       day,
@@ -61,6 +77,61 @@ class EventPage extends PureComponent {
       min,
       annual,
       wholeDay,
+      onChange,
+    } = this.props;
+    onChange({
+      ...{
+        type,
+        year,
+        month,
+        day,
+        hour,
+        min,
+        annual,
+        wholeDay,
+      },
+      [name]: value,
+    });
+  };
+
+  onDateChange = (date) => {
+    const {
+      type,
+      hour,
+      min,
+      annual,
+      wholeDay,
+      onChange,
+    } = this.props;
+    onChange({
+      ...{
+        type,
+        hour,
+        min,
+        annual,
+        wholeDay,
+      },
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDate(),
+    });
+  };
+
+  render() {
+    const {
+      $listId,
+      $id,
+      title,
+      description,
+      type,
+      year,
+      month,
+      day,
+      hour,
+      min,
+      annual,
+      wholeDay,
+      onDelete,
     } = this.props;
 
     const date = new Date(year, month - 1, day, hour, min);
@@ -68,7 +139,7 @@ class EventPage extends PureComponent {
     const headTitle = title || (description ? description.substr(0, 16) : 'Event');
 
     // TODO: validation
-    const titleError = !title && !description && 'Ether title or description should be filled';
+    const titleError = $id && !title && !description && 'Ether title or description should be filled';
 
     return (
       <Sticker
@@ -83,7 +154,7 @@ class EventPage extends PureComponent {
         <DeleteDialogButton
           className={s.deleteButton}
           title={title || headTitle}
-          action={this.onDelete}
+          action={onDelete}
         >
           <FontIcon value="delete_outline" />
         </DeleteDialogButton>
@@ -94,6 +165,7 @@ class EventPage extends PureComponent {
           value={title}
           onChange={this.onInputChange}
           error={titleError}
+          autoFocus={!$id}
         />
 
         <DebouncedInput
@@ -102,6 +174,16 @@ class EventPage extends PureComponent {
           name="description"
           value={description}
           onChange={this.onInputChange}
+        />
+
+        <Dropdown
+          label="Event type"
+          source={eventTypesList}
+          name="type"
+          value={type}
+          template={DropdownItem}
+          onChange={this.onInputChange}
+          theme={dropdownTheme}
         />
 
         <DatePicker
@@ -135,13 +217,3 @@ class EventPage extends PureComponent {
     );
   }
 }
-
-function mapStateToProps() {
-  return {};
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updateItem, deleteItem }, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(EventPage);
