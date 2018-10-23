@@ -1,24 +1,24 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Helmet } from 'react-helmet';
 import { Button, IconButton } from 'react-toolbox/lib/button';
 import { FontIcon } from 'react-toolbox/lib/font_icon';
 
+import { formatUrl } from '../../../util/format';
 import { passwordType } from '../../../proptypes/password';
-import { updateItem } from '../../../actions/items';
 import Sticker from '../../Sticker';
+import DeleteDialogButton from '../../DeleteDialogButton';
 import CopyButton from '../../CopyButton';
 import DebouncedInput from '../../DebouncedInput';
 import PasswordGenerationForm from './PasswordGenerationForm';
 
 import s from './PasswordPage.css';
 
-class PasswordPage extends PureComponent {
+export default class PasswordPage extends PureComponent {
   static propTypes = {
     ...passwordType,
-    updateItem: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
   };
 
   state = {
@@ -28,8 +28,22 @@ class PasswordPage extends PureComponent {
 
   onInputChange = (value, e) => {
     const { name } = e.target;
-    const { $listId, $id, updateItem: update } = this.props;
-    update($listId, $id, { [name]: value });
+    const {
+      title,
+      login,
+      url,
+      password,
+      onChange,
+    } = this.props;
+    onChange({
+      ...{
+        title,
+        login,
+        url,
+        password,
+      },
+      [name]: value,
+    });
   };
 
   togglePassword = () => {
@@ -41,8 +55,20 @@ class PasswordPage extends PureComponent {
   }
 
   onGenerate = (password) => {
-    const { $listId, $id, updateItem: update } = this.props;
-    update($listId, $id, { password });
+    const {
+      title,
+      login,
+      url,
+      onChange,
+    } = this.props;
+    onChange({
+      ...{
+        title,
+        login,
+        url,
+        password,
+      },
+    });
     this.setState({ showGenerationForm: false });
   }
 
@@ -53,10 +79,11 @@ class PasswordPage extends PureComponent {
       login,
       url,
       password,
+      onDelete,
     } = this.props;
     const { showPassword, showGenerationForm } = this.state;
 
-    const headTitle = title || url || login;
+    const headTitle = title || url || login || 'Password';
 
     return (
       <Sticker
@@ -67,6 +94,14 @@ class PasswordPage extends PureComponent {
         <Helmet>
           <title>{headTitle}</title>
         </Helmet>
+
+        <DeleteDialogButton
+          className={s.deleteButton}
+          title={title || headTitle}
+          action={onDelete}
+        >
+          <FontIcon value="delete_outline" />
+        </DeleteDialogButton>
 
         <div className={s.field}>
           <DebouncedInput
@@ -90,7 +125,7 @@ class PasswordPage extends PureComponent {
           <IconButton
             className={s.button}
             icon="open_in_new"
-            href={url}
+            href={formatUrl(url)}
             target="_blank"
             rel="noopener noreferrer"
           />
@@ -105,9 +140,11 @@ class PasswordPage extends PureComponent {
             onChange={this.onInputChange}
           />
 
-          <CopyButton text={login} className={s.button}>
-            <FontIcon value="file_copy" />
-          </CopyButton>
+          {login && (
+            <CopyButton text={login} className={s.button}>
+              <FontIcon value="file_copy" />
+            </CopyButton>
+          )}
         </div>
 
         <div className={s.field}>
@@ -126,9 +163,11 @@ class PasswordPage extends PureComponent {
             onClick={this.togglePassword}
           />
 
-          <CopyButton text={password} className={s.button}>
-            <FontIcon value="file_copy" />
-          </CopyButton>
+          {password && (
+            <CopyButton text={password} className={s.button}>
+              <FontIcon value="file_copy" />
+            </CopyButton>
+          )}
         </div>
 
         {showGenerationForm
@@ -148,13 +187,3 @@ class PasswordPage extends PureComponent {
     );
   }
 }
-
-function mapStateToProps() {
-  return {};
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updateItem }, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PasswordPage);

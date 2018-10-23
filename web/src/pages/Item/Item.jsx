@@ -1,12 +1,15 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 
+import { updateItem, deleteItem } from '../../actions/items';
 import { getListById } from '../../selectors/lists';
 import { getItemById } from '../../selectors/items';
 import { listType } from '../../proptypes/list';
 import { itemType } from '../../proptypes/item';
+import { navigate } from '../../util/history';
 import { getPageComponent } from '../../components/types';
 
 class ItemPage extends PureComponent {
@@ -15,13 +18,30 @@ class ItemPage extends PureComponent {
     item: PropTypes.shape(itemType).isRequired,
   };
 
+  onChange = (payload) => {
+    const { list, item, updateItem: update } = this.props;
+    update(list.$id, item.$id, payload);
+  }
+
+  onDelete = () => {
+    const { list, item, deleteItem: del } = this.props;
+    navigate(`/lists/${list.$id}`, null, true);
+    del(list.$id, item.$id);
+  }
+
   render() {
     const { list, item } = this.props;
 
     const Item = getPageComponent(list.$type);
 
     return (
-      <Item key={item.$id} $listId={list.$id} {...item} />
+      <Item
+        key={item.$id}
+        $listId={list.$id}
+        onChange={this.onChange}
+        onDelete={this.onDelete}
+        {...item}
+      />
     );
   }
 }
@@ -33,4 +53,8 @@ function mapStateToProps({ lists, items }, { match: { params: { listId, itemId }
   return { list, item };
 }
 
-export default withRouter(connect(mapStateToProps)(ItemPage));
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ updateItem, deleteItem }, dispatch);
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ItemPage));

@@ -93,7 +93,6 @@
 }
 
 .itemTitle {
-  composes: title from '../../components/Sticker/Sticker.css';
   margin-right: 24px;
 }
 

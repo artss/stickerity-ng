@@ -1,0 +1,19 @@
+@import '../../vars.css';
+
+.root {
+  margin: 16px;
+}
+
+.menu {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
+  font-size: var(--baseFontSize);
+}
+
+.items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}

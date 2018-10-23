@@ -19,7 +19,8 @@ class ListMenu extends PureComponent {
   };
 
   onAddItemClick = () => {
-
+    const { $id } = this.props;
+    navigate(`/lists/${$id}/add`);
   }
 
   onEditClick = () => {
