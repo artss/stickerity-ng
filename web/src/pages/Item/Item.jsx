@@ -11,12 +11,17 @@ import { listType } from '../../proptypes/list';
 import { itemType } from '../../proptypes/item';
 import { navigate } from '../../util/history';
 import { getPageComponent } from '../../components/types';
+import ItemNotFound from '../../components/ItemNotFound';
 
 class ItemPage extends PureComponent {
   static propTypes = {
     list: PropTypes.shape(listType).isRequired,
-    item: PropTypes.shape(itemType).isRequired,
+    item: PropTypes.shape(itemType),
   };
+
+  static defaultProps = {
+    item: null,
+  }
 
   onChange = (payload) => {
     const { list, item, updateItem: update } = this.props;
@@ -31,6 +36,10 @@ class ItemPage extends PureComponent {
 
   render() {
     const { list, item } = this.props;
+
+    if (!item) {
+      return <ItemNotFound />;
+    }
 
     const Item = getPageComponent(list.$type);
 

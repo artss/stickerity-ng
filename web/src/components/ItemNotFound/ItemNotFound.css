@@ -1,0 +1,9 @@
+.root {
+  margin: 16px;
+  min-height: 400px;
+}
+
+.title {
+  text-align: center;
+  color: #aaa;
+}

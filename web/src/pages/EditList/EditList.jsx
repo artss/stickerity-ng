@@ -11,17 +11,19 @@ import { itemType } from '../../proptypes/item';
 import { updateList } from '../../actions/lists';
 import Sticker from '../../components/Sticker';
 import ListForm from '../../components/ListForm';
+import ListNotFound from '../../components/ListNotFound';
 
 import s from './EditList.css';
 
 class EditList extends PureComponent {
   static propTypes = {
-    list: PropTypes.shape(listType).isRequired,
+    list: PropTypes.shape(listType),
     items: PropTypes.arrayOf(PropTypes.shape(itemType)),
     updateList: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
+    list: null,
     items: [],
   };
 
@@ -31,10 +33,13 @@ class EditList extends PureComponent {
   }
 
   render() {
-    const {
-      list: { $id, $type, title },
-      items,
-    } = this.props;
+    const { list, items } = this.props;
+
+    if (!list) {
+      return <ListNotFound />;
+    }
+
+    const { $id, $type, title } = list;
 
     const headTitle = 'Edit List';
 

@@ -11,26 +11,25 @@ import { itemType } from '../../proptypes/item';
 import { updateItem } from '../../actions/items';
 import Sticker from '../../components/Sticker';
 import ListMenu from '../../components/ListMenu';
+import ListNotFound from '../../components/ListNotFound';
 import { getListComponent, getItemComponent } from '../../components/types';
 
 import s from './List.css';
 
 class List extends PureComponent {
   static propTypes = {
-    list: PropTypes.shape(listType).isRequired,
+    list: PropTypes.shape(listType),
     items: PropTypes.arrayOf(PropTypes.shape(itemType)),
   };
 
   static defaultProps = {
+    list: null,
     items: [],
   };
 
   renderItems() {
     const {
-      list: {
-        $id,
-        $type,
-      },
+      list: { $id, $type },
       items,
       updateItem, // eslint-disable-line no-shadow
     } = this.props;
@@ -58,13 +57,13 @@ class List extends PureComponent {
   }
 
   render() {
-    const {
-      list: {
-        $id,
-        title,
-        color,
-      },
-    } = this.props;
+    const { list } = this.props;
+
+    if (!list) {
+      return <ListNotFound />;
+    }
+
+    const { $id, title, color } = list;
 
     return (
       <Sticker

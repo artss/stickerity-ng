@@ -23,6 +23,13 @@ body {
   box-sizing: border-box;
 }
 
+h1,
+h2,
+h3 {
+  font-family: var(--decorationFont);
+  text-transform: uppercase;
+}
+
 :global {
   #root {
     flex: 1;
