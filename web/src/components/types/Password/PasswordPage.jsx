@@ -75,6 +75,7 @@ export default class PasswordPage extends PureComponent {
   render() {
     const {
       $listId,
+      $id,
       title,
       login,
       url,
@@ -110,6 +111,7 @@ export default class PasswordPage extends PureComponent {
             name="title"
             value={title}
             onChange={this.onInputChange}
+            autoFocus={!$id}
           />
         </div>
 
