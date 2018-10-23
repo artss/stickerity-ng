@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { makeReducers } from '../util/saymyname';
+import { makeReducers } from 'redux-callable';
 
 import lists from './lists';
 import items from './items';

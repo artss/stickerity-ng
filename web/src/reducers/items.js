@@ -1,7 +1,7 @@
-import { saymyname } from '../util/saymyname';
+import { callable } from 'redux-callable';
 import lists from './lists';
 
-export default saymyname({
+export default callable({
   addItem(items, $listId, $id, payload) {
     return {
       ...items,
