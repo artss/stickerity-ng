@@ -1,3 +1,5 @@
+/* eslint-disable react/sort-comp */
+
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -49,12 +51,8 @@ export default class NoteEditor extends PureComponent {
     };
   }
 
-  refEditor = (el) => {
-    this.editor = el;
-  }
-
-  refToolbar = (el) => {
-    this.toolbar = el;
+  focus() {
+    this.editor.focus();
   }
 
   updateToolbarPosition = () => {
@@ -86,7 +84,6 @@ export default class NoteEditor extends PureComponent {
     });
   }
 
-  // eslint-disable-next-line react/sort-comp
   debouncedOnChange = debounce((editorState) => {
     const { onChange } = this.props;
     if (onChange) {
@@ -112,6 +109,14 @@ export default class NoteEditor extends PureComponent {
       return true;
     }
     return false;
+  }
+
+  refEditor = (el) => {
+    this.editor = el;
+  }
+
+  refToolbar = (el) => {
+    this.toolbar = el;
   }
 
   render() {

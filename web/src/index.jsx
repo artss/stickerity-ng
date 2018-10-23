@@ -193,17 +193,6 @@ const initialState = {
       },
 
       {
-        $id: '7',
-        type: 5,
-        title: 'Посрать',
-        year: 2018,
-        month: 10,
-        day: 7,
-        hour: 6,
-        min: 50,
-      },
-
-      {
         $id: '8',
         type: 5,
         title: 'Покурить',

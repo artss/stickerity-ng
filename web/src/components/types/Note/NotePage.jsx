@@ -18,6 +18,13 @@ export default class NotePage extends PureComponent {
     onDelete: PropTypes.func.isRequired,
   };
 
+  componentDidMount() {
+    const { $id } = this.props;
+    if ($id) {
+      this.editor.focus();
+    }
+  }
+
   onChange(item) {
     // TODO: chect title and text
     const { onChange } = this.props;
@@ -31,6 +38,10 @@ export default class NotePage extends PureComponent {
 
   onTextChange = (text) => {
     this.onChange({ text });
+  }
+
+  refEditor = (el) => {
+    this.editor = el;
   }
 
   render() {
@@ -70,10 +81,12 @@ export default class NotePage extends PureComponent {
           name="title"
           value={title}
           onChange={this.onInputChange}
+          autoFocus={!$id}
         />
 
         <div className={s.text}>
           <NoteEditor
+            ref={this.refEditor}
             value={text}
             onChange={this.onTextChange}
           />
