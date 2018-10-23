@@ -57,6 +57,7 @@ export default class ListForm extends PureComponent {
           name="title"
           value={title}
           onChange={this.onChange}
+          autoFocus
         />
 
         <Dropdown
