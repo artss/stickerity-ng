@@ -1,6 +1,6 @@
-import { saymyname } from '../util/saymyname';
+import { callable } from 'redux-callable';
 
-export default saymyname({
+export default callable({
   setUser(state, name) {
     return { ...state, name };
   },
