@@ -186,33 +186,39 @@ export default class EventPage extends PureComponent {
           theme={dropdownTheme}
         />
 
-        <DatePicker
-          label="Date"
-          value={date}
-          onChange={this.onDateChange}
-          autoOk
-        />
+        <div className={s.field}>
+          <DatePicker
+            label="Date"
+            value={date}
+            onChange={this.onDateChange}
+            autoOk
+          />
 
-        <Checkbox
-          label="Annual"
-          name="annual"
-          checked={annual}
-          onChange={this.onInputChange}
-        />
+          <Checkbox
+            label="Annual"
+            className={s.checkbox}
+            name="annual"
+            checked={annual}
+            onChange={this.onInputChange}
+          />
+        </div>
 
-        <TimePicker
-          inputClassName={cx(wholeDay && s.disabled)}
-          label="Time"
-          value={date}
-          onChange={this.onDateChange}
-        />
+        <div className={s.field}>
+          <TimePicker
+            inputClassName={cx(wholeDay && s.disabled)}
+            label="Time"
+            value={date}
+            onChange={this.onDateChange}
+          />
 
-        <Checkbox
-          label="Whole day"
-          name="wholeDay"
-          checked={wholeDay}
-          onChange={this.onInputChange}
-        />
+          <Checkbox
+            label="Whole day"
+            className={s.checkbox}
+            name="wholeDay"
+            checked={wholeDay}
+            onChange={this.onInputChange}
+          />
+        </div>
       </Sticker>
     );
   }

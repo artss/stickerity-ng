@@ -2,6 +2,11 @@
   margin: 16px;
 }
 
+.field {
+  display: flex;
+  align-items: center;
+}
+
 .disabled {
   pointer-events: none;
   opacity: 0.5;
@@ -32,4 +37,8 @@
   .dropdownTemplateValue {
     border-bottom: 0;
   }
+}
+
+.checkbox {
+  margin: 0;
 }
