@@ -2,16 +2,18 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import cx from 'classnames';
 import { Helmet } from 'react-helmet';
 import DatePicker from 'react-toolbox/lib/date_picker';
-import TimePicker from 'react-toolbox/lib/time_picker';
+// import TimePicker from 'react-toolbox/lib/time_picker';
 import Checkbox from 'react-toolbox/lib/checkbox';
 import Dropdown from 'react-toolbox/lib/dropdown';
 import { FontIcon } from 'react-toolbox/lib/font_icon';
 
 import { eventType } from '../../../proptypes/event';
 import { eventTypes, TODO } from '../../../constants/events';
+import pick from '../../../util/pick';
+import range from '../../../util/range';
+import { formatTime } from '../../../util/format';
 import Sticker from '../../Sticker';
 import DeleteDialogButton from '../../DeleteDialogButton';
 import DebouncedInput from '../../DebouncedInput';
@@ -46,6 +48,13 @@ const eventTypesList = Object.keys(eventTypes).map((key) => {
   };
 });
 
+const timeList = range(0, 23, 0.5).map((h) => {
+  const hour = Math.floor(h);
+  const min = hour === h ? 0 : 30;
+  const t = formatTime(hour, min);
+  return { value: t, label: t };
+});
+
 export default class EventPage extends PureComponent {
   static propTypes = {
     ...eventType,
@@ -66,56 +75,38 @@ export default class EventPage extends PureComponent {
     };
   }
 
+  getItem() {
+    return pick(this.props, ['type', 'year', 'month', 'day', 'hour', 'min', 'annual', 'wholeDay']);
+  }
+
   onInputChange = (value, e) => {
     const { name } = e.target;
-    const {
-      type,
-      year,
-      month,
-      day,
-      hour,
-      min,
-      annual,
-      wholeDay,
-      onChange,
-    } = this.props;
+    const { onChange } = this.props;
     onChange({
-      ...{
-        type,
-        year,
-        month,
-        day,
-        hour,
-        min,
-        annual,
-        wholeDay,
-      },
+      ...this.getItem(),
       [name]: value,
     });
-  };
+  }
 
   onDateChange = (date) => {
-    const {
-      type,
-      hour,
-      min,
-      annual,
-      wholeDay,
-      onChange,
-    } = this.props;
+    const { onChange } = this.props;
     onChange({
-      ...{
-        type,
-        hour,
-        min,
-        annual,
-        wholeDay,
-      },
+      ...this.getItem(),
       year: date.getFullYear(),
       month: date.getMonth() + 1,
       day: date.getDate(),
     });
-  };
+  }
+
+  onTimeChange = (value) => {
+    const [hour, min] = value.split(':').map(Number);
+    const { onChange } = this.props;
+    onChange({
+      ...this.getItem(),
+      hour,
+      min,
+    });
+  }
 
   render() {
     const {
@@ -204,11 +195,20 @@ export default class EventPage extends PureComponent {
         </div>
 
         <div className={s.field}>
+          {/*
           <TimePicker
             inputClassName={cx(wholeDay && s.disabled)}
             label="Time"
             value={date}
             onChange={this.onDateChange}
+          />
+          */}
+
+          <Dropdown
+            label="Time"
+            source={timeList}
+            value={formatTime(hour, min)}
+            onChange={this.onTimeChange}
           />
 
           <Checkbox
