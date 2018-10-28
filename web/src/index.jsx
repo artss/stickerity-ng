@@ -230,6 +230,7 @@ const initialState = {
 
   user: {
     id: 1,
+    username: 'arts',
   },
 };
 
