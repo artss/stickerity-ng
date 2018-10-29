@@ -1,9 +1,5 @@
 @import '../../vars.css';
 
-.root {
-  margin: 16px;
-}
-
 .menu {
   position: absolute;
   top: 8px;
