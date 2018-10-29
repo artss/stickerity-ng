@@ -4,12 +4,12 @@ const keys = {};
 
 const VECTOR_SIZE = 16;
 
-export function encode(str, encoding = 'x-user-defined') {
+export function encode(str, encoding = 'utf-8') {
   const te = new TextEncoder(encoding);
   return te.encode(str);
 }
 
-export function decode(buffer, encoding = 'x-user-defined') {
+export function decode(buffer, encoding = 'utf-8') {
   const td = new TextDecoder(encoding);
   return td.decode(buffer);
 }
