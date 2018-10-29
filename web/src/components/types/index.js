@@ -1,13 +1,15 @@
+import ChecklistList from './Checklist/ChecklistList';
+import EventList from './Event/EventList';
 import NoteItem from './Note/NoteItem';
 import NotePage from './Note/NotePage';
 import ChecklistItem from './Checklist/ChecklistItem';
 import PasswordItem from './Password/PasswordItem';
 import PasswordPage from './Password/PasswordPage';
-import EventList from './Event/EventList';
 import EventPage from './Event/EventPage';
 
 // TODO: dynamic import
 const listTypeMapping = {
+  Checklist: ChecklistList,
   Event: EventList,
 };
 
