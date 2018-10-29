@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import FontIcon from 'react-toolbox/lib/font_icon';
 import Checkbox from 'react-toolbox/lib/checkbox';
 import Input from 'react-toolbox/lib/input';
 import { IconButton } from 'react-toolbox/lib/button';
@@ -12,9 +13,12 @@ import s from './ChecklistList.css';
 export default class ChecklistItem extends Component {
   static propTypes = {
     ...checklistType,
+    reference: PropTypes.func.isRequired,
     focus: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
+    onDragStart: PropTypes.func.isRequired,
+    onDragStop: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -27,6 +31,11 @@ export default class ChecklistItem extends Component {
     this.state = {
       focus: props.focus || false,
     };
+  }
+
+  reference = (el) => {
+    const { $id, reference } = this.props;
+    reference($id, el);
   }
 
   toggleCheck = () => {
@@ -57,12 +66,32 @@ export default class ChecklistItem extends Component {
     this.setState({ focus: false });
   }
 
+  onDragStart = (e) => {
+    const { $id, onDragStart } = this.props;
+    onDragStart($id, e);
+  }
+
+  onDragStop = (e) => {
+    const { $id, onDragStop } = this.props;
+    onDragStop($id, e);
+  }
+
   render() {
     const { checked, text } = this.props;
     const { focus } = this.state;
 
     return (
-      <li className={cx(s.item, focus && s.focus)}>
+      <li className={cx(s.item, focus && s.focus)} ref={this.reference}>
+        <button
+          type="button"
+          className={s.handle}
+          onMouseDown={this.onDragStart}
+          onMouseUp={this.onDragStop}
+          tabIndex={-1}
+        >
+          <FontIcon value="drag_indicator" />
+        </button>
+
         <Checkbox
           className={s.checkbox}
           checked={checked}

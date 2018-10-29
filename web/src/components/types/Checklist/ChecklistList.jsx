@@ -22,6 +22,16 @@ class ChecklistList extends PureComponent {
     updateItem: PropTypes.func.isRequired,
   };
 
+  state = {
+    dragId: null,
+  };
+
+  items = {};
+
+  refItem = ($id, item) => {
+    this.items[$id] = item;
+  }
+
   onItemChange = ($id, payload) => {
     const { $listId, updateItem: update } = this.props;
     update($listId, $id, payload);
@@ -37,25 +47,44 @@ class ChecklistList extends PureComponent {
     add($listId, { checked: false, text: '' });
   }
 
+  onDragStart = (/* $id, e */) => {
+    // this.setState({ dragId: $id });
+  }
+
+  onDragStop = () => {
+    // this.setState({ dragId: null });
+  }
+
   render() {
     const { $listId, items } = this.props;
+    const { dragId } = this.state;
 
     return (
       <div className={s.root}>
-        <Button icon="add" label="Add item" onClick={this.addItem} />
+        <Button
+          className={s.addButton}
+          icon="add"
+          label="Add item"
+          onClick={this.addItem}
+        />
 
         <ul className={s.items}>
           {items.map((item, i) => (
             <ChecklistItem
               key={item.$id}
+              reference={this.refItem}
               $listId={$listId}
               {...item}
               onChange={this.onItemChange}
               onDelete={this.onItemDelete}
+              onDragStart={this.onDragStart}
+              onDragStop={this.onDragStop}
               focus={i === 0}
             />
           ))}
         </ul>
+
+        {dragId && React.cloneElement(this.items[dragId], { ref: () => {} })}
       </div>
     );
   }
