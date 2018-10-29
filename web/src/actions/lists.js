@@ -1,5 +1,6 @@
 import { loadItems } from './items';
 import reducer from '../reducers/lists';
+import user from '../reducers/user';
 import { generateId } from '../util/id';
 import { navigate } from '../util/history';
 
@@ -34,13 +35,17 @@ export const loadLists = () => async (dispatch) => {
     return;
   }
 
-  const { k, data } = JSON.parse(rawData);
-  const key = await importKey(LISTS_KEY, k);
+  try {
+    const { k, data } = JSON.parse(rawData);
+    const key = await importKey(LISTS_KEY, k);
 
-  const lists = await decryptObject(data, key);
+    const lists = await decryptObject(data, key);
 
-  dispatch(reducer.loadLists(lists));
-  dispatch(loadItems(lists.map(({ $id }) => $id)));
+    dispatch(reducer.loadLists(lists));
+    dispatch(loadItems(lists.map(({ $id }) => $id)));
+  } catch (e) {
+    dispatch(user.setMasterPassword(e));
+  }
 };
 
 export const addList = payload => (dispatch, getState) => {
