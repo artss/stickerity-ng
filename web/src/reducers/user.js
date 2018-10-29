@@ -5,7 +5,11 @@ export default callable({
     return { ...user, username };
   },
 
-  setMasterPassword(user) {
-    return { ...user, masterPasswordAdded: true };
+  setMasterPassword(user, error) {
+    return {
+      ...user,
+      masterPasswordAdded: true,
+      masterPasswordError: Boolean(error),
+    };
   },
 }, { masterPasswordAdded: false }, 'user');
