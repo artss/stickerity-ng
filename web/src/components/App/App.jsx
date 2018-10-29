@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import Header from '../Header';
+import MasterPasswordForm from '../MasterPasswordForm';
 
 import Board from '../../pages/Board';
 import AddList from '../../pages/AddList';
@@ -27,6 +28,8 @@ export default function App() {
           <Route path="/lists/:listId/:itemId" exact component={Item} />
         </Switch>
       </main>
+
+      <MasterPasswordForm />
     </div>
   );
 }

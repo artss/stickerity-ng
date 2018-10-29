@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
+import 'regenerator-runtime/runtime';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { applyMiddleware, createStore, compose } from 'redux';
@@ -17,7 +18,9 @@ import './index.css';
 import App from './components/App';
 
 // TODO: real reducers and initialState
+/* eslint-disable max-len */
 const initialState = {
+  /*
   lists: [
     {
       $id: '1MTU0MDAyMDA2MTgwNQ',
@@ -44,7 +47,9 @@ const initialState = {
 
     },
   ],
+  */
 
+  /*
   items: {
     '1MTU0MDAyMDA2MTgwNQ': [
       {
@@ -227,11 +232,14 @@ const initialState = {
       },
     ],
   },
+  */
 
   user: {
     id: 1,
+    username: 'arts',
   },
 };
+/* eslint-enable max-len */
 
 document.addEventListener('DOMContentLoaded', () => {
   const history = getHistory();

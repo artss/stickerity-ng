@@ -1,7 +1,11 @@
 import { callable } from 'redux-callable';
 
 export default callable({
-  setUser(state, name) {
-    return { ...state, name };
+  setUser(user, username) {
+    return { ...user, username };
   },
-}, [], 'user');
+
+  setMasterPassword(user) {
+    return { ...user, masterPasswordAdded: true };
+  },
+}, { masterPasswordAdded: false }, 'user');

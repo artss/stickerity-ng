@@ -2,6 +2,10 @@ import { callable } from 'redux-callable';
 import lists from './lists';
 
 export default callable({
+  loadItems(state, items) {
+    return { ...state, ...items };
+  },
+
   addItem(items, $listId, $id, payload) {
     return {
       ...items,

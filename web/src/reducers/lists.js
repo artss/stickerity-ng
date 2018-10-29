@@ -1,6 +1,10 @@
 import { callable } from 'redux-callable';
 
 export default callable({
+  loadLists(state, lists) {
+    return lists;
+  },
+
   addList(lists, $id, payload) {
     return [{ $id, ...payload }].concat(lists);
   },

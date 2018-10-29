@@ -9,15 +9,13 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const common = require('./webpack.common');
 
-const { DOMAIN } = process.env;
-
 common.cssLoader.unshift(MiniCssExtractPlugin.loader);
 
 const config = merge(common.config, {
   mode: 'production',
 
   output: {
-    publicPath: `//${DOMAIN}/`,
+    publicPath: '/',
   },
 
   optimization: {
