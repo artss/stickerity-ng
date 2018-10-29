@@ -1,0 +1,31 @@
+.items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox {
+  flex: 0 0 auto;
+  margin: 0 16px 0 0;
+}
+
+.input {
+  flex: 1 1 auto;
+  margin: 0;
+  padding: 0;
+}
+
+.del {
+  opacity: 0.1;
+  transition: opacity 0.25s;
+
+  .item.focus &,
+  .item:hover & {
+    opacity: 1;
+  }
+}
