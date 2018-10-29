@@ -18,6 +18,7 @@ import App from './components/App';
 
 // TODO: real reducers and initialState
 const initialState = {
+  /*
   lists: [
     {
       $id: '1MTU0MDAyMDA2MTgwNQ',
@@ -44,6 +45,7 @@ const initialState = {
 
     },
   ],
+  */
 
   items: {
     '1MTU0MDAyMDA2MTgwNQ': [

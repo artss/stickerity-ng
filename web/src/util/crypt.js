@@ -52,7 +52,7 @@ export function encryptObject(obj, key) {
 
 export async function setPasswordKey(username, password) {
   const hash = await crypto.subtle.digest({ name: 'SHA-256' }, encode(username + password));
-  const key = await crypto.subtle.importKey('raw', hash, { name: 'AES-CBC' }, false, ['encrypt', 'decrypt']);
+  const key = await crypto.subtle.importKey('raw', hash, { name: 'AES-CBC' }, true, ['encrypt', 'decrypt']);
   keys.password = key;
   return key;
 }
@@ -62,11 +62,32 @@ export function getPasswordKey() {
 }
 
 export async function setKey(id, rawKey) {
-  const key = await crypto.subtle.importKey('raw', rawKey, { name: 'AES-CBC' }, false, ['encrypt', 'decrypt']);
+  const key = await crypto.subtle.importKey('raw', rawKey, { name: 'AES-CBC' }, true, ['encrypt', 'decrypt']);
   keys[id] = key;
   return key;
 }
 
 export function getKey(id) {
   return keys[id];
+}
+
+export async function generateKey(id) {
+  const key = await crypto.subtle.generateKey({ name: 'AES-CBC', length: 256 }, true, ['encrypt', 'decrypt']);
+  keys[id] = key;
+  return key;
+}
+
+export async function exportKey(id) {
+  const key = getKey(id);
+  const passwordKey = getPasswordKey();
+  const keyObject = await crypto.subtle.exportKey('jwk', key);
+  return encryptObject(keyObject, passwordKey);
+}
+
+export async function importKey(id, rawKey) {
+  const passwordKey = getPasswordKey();
+  const keyObject = await decryptObject(rawKey, passwordKey);
+  const key = await crypto.subtle.importKey('jwk', keyObject, { name: 'AES-CBC' }, true, ['encrypt', 'decrypt']);
+  keys[id] = key;
+  return key;
 }
