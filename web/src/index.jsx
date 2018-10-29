@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
+import 'regenerator-runtime/runtime';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { applyMiddleware, createStore, compose } from 'redux';
