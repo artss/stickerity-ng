@@ -1,5 +1,3 @@
-import { TextEncoder, TextDecoder } from 'text-encoding';
-
 const keys = {};
 
 const VECTOR_SIZE = 16;
