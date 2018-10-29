@@ -17,6 +17,7 @@ import './index.css';
 import App from './components/App';
 
 // TODO: real reducers and initialState
+/* eslint-disable max-len */
 const initialState = {
   /*
   lists: [
@@ -47,6 +48,7 @@ const initialState = {
   ],
   */
 
+  /*
   items: {
     '1MTU0MDAyMDA2MTgwNQ': [
       {
@@ -229,12 +231,14 @@ const initialState = {
       },
     ],
   },
+  */
 
   user: {
     id: 1,
     username: 'arts',
   },
 };
+/* eslint-enable max-len */
 
 document.addEventListener('DOMContentLoaded', () => {
   const history = getHistory();

@@ -1,3 +1,4 @@
+import { loadItems } from './items';
 import reducer from '../reducers/lists';
 import { generateId } from '../util/id';
 import { navigate } from '../util/history';
@@ -37,7 +38,9 @@ export const loadLists = () => async (dispatch) => {
   const key = await importKey(LISTS_KEY, k);
 
   const lists = await decryptObject(data, key);
+
   dispatch(reducer.loadLists(lists));
+  dispatch(loadItems(lists.map(({ $id }) => $id)));
 };
 
 export const addList = payload => (dispatch, getState) => {
