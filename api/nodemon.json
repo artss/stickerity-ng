@@ -1,0 +1,12 @@
+{
+  "script": "dev.js",
+  "nodeArgs": "--inspect",
+  "ext": "js json jsx",
+  "ignore": [
+    "node_modules",
+    "tmp"
+  ],
+  "env": {
+    "NODE_ENV": "development"
+  }
+}

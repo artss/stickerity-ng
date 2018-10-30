@@ -1,5 +1,15 @@
 version: "3"
 services:
+  db:
+    ports:
+      - "127.0.0.1:5432:5432"
+  api:
+    volumes:
+      - ./api/src:/srv/api/src
+      - ./api/.babelrc:/srv/api/.babelrc
+      - ./api/package.json:/srv/api/package.json
+      - ./api/package-lock.json:/srv/api/package-lock.json
+    command: ["npm", "start"]
   web:
     build:
       context: ./web
@@ -15,6 +25,9 @@ services:
       - ./web/postcss.config.js:/srv/web/postcss.config.js
       - ./web/webpack.common.js:/srv/web/webpack.common.js
       - ./web/webpack.dev.js:/srv/web/webpack.dev.js
+  nginx:
     ports:
+      - 80:80
+      - 443:443
       - 5000:5000
 

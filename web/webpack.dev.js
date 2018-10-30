@@ -20,11 +20,16 @@ const config = merge(common.config, {
   devServer: {
     host: '0.0.0.0',
     port: PORT,
-    https: true,
+    // https: true,
     disableHostCheck: true,
     contentBase: '/',
     hot: true,
     historyApiFallback: true,
+    inline: true,
+    watchOptions: {
+      aggregateTimeout: 300,
+      poll: 1000,
+    },
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
