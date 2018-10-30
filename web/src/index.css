@@ -11,12 +11,12 @@ body {
 }
 
 body {
-  /* display: flex; */
   margin: 0;
   font-family: var(--baseFont);
   font-size: var(--baseFontSize);
   line-height: 1.4;
   background-color: var(--bodyColor);
+  overscroll-behavior: contain;
 }
 
 * {

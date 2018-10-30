@@ -1,43 +1,89 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 import Checkbox from 'react-toolbox/lib/checkbox';
+import Input from 'react-toolbox/lib/input';
+import { IconButton } from 'react-toolbox/lib/button';
+
+import { checklistType } from '../../../proptypes/checklist';
+
+import s from './ChecklistList.css';
 
 export default class ChecklistItem extends Component {
   static propTypes = {
-    $listId: PropTypes.string.isRequired,
-    $id: PropTypes.string.isRequired,
-    checked: PropTypes.bool.isRequired,
-    text: PropTypes.string.isRequired,
-    updateItem: PropTypes.func,
+    ...checklistType,
+    focus: PropTypes.bool,
+    onChange: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    updateItem() {},
+    focus: false,
   };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      focus: props.focus || false,
+    };
+  }
 
   toggleCheck = () => {
     const {
-      $listId,
       $id,
       checked,
-      updateItem,
+      onChange,
     } = this.props;
 
-    updateItem($listId, $id, { checked: !checked });
+    onChange($id, { checked: !checked });
   };
 
+  onInputChange = (text) => {
+    const { $id, onChange } = this.props;
+    onChange($id, { text });
+  }
+
+  onDelete = () => {
+    const { $id, onDelete } = this.props;
+    onDelete($id);
+  }
+
+  onFocus = () => {
+    this.setState({ focus: true });
+  }
+
+  onBlur = () => {
+    this.setState({ focus: false });
+  }
+
   render() {
-    const { text } = this.props;
-    const { checked } = this.props;
+    const { checked, text } = this.props;
+    const { focus } = this.state;
 
     return (
-      <li>
+      <div className={cx(s.item, focus && s.focus)}>
         <Checkbox
+          className={s.checkbox}
           checked={checked}
-          label={text}
           onChange={this.toggleCheck}
         />
-      </li>
+
+        <Input
+          className={s.input}
+          value={text}
+          onFocus={this.onFocus}
+          onBlur={this.onBlur}
+          onChange={this.onInputChange}
+          autoFocus={focus}
+        />
+
+        <IconButton
+          icon="clear"
+          className={s.del}
+          onClick={this.onDelete}
+        />
+      </div>
     );
   }
 }

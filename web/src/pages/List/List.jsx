@@ -20,6 +20,7 @@ class List extends PureComponent {
   static propTypes = {
     list: PropTypes.shape(listType),
     items: PropTypes.arrayOf(PropTypes.shape(itemType)),
+    updateItem: PropTypes.func.isRequired,
   };
 
   static defaultProps = {

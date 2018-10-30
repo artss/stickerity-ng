@@ -48,10 +48,14 @@ export const loadItems = ids => async (dispatch) => {
   dispatch(reducer.loadItems(items));
 };
 
-export const addItem = ($listId, payload) => (dispatch, getState) => {
+export const addItem = ($listId, payload, follow) => (dispatch, getState) => {
   const $id = generateId();
   dispatch(reducer.addItem($listId, $id, payload));
-  navigate(`/lists/${$listId}/${$id}`, null, true);
+
+  if (follow) {
+    navigate(`/lists/${$listId}/${$id}`, null, true);
+  }
+
   save($listId, getState());
 };
 
@@ -64,3 +68,5 @@ export const deleteItem = ($listId, $id) => (dispatch, getState) => {
   dispatch(reducer.deleteItem($listId, $id));
   save($listId, getState());
 };
+
+export const sortItems = ($listId, ids) => reducer.sortItems($listId, ids);

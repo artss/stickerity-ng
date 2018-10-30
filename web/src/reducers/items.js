@@ -31,6 +31,13 @@ export default callable({
     };
   },
 
+  sortItems(items, $listId, ids) {
+    return {
+      ...items,
+      [$listId]: ids.map(i => items[$listId][i]),
+    };
+  },
+
   [lists.addList]: (items, $id) => ({ ...items, [$id]: [] }),
 
   [lists.deleteList]: (items, $id) => ({ ...items, [$id]: undefined }),
