@@ -11,7 +11,6 @@ body {
 }
 
 body {
-  /* display: flex; */
   margin: 0;
   font-family: var(--baseFont);
   font-size: var(--baseFontSize);

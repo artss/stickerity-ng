@@ -15,11 +15,8 @@ export default class SortableItem extends PureComponent {
   };
 
   state = {
-    left: 0,
     top: 0,
-    leftDelta: 0,
     topDelta: 0,
-    rectX: 0,
     rectY: 0,
   };
 
@@ -38,24 +35,20 @@ export default class SortableItem extends PureComponent {
     const ev = e.touches ? e.touches[0] : e;
     const rect = this.el.getBoundingClientRect();
     this.setState({
-      rectX: rect.x,
+      top: 0,
       rectY: rect.y,
-      leftDelta: ev.clientX - rect.x,
       topDelta: ev.clientY - rect.y,
     });
   }
 
   onDrag = (e) => {
     const {
-      rectX,
       rectY,
-      leftDelta,
       topDelta,
     } = this.state;
 
     const ev = e.touches ? e.touches[0] : e;
     this.setState({
-      left: ev.clientX - rectX - leftDelta,
       top: ev.clientY - rectY - topDelta,
     });
   }
@@ -71,9 +64,9 @@ export default class SortableItem extends PureComponent {
 
   render() {
     const { isDragging, children } = this.props;
-    const { left, top } = this.state;
+    const { top } = this.state;
 
-    const style = isDragging ? { position: 'relative', left, top } : undefined;
+    const style = isDragging ? { position: 'relative', left: 0, top } : undefined;
 
     /* eslint-disable jsx-a11y/no-static-element-interactions */
     return (
