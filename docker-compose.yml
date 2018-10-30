@@ -1,5 +1,19 @@
 version: "3"
 services:
+  db:
+    image: "postgres:11"
+    environment:
+      POSTGRES_USER: stickerity
+      POSTGRES_PASSWORD: stickerity
+      POSTGRES_DB: stickerity
+    volumes:
+      - ./db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./db/data/postgresql:/var/lib/postgresql/data
+  api:
+    build:
+      context: ./api
+    depends_on:
+      - db
   web:
     build:
       context: ./web
@@ -16,4 +30,5 @@ services:
       - ./ssl:/srv/ssl
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
+      - api
       - web
