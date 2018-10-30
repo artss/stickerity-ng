@@ -4,7 +4,9 @@
   "description": "",
   "main": "",
   "scripts": {
-    "build": "exit 0",
+    "build": "run-s clean build-server",
+    "build-server": "node ./build.js",
+    "clean": "rm -rf ./dist",
     "production": "NODE_ENV=production node dist/server.js",
     "start": "nodemon --config nodemon.json dev.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,10 +15,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel-core": "^6.26.3",
+    "glob": "^7.1.3",
+    "mkdirp": "^0.5.1",
     "restify": "^7.2.2"
   },
   "devDependencies": {
-    "babel-core": "^6.26.3",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-export-extensions": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
