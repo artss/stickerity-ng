@@ -68,3 +68,5 @@ export const deleteItem = ($listId, $id) => (dispatch, getState) => {
   dispatch(reducer.deleteItem($listId, $id));
   save($listId, getState());
 };
+
+export const sortItems = ($listId, ids) => reducer.sortItems($listId, ids);

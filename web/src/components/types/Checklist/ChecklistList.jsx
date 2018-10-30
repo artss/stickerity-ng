@@ -9,7 +9,9 @@ import {
   addItem,
   updateItem,
   deleteItem,
+  sortItems,
 } from '../../../actions/items';
+import Sortable from '../../Sortable';
 import ChecklistItem from './ChecklistItem';
 
 import s from './ChecklistList.css';
@@ -21,16 +23,6 @@ class ChecklistList extends PureComponent {
     addItem: PropTypes.func.isRequired,
     updateItem: PropTypes.func.isRequired,
   };
-
-  state = {
-    dragId: null,
-  };
-
-  items = {};
-
-  refItem = ($id, item) => {
-    this.items[$id] = item;
-  }
 
   onItemChange = ($id, payload) => {
     const { $listId, updateItem: update } = this.props;
@@ -47,17 +39,13 @@ class ChecklistList extends PureComponent {
     add($listId, { checked: false, text: '' });
   }
 
-  onDragStart = (/* $id, e */) => {
-    // this.setState({ dragId: $id });
-  }
-
-  onDragStop = () => {
-    // this.setState({ dragId: null });
+  onSort = (ids) => {
+    const { $listId, sortItems: sort } = this.props;
+    sort($listId, ids);
   }
 
   render() {
     const { $listId, items } = this.props;
-    const { dragId } = this.state;
 
     return (
       <div className={s.root}>
@@ -68,23 +56,18 @@ class ChecklistList extends PureComponent {
           onClick={this.addItem}
         />
 
-        <ul className={s.items}>
+        <Sortable className={s.items} onSort={this.onSort}>
           {items.map((item, i) => (
             <ChecklistItem
               key={item.$id}
-              reference={this.refItem}
               $listId={$listId}
               {...item}
               onChange={this.onItemChange}
               onDelete={this.onItemDelete}
-              onDragStart={this.onDragStart}
-              onDragStop={this.onDragStop}
               focus={i === 0}
             />
           ))}
-        </ul>
-
-        {dragId && React.cloneElement(this.items[dragId], { ref: () => {} })}
+        </Sortable>
       </div>
     );
   }
@@ -95,7 +78,12 @@ function mapStateToProps() {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ addItem, updateItem, deleteItem }, dispatch);
+  return bindActionCreators({
+    addItem,
+    updateItem,
+    deleteItem,
+    sortItems,
+  }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChecklistList);

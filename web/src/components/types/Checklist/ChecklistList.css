@@ -15,25 +15,6 @@
   align-items: center;
 }
 
-.handle {
-  flex: 0 0 auto;
-  margin-right: 8px;
-  border: 0;
-  background-color: transparent;
-  outline: 0;
-  cursor: move;
-  opacity: 0.1;
-  transition: opacity 0.25s;
-
-  .item:hover & {
-    opacity: 0.5;
-  }
-
-  span {
-    display: block;
-  }
-}
-
 .checkbox {
   flex: 0 0 auto;
   margin: 0 16px 0 0;
