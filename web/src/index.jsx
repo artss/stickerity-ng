@@ -9,6 +9,7 @@ import thunk from 'redux-thunk';
 import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
 import { hot } from 'react-hot-loader';
 
+import { getUser } from './actions/user';
 import reducers from './reducers';
 import getHistory from './util/history';
 
@@ -37,6 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initialState,
     composeEnhancers(applyMiddleware(routerWithHistory, thunk))
   );
+
+  store.dispatch(getUser());
 
   const AppContainer = module.hot
     ? hot(module)(App)
