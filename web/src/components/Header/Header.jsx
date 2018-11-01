@@ -1,11 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import styles from './Header.css';
 
 export default function Header() {
   return (
     <header className={styles.header}>
-      <a className={styles.logo} href="/">Stickerity</a>
+      <Link className={styles.logo} to="/">Stickerity</Link>
     </header>
   );
 }
