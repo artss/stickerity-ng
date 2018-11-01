@@ -10,7 +10,7 @@ const opts = {
 
 passport.use(new Strategy(opts, (payload, done) => {
   console.log('------ payload', payload);
-  done(null, { id: 1, login: 'arts' });
+  done(null, { id: 1, username: 'arts' });
 }));
 
 export default passport.authenticate('jwt', { session: false });

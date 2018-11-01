@@ -35,7 +35,7 @@ class MasterPassword extends PureComponent {
     } = nextProps;
     const { redirected } = prevState;
     if (masterPasswordAdded && !masterPasswordError && !redirected) {
-      history.push(url);
+      history.replace(url);
       return { ...prevState, redirected: true };
     }
     return prevState;

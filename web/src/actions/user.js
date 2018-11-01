@@ -3,8 +3,8 @@ import user from '../reducers/user';
 import { loadLists } from './lists';
 import * as api from '../util/api';
 
-export const getUser = () => async () => {
-  const u = await api.post('/login', { user: 'zzzzzzz', password: '123' });
+export const login = (username, password) => async () => {
+  const u = await api.post('login', { username, password });
   console.log('+++', u);
 };
 
