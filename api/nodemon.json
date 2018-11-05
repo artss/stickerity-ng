@@ -1,6 +1,6 @@
 {
   "script": "dev.js",
-  "nodeArgs": "--inspect",
+  "nodeArgs": "--inspect=0.0.0.0:9229",
   "ext": "js json jsx",
   "ignore": [
     "node_modules",
