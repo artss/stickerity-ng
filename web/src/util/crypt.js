@@ -48,8 +48,8 @@ export function encryptObject(obj, key) {
   return encrypt(JSON.stringify(obj), key);
 }
 
-export async function setPasswordKey(username, password) {
-  const hash = await crypto.subtle.digest({ name: 'SHA-256' }, encode(username + password));
+export async function setPasswordKey(salt, password) {
+  const hash = await crypto.subtle.digest({ name: 'SHA-256' }, encode(salt + password));
   const key = await crypto.subtle.importKey('raw', hash, { name: 'AES-CBC' }, true, ['encrypt', 'decrypt']);
   keys.password = key;
   return key;

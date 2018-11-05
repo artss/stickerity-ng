@@ -1,0 +1,18 @@
+{
+  "development": {
+    "username": "stickerity",
+    "password": "stickerity",
+    "database": "stickerity",
+    "host": "db",
+    "port": 5432,
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "stickerity",
+    "password": "stickerity",
+    "database": "stickerity",
+    "host": "db",
+    "port": 5432,
+    "dialect": "postgres"
+  }
+}

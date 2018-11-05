@@ -7,20 +7,20 @@ import { withRouter } from 'react-router';
 import Input from 'react-toolbox/lib/input';
 import Button from 'react-toolbox/lib/button';
 
-import { userType } from '../../proptypes/user';
-import { login } from '../../actions/user';
+// import { userType } from '../../proptypes/user';
+import { authenticate } from '../../actions/user';
 import Sticker from '../../components/Sticker';
 
 import s from './Login.css';
 
 class Login extends PureComponent {
   static propTypes = {
-    user: PropTypes.shape(userType).isRequired,
-    login: PropTypes.func.isRequired,
+    // user: PropTypes.shape(userType).isRequired,
+    authenticate: PropTypes.func.isRequired,
   };
 
   state = {
-    username: '',
+    email: '',
     password: '',
   };
 
@@ -31,13 +31,13 @@ class Login extends PureComponent {
 
   onSubmit = (e) => {
     e.preventDefault();
-    const { login } = this.props;
-    const { username, password } = this.state;
-    login(username, password);
+    const { authenticate: auth } = this.props;
+    const { email, password } = this.state;
+    auth(email, password);
   }
 
   render() {
-    const { username, password } = this.state;
+    const { email, password } = this.state;
     const headTitle = 'Sign in';
 
     return (
@@ -48,9 +48,9 @@ class Login extends PureComponent {
 
         <form onSubmit={this.onSubmit}>
           <Input
-            name="username"
-            label="User"
-            value={username}
+            name="email"
+            label="E-mail"
+            value={email}
             onChange={this.onChange}
             autoFocus
           />
@@ -67,7 +67,7 @@ class Login extends PureComponent {
             type="submit"
             label="Sign in"
             icon="lock_open"
-            disabled={!username || !password}
+            disabled={!email || !password}
             raised
             primary
           />
@@ -85,7 +85,7 @@ function mapStateToProps(
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ login }, dispatch);
+  return bindActionCreators({ authenticate }, dispatch);
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));

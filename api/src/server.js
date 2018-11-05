@@ -1,14 +1,16 @@
 import restify from 'restify';
 import { InternalServerError } from 'restify-errors';
+import passport from 'passport';
 
-import auth from './auth';
+import { authenticate, checkAuth } from './auth';
 
 const server = restify.createServer({
   handleUncaughtExceptions: true,
 });
 
 // server.use(restify.queryParser());
-// server.use(restify.bodyParser());
+server.use(restify.plugins.bodyParser({ mapParams: false }));
+server.use(passport.initialize());
 
 server.on('uncaughtException', (req, res, route, error) => {
   console.error(error.stack);
@@ -19,9 +21,9 @@ server.get('/api', (req, res) => {
   res.json({ test: 2 });
 });
 
-server.post('/api/login', auth);
+server.post('/api/auth/login', authenticate);
 
-server.get('/api/user', auth, (req, res) => {
+server.get('/api/user', checkAuth, (req, res) => {
   console.log('++++++ AUTH', req.user);
   res.send(res.user);
 });

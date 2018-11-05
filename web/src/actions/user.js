@@ -3,14 +3,13 @@ import user from '../reducers/user';
 import { loadLists } from './lists';
 import * as api from '../util/api';
 
-export const login = (username, password) => async () => {
-  const u = await api.post('login', { username, password });
-  console.log('+++', u);
+export const authenticate = (email, password) => async () => {
+  await api.post('auth/login', { email, password });
 };
 
 export const setMasterPassword = password => async (dispatch, getState) => {
-  const { user: { username } } = getState();
-  await setPasswordKey(username, password);
+  const { user: { salt } } = getState();
+  await setPasswordKey(salt, password);
   dispatch(user.setMasterPassword());
   dispatch(loadLists());
 };

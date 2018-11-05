@@ -1,0 +1,135 @@
+{
+    "tables": {
+        "Users": {
+            "tableName": "Users",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "email": {
+                    "seqType": "Sequelize.STRING"
+                },
+                "name": {
+                    "seqType": "Sequelize.STRING"
+                },
+                "salt": {
+                    "seqType": "Sequelize.STRING"
+                },
+                "password": {
+                    "seqType": "Sequelize.STRING"
+                },
+                "active": {
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": {
+                "6bfe127d4ee29e38dd3e9ad39bc9c4fbd8328e87": {
+                    "unique": true,
+                    "fields": [
+                        "email"
+                    ],
+                    "options": {
+                        "indicesType": "UNIQUE"
+                    }
+                }
+            }
+        },
+        "Lists": {
+            "tableName": "Lists",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "data": {
+                    "seqType": "Sequelize.STRING"
+                },
+                "updatedAt": {
+                    "seqType": "Sequelize.TIME"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "seqType": "Sequelize.DATE"
+                },
+                "userId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Users",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": {
+                "76e76aaddc00d85035830560a851c8c00e7a6fc2": {
+                    "fields": [
+                        "userId"
+                    ],
+                    "options": {}
+                }
+            }
+        },
+        "Items": {
+            "tableName": "Items",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "listId": {
+                    "seqType": "Sequelize.STRING"
+                },
+                "data": {
+                    "seqType": "Sequelize.STRING"
+                },
+                "updatedAt": {
+                    "seqType": "Sequelize.TIME"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "seqType": "Sequelize.DATE"
+                },
+                "userId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Users",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": {
+                "2029431194b2404cb953605162fd5b6df9e32ec2": {
+                    "unique": true,
+                    "fields": [
+                        "userId",
+                        "listId"
+                    ],
+                    "options": {
+                        "indicesType": "UNIQUE"
+                    }
+                }
+            }
+        }
+    },
+    "revision": 1
+}
