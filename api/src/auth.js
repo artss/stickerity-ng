@@ -6,11 +6,10 @@ import jwt from 'jsonwebtoken';
 const SECRET = 'mai veri stronk kei yes yes yes';
 
 passport.use(new LocalStrategy({
-  usernameField: 'username',
+  usernameField: 'email',
   passwordField: 'password',
-}, (username, password, done) => {
-  console.log('------ LocalStrategy', username, password);
-  done(null, { id: 1, username });
+}, (email, password, done) => {
+  done(null, { id: 1, email });
 }));
 
 const jwtOpts = {
@@ -21,19 +20,13 @@ const jwtOpts = {
 };
 
 passport.use(new JwtStrategy(jwtOpts, (payload, done) => {
-  console.log('------ JwtStrategy', payload);
   done(null, payload);
 }));
 
 export const authenticate = (req, res) => {
   passport.authenticate('local', { session: false }, (err, user, info) => {
-    console.log('++++++ authenticate', user, info);
     if (err || !user) {
-      res.json(400, {
-        ...info,
-        user,
-      });
-
+      res.json(400, info);
       return;
     }
 

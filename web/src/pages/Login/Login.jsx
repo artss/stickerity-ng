@@ -48,6 +48,7 @@ class Login extends PureComponent {
 
         <form onSubmit={this.onSubmit}>
           <Input
+            type="email"
             name="email"
             label="E-mail"
             value={email}
