@@ -6,20 +6,19 @@ import { withRouter } from 'react-router';
 import Input from 'react-toolbox/lib/input';
 import { Button } from 'react-toolbox/lib/button';
 
+import { userType } from '../../proptypes/user';
 import { setMasterPassword } from '../../actions/user';
 import Sticker from '../../components/Sticker';
 
 import s from './MasterPassword.css';
 
 class MasterPassword extends PureComponent {
-  /* eslint-disable react/no-unused-prop-types */ // eslint bug
   static propTypes = {
-    masterPasswordAdded: PropTypes.bool.isRequired,
-    masterPasswordError: PropTypes.bool.isRequired,
+    user: PropTypes.shape(userType).isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
     url: PropTypes.string.isRequired,
     setMasterPassword: PropTypes.func.isRequired,
   };
-  /* eslint-enable react/no-unused-prop-types */
 
   state = {
     password: '',
@@ -28,8 +27,10 @@ class MasterPassword extends PureComponent {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const {
-      masterPasswordAdded,
-      masterPasswordError,
+      user: {
+        masterPasswordAdded,
+        masterPasswordError,
+      },
       history,
       url,
     } = nextProps;
@@ -53,7 +54,7 @@ class MasterPassword extends PureComponent {
   }
 
   render() {
-    const { masterPasswordError } = this.props;
+    const { user: { masterPasswordError } } = this.props;
     const { password } = this.state;
 
     return (
@@ -91,14 +92,10 @@ class MasterPassword extends PureComponent {
 }
 
 function mapStateToProps(
-  { user: { masterPasswordAdded = false, masterPasswordError = false } },
+  { user },
   { location: { state: { from = '/' } } = { state: {} } },
 ) {
-  return {
-    masterPasswordAdded,
-    masterPasswordError,
-    url: from,
-  };
+  return { user, url: from };
 }
 
 function mapDispatchToProps(dispatch) {

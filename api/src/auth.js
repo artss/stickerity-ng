@@ -3,18 +3,39 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import jwt from 'jsonwebtoken';
 
-const SECRET = 'mai veri stronk kei yes yes yes';
+import db from './models';
+import { passwordHash } from './util/auth';
 
 passport.use(new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password',
-}, (email, password, done) => {
-  done(null, { id: 1, email });
+}, async (email, password, done) => {
+  const user = await db.Users.findOne({
+    where: { email },
+    attributes: ['id', 'name', 'password', 'salt'],
+  });
+
+  if (user) {
+    const hash = passwordHash(password);
+    if (user.password === hash) {
+      done(null, {
+        id: user.id,
+        name: user.name,
+        salt: user.salt,
+      });
+
+      return;
+    }
+  }
+
+  setTimeout(() => {
+    done({ message: 'Invalid credentials' });
+  }, 5000);
 }));
 
 const jwtOpts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: SECRET,
+  secretOrKey: process.env.SECRET,
   issuer: 'stickerity.com',
   audience: process.env.DOMAIN || 'stickerity.com',
 };
@@ -26,7 +47,7 @@ passport.use(new JwtStrategy(jwtOpts, (payload, done) => {
 export const authenticate = (req, res) => {
   passport.authenticate('local', { session: false }, (err, user, info) => {
     if (err || !user) {
-      res.json(400, info);
+      res.json(400, { ...err, ...info });
       return;
     }
 
@@ -36,7 +57,7 @@ export const authenticate = (req, res) => {
         return;
       }
 
-      const token = jwt.sign(user, SECRET);
+      const token = jwt.sign(user, process.env.SECRET);
       res.json({ user, token });
     });
   })(req, res);

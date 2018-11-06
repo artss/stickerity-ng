@@ -1,6 +1,7 @@
 const keys = {};
 
 const VECTOR_SIZE = 16;
+const SALT_LENGTH = 32;
 
 export function encode(str, encoding = 'utf-8') {
   const te = new TextEncoder(encoding);
@@ -88,4 +89,14 @@ export async function importKey(id, rawKey) {
   const key = await crypto.subtle.importKey('jwk', keyObject, { name: 'AES-CBC' }, true, ['encrypt', 'decrypt']);
   keys[id] = key;
   return key;
+}
+
+export async function authPasswordHash(email, password) {
+  const hash = await crypto.subtle.digest({ name: 'SHA-256' }, encode(email + password));
+  return arrayToBase64(new Uint8Array(hash));
+}
+
+export function generateSalt() {
+  const saltArray = crypto.getRandomValues(new Uint8Array(SALT_LENGTH));
+  return arrayToBase64(saltArray);
 }

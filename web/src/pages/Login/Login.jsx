@@ -7,7 +7,7 @@ import { withRouter } from 'react-router';
 import Input from 'react-toolbox/lib/input';
 import Button from 'react-toolbox/lib/button';
 
-// import { userType } from '../../proptypes/user';
+import { userType } from '../../proptypes/user';
 import { authenticate } from '../../actions/user';
 import Sticker from '../../components/Sticker';
 
@@ -15,14 +15,31 @@ import s from './Login.css';
 
 class Login extends PureComponent {
   static propTypes = {
-    // user: PropTypes.shape(userType).isRequired,
+    user: PropTypes.shape(userType).isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    url: PropTypes.string.isRequired,
     authenticate: PropTypes.func.isRequired,
   };
 
   state = {
     email: '',
     password: '',
+    redirected: false,
   };
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const {
+      user: { id },
+      history,
+      url,
+    } = nextProps;
+    const { redirected } = prevState;
+    if (id && !redirected) {
+      history.replace(url);
+      return { ...prevState, redirected: true };
+    }
+    return prevState;
+  }
 
   onChange = (value, e) => {
     const { name } = e.target;
@@ -37,6 +54,7 @@ class Login extends PureComponent {
   }
 
   render() {
+    const { user: { authPending, authError } } = this.props;
     const { email, password } = this.state;
     const headTitle = 'Sign in';
 
@@ -45,6 +63,12 @@ class Login extends PureComponent {
         <Helmet>
           <title>{headTitle}</title>
         </Helmet>
+
+        {authError && (
+          <div className={s.error}>
+            {authError}
+          </div>
+        )}
 
         <form onSubmit={this.onSubmit}>
           <Input
@@ -67,8 +91,8 @@ class Login extends PureComponent {
           <Button
             type="submit"
             label="Sign in"
-            icon="lock_open"
-            disabled={!email || !password}
+            icon={authPending ? 'sync' : 'lock_open'}
+            disabled={!email || !password || authPending}
             raised
             primary
           />
@@ -80,9 +104,9 @@ class Login extends PureComponent {
 
 function mapStateToProps(
   { user },
-  { location: { state: { from = '/' } } = { state: {} } },
+  { location: { state: { from = { pathname: '/' } } } = { state: {} } },
 ) {
-  return { user, url: from };
+  return { user, url: from.pathname };
 }
 
 function mapDispatchToProps(dispatch) {
