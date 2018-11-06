@@ -17,12 +17,7 @@ import './index.css';
 
 import App from './components/App';
 
-const initialState = {
-  user: {
-    id: 1,
-    username: 'arts',
-  },
-};
+const initialState = {};
 
 document.addEventListener('DOMContentLoaded', () => {
   const history = getHistory();

@@ -7,8 +7,13 @@ services:
     volumes:
       - ./api/src:/srv/api/src
       - ./api/.babelrc:/srv/api/.babelrc
+      - ./api/nodemon.json:/srv/api/nodemon.json
+      - ./api/dev.js:/srv/api/dev.js
+      - ./api/.sequelizerc:/srv/api/.sequelizerc
       - ./api/package.json:/srv/api/package.json
       - ./api/package-lock.json:/srv/api/package-lock.json
+    ports:
+      - 9229:9229
     command: ["npm", "start"]
   web:
     build:

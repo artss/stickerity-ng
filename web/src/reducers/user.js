@@ -1,8 +1,29 @@
 import { callable } from 'redux-callable';
 
 export default callable({
-  setUser(user, username) {
-    return { ...user, username };
+  authPending(user) {
+    return {
+      ...user,
+      authPending: true,
+      authError: null,
+    };
+  },
+
+  authError(user, authError) {
+    return {
+      ...user,
+      authPending: false,
+      authError,
+    };
+  },
+
+  setUser(user, data) {
+    return {
+      ...user,
+      ...data,
+      authPending: false,
+      authError: null,
+    };
   },
 
   setMasterPassword(user, error) {

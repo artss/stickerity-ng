@@ -12,6 +12,13 @@ services:
   api:
     build:
       context: ./api
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: stickerity
+      DB_USER: stickerity
+      DB_PASSWORD: stickerity
+      SECRET: my_very_strong_secret
     depends_on:
       - db
   web:
