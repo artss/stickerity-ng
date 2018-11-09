@@ -91,11 +91,8 @@ class MasterPassword extends PureComponent {
   }
 }
 
-function mapStateToProps(
-  { user },
-  { location: { state: { from = '/' } } = { state: {} } },
-) {
-  return { user, url: from };
+function mapStateToProps({ user }, { location: { state = { from: '/' } } }) {
+  return { user, url: state.from };
 }
 
 function mapDispatchToProps(dispatch) {
