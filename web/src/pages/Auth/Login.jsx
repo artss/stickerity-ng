@@ -11,7 +11,7 @@ import { userType } from '../../proptypes/user';
 import { authenticate } from '../../actions/user';
 import Sticker from '../../components/Sticker';
 
-import s from './Login.css';
+import s from './AuthPage.css';
 
 class Login extends PureComponent {
   static propTypes = {

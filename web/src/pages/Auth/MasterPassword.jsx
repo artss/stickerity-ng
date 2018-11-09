@@ -10,7 +10,7 @@ import { userType } from '../../proptypes/user';
 import { setMasterPassword } from '../../actions/user';
 import Sticker from '../../components/Sticker';
 
-import s from './MasterPassword.css';
+import s from './AuthPage.css';
 
 class MasterPassword extends PureComponent {
   static propTypes = {
@@ -59,7 +59,7 @@ class MasterPassword extends PureComponent {
 
     return (
       <Sticker
-        className={s.sticker}
+        className={s.root}
         title="Type your master password"
       >
         {masterPasswordError && (

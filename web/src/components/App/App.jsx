@@ -3,8 +3,8 @@ import { Switch, Route } from 'react-router-dom';
 
 import Header from '../Header';
 import PrivateRoute from '../PrivateRoute';
-import Login from '../../pages/Login';
-import MasterPassword from '../../pages/MasterPassword';
+import Login from '../../pages/Auth/Login';
+import MasterPassword from '../../pages/Auth/MasterPassword';
 import Board from '../../pages/Board';
 import AddList from '../../pages/AddList';
 import EditList from '../../pages/EditList';
