@@ -1,16 +1,16 @@
 version: "3"
 services:
   db:
-    ports:
-      - "127.0.0.1:5432:5432"
+    env_file: .env
   api:
+    env_file: .env
     command: ["npm", "run", "production"]
   web:
     build:
       args:
-        - DOMAIN=stickerity.local
-    ports:
-      - 5000:5000
+        - DOMAIN
+        - RECAPTCHA_KEY
+    env_file: .env
   nginx:
     ports:
       - 80:80

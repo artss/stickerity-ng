@@ -2,6 +2,7 @@ FROM node:10 as web-builder
 WORKDIR /srv/web
 COPY . /srv/web/
 ARG DOMAIN
+ARG RECAPTCHA_KEY
 ARG PORT
 RUN npm install && \
     npm run build
