@@ -7,7 +7,6 @@ import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import Input from 'react-toolbox/lib/input';
 import Button from 'react-toolbox/lib/button';
-import Checkbox from 'react-toolbox/lib/checkbox';
 
 import { userType } from '../../proptypes/user';
 import { register } from '../../actions/user';
@@ -27,7 +26,6 @@ class Register extends PureComponent {
     name: '',
     email: '',
     password: '',
-    agree: false,
   };
 
   onChange = (value, e) => {
@@ -56,7 +54,6 @@ class Register extends PureComponent {
       name,
       email,
       password,
-      agree,
     } = this.state;
     const headTitle = 'Register';
 
@@ -104,23 +101,16 @@ class Register extends PureComponent {
             Forever.
           </div>
 
-          <div className={s.checkboxWrap}>
-            <Checkbox
-              name="agree"
-              label={(
-                <span>I agree to the <Link to="/terms">Terms</Link></span>
-              )}
-              value={agree}
-              checked={agree}
-              onChange={this.onChange}
-            />
+          <div className={s.terms}>
+            By clicking Register, you agree to our <Link to="/terms">Terms</Link>.
+            You may receive e-mail notifications from us.
           </div>
 
           <Button
             type="submit"
-            label="Sign in"
+            label="Register"
             icon={authPending ? 'sync' : 'lock_open'}
-            disabled={!email || !password || !agree || authPending}
+            disabled={!email || !password || authPending}
             raised
             primary
           />

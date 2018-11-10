@@ -16,6 +16,11 @@
   }
 }
 
-.checkboxWrap {
+.terms {
   margin: 16px 0;
+  color: #aaa;
+
+  a {
+    color: inherit;
+  }
 }
