@@ -4,7 +4,6 @@ import passport from 'passport';
 
 import {
   authenticate,
-  checkAuth,
   register,
   activate,
 } from './auth';
@@ -13,7 +12,6 @@ const server = restify.createServer({
   handleUncaughtExceptions: true,
 });
 
-// server.use(restify.queryParser());
 server.use(restify.plugins.bodyParser({ mapParams: false }));
 server.use(passport.initialize());
 
@@ -23,11 +21,6 @@ server.on('uncaughtException', (req, res, route, error) => {
 });
 
 server.post('/api/auth/login', authenticate);
-
-server.get('/api/user', checkAuth, (req, res) => {
-  res.send(res.user);
-});
-
 server.post('/api/auth/register', register);
 server.post('/api/auth/activate', activate);
 

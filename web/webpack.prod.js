@@ -21,13 +21,7 @@ const config = merge(common.config, {
   optimization: {
     runtimeChunk: false,
     splitChunks: {
-      cacheGroups: {
-        commons: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all',
-        },
-      },
+      chunks: 'all',
     },
 
     minimize: true,

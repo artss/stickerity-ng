@@ -92,6 +92,7 @@ class Register extends PureComponent {
             label="Password"
             onChange={this.onPasswordChange}
             value={password}
+            checkOnMount={Boolean(password)}
           />
 
           <div className={s.passwordAttention}>

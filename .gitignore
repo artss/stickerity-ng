@@ -4,5 +4,6 @@ ssl
 node_modules
 docker-compose.dev.yml
 docker-compose.prod.yml
+.env
 .env.dev
 .env.prod
