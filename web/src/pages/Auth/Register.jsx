@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
 import Input from 'react-toolbox/lib/input';
 import Button from 'react-toolbox/lib/button';
 import Checkbox from 'react-toolbox/lib/checkbox';
@@ -106,7 +107,9 @@ class Register extends PureComponent {
           <div className={s.checkboxWrap}>
             <Checkbox
               name="agree"
-              label="I agree"
+              label={(
+                <span>I agree to the <Link to="/terms">Terms</Link></span>
+              )}
               value={agree}
               checked={agree}
               onChange={this.onChange}

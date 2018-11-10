@@ -29,7 +29,7 @@ class AuthPage extends PureComponent {
 
     return (
       <Sticker
-        className={s.sticker}
+        className={s.root}
         title="Account activation"
       >
         {authPending && 'Activating...'}
