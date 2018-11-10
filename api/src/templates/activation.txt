@@ -1,0 +1,10 @@
+Hello, <%= name %>!
+
+You've just registered at stickerity.com. To activate your account, please open the following link:
+
+<%= link %>
+
+If you don't activate your account within 24 hours, it will be deleted.
+
+Sincerely yours,
+Stickerity team.

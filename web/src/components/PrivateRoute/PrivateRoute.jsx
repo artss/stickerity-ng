@@ -27,7 +27,7 @@ class PrivateRoute extends PureComponent {
 
     const render = (props) => {
       if (!id) {
-        return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />;
+        return <Redirect to={{ pathname: '/login', state: { from: props.location.pathname } }} />;
       }
 
       if (!masterPasswordAdded || masterPasswordError) {

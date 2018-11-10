@@ -102,11 +102,8 @@ class Login extends PureComponent {
   }
 }
 
-function mapStateToProps(
-  { user },
-  { location: { state: { from = { pathname: '/' } } } = { state: {} } },
-) {
-  return { user, url: from.pathname };
+function mapStateToProps({ user }, { location: { state = { from: '/' } } }) {
+  return { user, url: state.from };
 }
 
 function mapDispatchToProps(dispatch) {

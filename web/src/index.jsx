@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const history = getHistory();
   const routerWithHistory = routerMiddleware(history);
 
-  const composeEnhancers = process.env.NODE_ENV === 'development' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+  const composeEnhancers = NODE_ENV === 'development' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     : compose;
 
