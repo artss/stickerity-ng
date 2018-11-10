@@ -1,5 +1,3 @@
-/* global RECAPTCHA_KEY */
-
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
@@ -11,7 +9,7 @@ import Button from 'react-toolbox/lib/button';
 import Checkbox from 'react-toolbox/lib/checkbox';
 
 import { userType } from '../../proptypes/user';
-import { authenticate } from '../../actions/user';
+import { register } from '../../actions/user';
 import Sticker from '../../components/Sticker';
 import DebouncedInput from '../../components/DebouncedInput';
 import PasswordInput from '../../components/PasswordInput';
@@ -21,9 +19,7 @@ import s from './AuthPage.css';
 class Register extends PureComponent {
   static propTypes = {
     user: PropTypes.shape(userType).isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
-    url: PropTypes.string.isRequired,
-    authenticate: PropTypes.func.isRequired,
+    register: PropTypes.func.isRequired,
   };
 
   state = {
@@ -31,22 +27,7 @@ class Register extends PureComponent {
     email: '',
     password: '',
     agree: false,
-    redirected: false,
   };
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const {
-      user: { id },
-      history,
-      url,
-    } = nextProps;
-    const { redirected } = prevState;
-    if (id && !redirected) {
-      history.replace(url);
-      return { ...prevState, redirected: true };
-    }
-    return prevState;
-  }
 
   onChange = (value, e) => {
     const { name } = e.target;
@@ -63,9 +44,9 @@ class Register extends PureComponent {
 
   onSubmit = (e) => {
     e.preventDefault();
-    const { authenticate: auth } = this.props;
-    const { email, password } = this.state;
-    auth(email, password);
+    const { register: reg } = this.props;
+    const { name, email, password } = this.state;
+    reg(name, email, password);
   }
 
   render() {
@@ -146,12 +127,12 @@ class Register extends PureComponent {
   }
 }
 
-function mapStateToProps({ user }, { location: { state = { from: '/' } } }) {
-  return { user, url: state.from };
+function mapStateToProps({ user }) {
+  return { user };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ authenticate }, dispatch);
+  return bindActionCreators({ register }, dispatch);
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Register));

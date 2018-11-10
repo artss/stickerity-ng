@@ -1,7 +1,8 @@
-import { authPasswordHash, setPasswordKey } from '../util/crypt';
+import { authPasswordHash, setPasswordKey, generateSalt } from '../util/crypt';
 import user from '../reducers/user';
 import { loadLists } from './lists';
 import * as api from '../util/api';
+import { navigate } from '../util/history';
 
 export const setMasterPassword = password => async (dispatch, getState) => {
   const { user: { salt } } = getState();
@@ -21,4 +22,40 @@ export const authenticate = (email, password) => async (dispatch) => {
   } catch (e) {
     dispatch(user.authError(e.message));
   }
+};
+
+export const register = (name, email, password) => (dispatch) => {
+  if (!grecaptcha) {
+    dispatch(user.authError('Recaptcha has not been loaded. Please try again later.'));
+  }
+
+  dispatch(user.authPending());
+
+  grecaptcha.ready(async () => {
+    const recaptchaToken = await grecaptcha.execute(RECAPTCHA_KEY, { action: 'register' });
+    const salt = generateSalt();
+
+    try {
+      const { id } = await api.post('auth/register', {
+        name,
+        email,
+        salt,
+        recaptchaToken,
+        password: await authPasswordHash(email, password),
+      });
+
+      dispatch(user.setUser({
+        id,
+        email,
+        name,
+        salt,
+      }));
+
+      dispatch(setMasterPassword(password));
+
+      navigate('/');
+    } catch (e) {
+      dispatch(user.authError(e.message));
+    }
+  });
 };

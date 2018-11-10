@@ -1,5 +1,4 @@
 /* eslint-disable no-underscore-dangle */
-/* global NODE_ENV */
 
 import 'regenerator-runtime/runtime';
 import React from 'react';

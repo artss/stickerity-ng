@@ -18,12 +18,25 @@ class MasterPassword extends PureComponent {
     // eslint-disable-next-line react/no-unused-prop-types
     url: PropTypes.string.isRequired,
     setMasterPassword: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    history: PropTypes.object.isRequired,
   };
 
-  state = {
-    password: '',
-    redirected: false,
-  };
+  constructor(props) {
+    super(props);
+
+    let redirected = false;
+
+    if (!props.user || !props.user.id) {
+      redirected = true;
+      props.history.replace('/login');
+    }
+
+    this.state = {
+      password: '',
+      redirected,
+    };
+  }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const {

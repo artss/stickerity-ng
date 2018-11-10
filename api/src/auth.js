@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 
 import db from './models';
 import { passwordHash } from './util/auth';
+import { verify } from './util/recaptcha';
 
 passport.use(new LocalStrategy({
   usernameField: 'email',
@@ -64,3 +65,37 @@ export const authenticate = (req, res) => {
 };
 
 export const checkAuth = passport.authenticate('jwt', { session: false });
+
+export const register = async (req, res) => {
+  const {
+    name,
+    email,
+    password,
+    recaptchaToken,
+  } = req.body;
+
+  const { success } = await verify(recaptchaToken);
+
+  if (!success) {
+    res.json(400, { message: 'Recaptcha failed' });
+    return;
+  }
+
+  try {
+    const { id } = await db.Users.create({
+      name,
+      email,
+      password: passwordHash(password),
+    });
+
+    res.json({ id });
+  } catch (e) {
+    console.error(e.errors);
+    const emailFailed = e.errors.some(err => err.path === 'email');
+    res.json(400, {
+      message: emailFailed
+        ? 'User exists'
+        : 'Something went wrong',
+    });
+  }
+};
