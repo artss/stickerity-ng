@@ -2,7 +2,12 @@ import restify from 'restify';
 import { InternalServerError } from 'restify-errors';
 import passport from 'passport';
 
-import { authenticate, checkAuth, register } from './auth';
+import {
+  authenticate,
+  checkAuth,
+  register,
+  activate,
+} from './auth';
 
 const server = restify.createServer({
   handleUncaughtExceptions: true,
@@ -24,6 +29,7 @@ server.get('/api/user', checkAuth, (req, res) => {
 });
 
 server.post('/api/auth/register', register);
+server.post('/api/auth/activate', activate);
 
 server.listen(process.env.PORT || 5001, () => {
   console.log('%s listening at %s', server.name, server.url);

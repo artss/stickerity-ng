@@ -59,3 +59,15 @@ export const register = (name, email, password) => (dispatch) => {
     }
   });
 };
+
+export const activate = (email, token) => async (dispatch) => {
+  dispatch(user.authPending());
+
+  try {
+    const data = await api.post('auth/activate', { email, token });
+    dispatch(user.setUser(data));
+    navigate('/');
+  } catch (e) {
+    dispatch(user.authError(e.message));
+  }
+};

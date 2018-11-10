@@ -51,6 +51,7 @@
     "draft-js": "^0.10.5",
     "history": "^4.7.2",
     "prop-types": "^15.6.2",
+    "qs": "^6.5.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-helmet": "^5.2.0",
