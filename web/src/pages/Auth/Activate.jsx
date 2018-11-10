@@ -17,36 +17,64 @@ class AuthPage extends PureComponent {
     email: PropTypes.string.isRequired,
     token: PropTypes.string.isRequired,
     activate: PropTypes.func.isRequired,
+    registered: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
-    const { email, token, activate: act } = this.props;
+    const {
+      email,
+      token,
+      registered,
+      activate: act,
+    } = this.props;
+
+    if (registered) {
+      return;
+    }
+
     act(email, token);
   }
 
   render() {
-    const { user: { authPending, authError } } = this.props;
+    const { user: { authPending, authError }, registered } = this.props;
 
     return (
       <Sticker
         className={s.root}
         title="Account activation"
       >
-        {authPending && 'Activating...'}
+        {registered
+          ? (
+            <div>
+              We sent the activation link to your e-mail.<br />
+              Please, activate your account within 24 hours.
+            </div>
+          )
+          : (
+            <div>
+              {authPending && 'Activating...'}
 
-        {authError && (
-          <div className={s.error}>
-            {authError}
-          </div>
-        )}
+              {authError && (
+                <div className={s.error}>
+                  {authError}
+                </div>
+              )}
+            </div>
+          )
+        }
       </Sticker>
     );
   }
 }
 
-function mapStateToProps({ user }, { location: { search } }) {
-  const { email, token } = qs.parse(search.replace(/^\?/, ''));
-  return { user, email, token };
+function mapStateToProps({ user }, { location: { search, state = { registered: false } } }) {
+  const { email = '', token = '' } = qs.parse(search.replace(/^\?/, ''));
+  return {
+    user,
+    email,
+    token,
+    registered: state.registered,
+  };
 }
 
 function mapDispatchToProps(dispatch) {

@@ -53,7 +53,7 @@ export const register = (name, email, password) => (dispatch) => {
 
       dispatch(setMasterPassword(password));
 
-      navigate('/');
+      navigate('/activate', { registered: true });
     } catch (e) {
       dispatch(user.authError(e.message));
     }
