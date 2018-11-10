@@ -1,9 +1,11 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 import zxcvbn from 'zxcvbn';
 import Input from 'react-toolbox/lib/input';
 import { IconButton } from 'react-toolbox/lib/button';
 
+import DebouncedInput from '../DebouncedInput';
 import s from './PasswordInput.css';
 
 const scoreMap = {
@@ -40,10 +42,16 @@ const scoreMap = {
 
 export default class PasswordInput extends PureComponent {
   static propTypes = {
+    className: PropTypes.string,
+    debounced: PropTypes.bool,
+    checkOnMount: PropTypes.bool,
     onChange: PropTypes.func,
   };
 
   static defaultProps = {
+    className: null,
+    debounced: false,
+    checkOnMount: false,
     onChange: null,
   };
 
@@ -52,6 +60,14 @@ export default class PasswordInput extends PureComponent {
     warning: null,
     showPassword: false,
   };
+
+  componentDidMount() {
+    const { checkOnMount, value } = this.props;
+
+    if (checkOnMount) {
+      this.checkPassword(value);
+    }
+  }
 
   togglePassword = () => {
     this.setState(({ showPassword }) => ({ showPassword: !showPassword }));
@@ -64,6 +80,10 @@ export default class PasswordInput extends PureComponent {
       onChange(password, ...args);
     }
 
+    this.checkPassword(password);
+  }
+
+  checkPassword(password) {
     let score;
     let warning;
 
@@ -94,12 +114,23 @@ export default class PasswordInput extends PureComponent {
   }
 
   render() {
-    const { onChange, error, ...props } = this.props;
+    const {
+      className,
+      onChange,
+      debounced,
+      checkOnMount,
+      error,
+      ...props
+    } = this.props;
     const { showPassword } = this.state;
 
+    const Component = debounced
+      ? DebouncedInput
+      : Input;
+
     return (
-      <div className={s.root}>
-        <Input
+      <div className={cx(s.root, className)}>
+        <Component
           type={showPassword ? 'text' : 'password'}
           theme={s}
           onChange={this.onChange}
@@ -111,7 +142,7 @@ export default class PasswordInput extends PureComponent {
             icon={showPassword ? 'visibility_off' : 'visibility'}
             onClick={this.togglePassword}
           />
-        </Input>
+        </Component>
 
         {!error && this.renderError()}
       </div>

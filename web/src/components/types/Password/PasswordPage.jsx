@@ -9,6 +9,7 @@ import { passwordType } from '../../../proptypes/password';
 import Sticker from '../../Sticker';
 import DeleteDialogButton from '../../DeleteDialogButton';
 import CopyButton from '../../CopyButton';
+import PasswordInput from '../../PasswordInput';
 import DebouncedInput from '../../DebouncedInput';
 import PasswordGenerationForm from './PasswordGenerationForm';
 
@@ -22,7 +23,6 @@ export default class PasswordPage extends PureComponent {
   };
 
   state = {
-    showPassword: false,
     showGenerationForm: false,
   };
 
@@ -45,10 +45,6 @@ export default class PasswordPage extends PureComponent {
       [name]: value,
     });
   };
-
-  togglePassword = () => {
-    this.setState(({ showPassword }) => ({ showPassword: !showPassword }));
-  }
 
   toggleGenerationForm = () => {
     this.setState(({ showGenerationForm }) => ({ showGenerationForm: !showGenerationForm }));
@@ -82,7 +78,7 @@ export default class PasswordPage extends PureComponent {
       password,
       onDelete,
     } = this.props;
-    const { showPassword, showGenerationForm } = this.state;
+    const { showGenerationForm } = this.state;
 
     const headTitle = title || url || login || 'Password';
 
@@ -150,19 +146,14 @@ export default class PasswordPage extends PureComponent {
         </div>
 
         <div className={s.field}>
-          <DebouncedInput
+          <PasswordInput
             className={s.input}
             label="Password"
-            type={showPassword ? 'text' : 'password'}
             name="password"
             value={password}
             onChange={this.onInputChange}
-          />
-
-          <IconButton
-            className={s.button}
-            icon={showPassword ? 'visibility_off' : 'visibility'}
-            onClick={this.togglePassword}
+            debounced
+            checkOnMount
           />
 
           {password && (
