@@ -1,98 +1,87 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import Input from 'react-toolbox/lib/input';
-import Button from 'react-toolbox/lib/button';
+import { Button } from 'react-toolbox/lib/button';
 
 import { userType } from '../../proptypes/user';
-import { authenticate } from '../../actions/user';
+import { setMasterPassword } from '../../actions/user';
 import Sticker from '../../components/Sticker';
 
 import s from './AuthPage.css';
 
-class Login extends PureComponent {
+class AuthPage extends PureComponent {
   static propTypes = {
     user: PropTypes.shape(userType).isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     url: PropTypes.string.isRequired,
-    authenticate: PropTypes.func.isRequired,
+    setMasterPassword: PropTypes.func.isRequired,
   };
 
   state = {
-    email: '',
     password: '',
     redirected: false,
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const {
-      user: { id },
+      user: {
+        masterPasswordAdded,
+        masterPasswordError,
+      },
       history,
       url,
     } = nextProps;
     const { redirected } = prevState;
-    if (id && !redirected) {
+    if (masterPasswordAdded && !masterPasswordError && !redirected) {
       history.replace(url);
       return { ...prevState, redirected: true };
     }
     return prevState;
   }
 
-  onChange = (value, e) => {
-    const { name } = e.target;
-    this.setState({ [name]: value });
+  onPasswordChange = (password) => {
+    this.setState({ password });
   }
 
   onSubmit = (e) => {
     e.preventDefault();
-    const { authenticate: auth } = this.props;
-    const { email, password } = this.state;
-    auth(email, password);
+    const { setMasterPassword: set } = this.props;
+    const { password } = this.state;
+    set(password);
   }
 
   render() {
-    const { user: { authPending, authError } } = this.props;
-    const { email, password } = this.state;
-    const headTitle = 'Sign in';
+    const { user: { masterPasswordError } } = this.props;
+    const { password } = this.state;
 
     return (
-      <Sticker className={s.root} title={headTitle}>
-        <Helmet>
-          <title>{headTitle}</title>
-        </Helmet>
-
-        {authError && (
+      <Sticker
+        className={s.sticker}
+        title="Type your master password"
+      >
+        {masterPasswordError && (
           <div className={s.error}>
-            {authError}
+            Looks like you entered the wrong password. Check if <b>Caps Lock</b> is pressed.
           </div>
         )}
 
         <form onSubmit={this.onSubmit}>
           <Input
-            type="email"
-            name="email"
-            label="E-mail"
-            value={email}
-            onChange={this.onChange}
-            autoFocus
-          />
-
-          <Input
+            label="Master password"
             type="password"
-            name="password"
-            label="Password"
-            onChange={this.onChange}
             value={password}
+            onChange={this.onPasswordChange}
+            autoFocus
           />
 
           <Button
             type="submit"
-            label="Sign in"
-            icon={authPending ? 'sync' : 'lock_open'}
-            disabled={!email || !password || authPending}
+            label="Decrypt"
+            icon="lock_open"
+            disabled={!password}
             raised
             primary
           />
@@ -107,7 +96,7 @@ function mapStateToProps({ user }, { location: { state = { from: '/' } } }) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ authenticate }, dispatch);
+  return bindActionCreators({ setMasterPassword }, dispatch);
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AuthPage));

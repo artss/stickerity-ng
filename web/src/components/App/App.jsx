@@ -5,6 +5,7 @@ import Header from '../Header';
 import PrivateRoute from '../PrivateRoute';
 import Login from '../../pages/Auth/Login';
 import MasterPassword from '../../pages/Auth/MasterPassword';
+import Register from '../../pages/Auth/Register';
 import Board from '../../pages/Board';
 import AddList from '../../pages/AddList';
 import EditList from '../../pages/EditList';
@@ -24,6 +25,7 @@ export default function App() {
         <Switch>
           <Route path="/login" exact component={Login} />
           <Route path="/master" exact component={MasterPassword} />
+          <Route path="/register" exact component={Register} />
 
           <PrivateRoute path="/" exact component={Board} />
           <PrivateRoute path="/lists/add" exact component={AddList} />

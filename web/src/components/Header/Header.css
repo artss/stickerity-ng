@@ -1,6 +1,8 @@
 @import '../../vars.css';
 
 .header {
+  display: flex;
+  justify-content: space-between;
   height: var(--headerHeight);
   padding: 0 16px;
 }
@@ -15,3 +17,15 @@
   color: #ccc;
 }
 
+.userMenu {
+  display: flex;
+  align-items: center;
+  height: var(--headerHeight);
+}
+
+.link {
+  margin-left: 16px;
+  font-family: var(--decorationFont);
+  color: var(--linkColor);
+  text-decoration: none;
+}

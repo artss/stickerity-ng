@@ -7,3 +7,15 @@
 .error {
   color: #b44;
 }
+
+.passwordAttention {
+  margin-bottom: 16px;
+
+  b {
+    font-size: 16px;
+  }
+}
+
+.checkboxWrap {
+  margin: 16px 0;
+}
