@@ -64,6 +64,7 @@
     "redux-callable": "^1.0.0",
     "redux-thunk": "^2.3.0",
     "regenerator-runtime": "^0.12.1",
-    "reselect": "^3.0.1"
+    "reselect": "^3.0.1",
+    "zxcvbn": "^4.4.2"
   }
 }
