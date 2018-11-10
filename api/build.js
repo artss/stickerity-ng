@@ -7,11 +7,7 @@ const babel = require('babel-core');
 const srcDir = './src';
 const destDir = './dist';
 
-if (!process.env.BABEL_ENV) {
-  process.env.BABEL_ENV = 'server';
-}
-
-glob(path.join(srcDir, '**/*.{js,json}'), (err, files) => {
+glob(path.join(srcDir, '**/*.{js,json,txt}'), (err, files) => {
   if (err) {
     console.error(err);
     return;
@@ -30,7 +26,7 @@ glob(path.join(srcDir, '**/*.{js,json}'), (err, files) => {
 
     mkdirp.sync(path.dirname(dest));
 
-    if (src.ext === '.json') {
+    if (['.json', '.txt'].includes(src.ext)) {
       fs.createReadStream(file)
         .pipe(fs.createWriteStream(dest));
     } else {
