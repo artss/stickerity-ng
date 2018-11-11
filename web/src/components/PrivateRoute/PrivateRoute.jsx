@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 
+import MasterPassword from '../../pages/Auth/MasterPassword';
+
 class PrivateRoute extends PureComponent {
   static propTypes = {
     id: PropTypes.number,
@@ -31,7 +33,7 @@ class PrivateRoute extends PureComponent {
       }
 
       if (!masterPasswordAdded || masterPasswordError) {
-        return <Redirect to={{ pathname: '/master', state: { from: props.location.pathname } }} />;
+        return <MasterPassword />;
       }
 
       return <Component {...props} />;

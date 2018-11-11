@@ -15,50 +15,12 @@ import s from './AuthPage.css';
 class MasterPassword extends PureComponent {
   static propTypes = {
     user: PropTypes.shape(userType).isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
-    url: PropTypes.string.isRequired,
     setMasterPassword: PropTypes.func.isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
-    history: PropTypes.object.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-
-    let redirected = false;
-
-    if (!props.user || !props.user.id) {
-      redirected = true;
-      props.history.replace('/login');
-    }
-
-    if (props.user && props.user.masterPasswordAdded) {
-      redirected = true;
-      props.history.replace('/');
-    }
-
-    this.state = {
-      password: '',
-      redirected,
-    };
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const {
-      user: {
-        masterPasswordAdded,
-        masterPasswordError,
-      },
-      history,
-      url,
-    } = nextProps;
-    const { redirected } = prevState;
-    if (masterPasswordAdded && !masterPasswordError && !redirected) {
-      history.replace(url);
-      return { ...prevState, redirected: true };
-    }
-    return prevState;
-  }
+  state = {
+    password: '',
+  };
 
   onPasswordChange = (password) => {
     this.setState({ password });
@@ -109,8 +71,8 @@ class MasterPassword extends PureComponent {
   }
 }
 
-function mapStateToProps({ user }, { location: { state = { from: '/' } } }) {
-  return { user, url: state.from };
+function mapStateToProps({ user }) {
+  return { user };
 }
 
 function mapDispatchToProps(dispatch) {

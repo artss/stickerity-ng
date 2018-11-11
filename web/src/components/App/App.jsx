@@ -4,7 +4,6 @@ import { Switch, Route } from 'react-router-dom';
 import Header from '../Header';
 import PrivateRoute from '../PrivateRoute';
 import Login from '../../pages/Auth/Login';
-import MasterPassword from '../../pages/Auth/MasterPassword';
 import Register from '../../pages/Auth/Register';
 import Activate from '../../pages/Auth/Activate';
 import Terms from '../../pages/Terms';
@@ -30,7 +29,6 @@ export default function App() {
           <Route path="/activate" exact component={Activate} />
           <Route path="/terms" exact component={Terms} />
 
-          <PrivateRoute path="/master" exact component={MasterPassword} />
           <PrivateRoute path="/" exact component={Board} />
           <PrivateRoute path="/lists/add" exact component={AddList} />
           <PrivateRoute path="/lists/:listId" exact component={List} />
