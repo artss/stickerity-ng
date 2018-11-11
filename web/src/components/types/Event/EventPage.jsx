@@ -11,7 +11,7 @@ import { FontIcon } from 'react-toolbox/lib/font_icon';
 
 import { eventType } from '../../../proptypes/event';
 import { eventTypes, TODO } from '../../../constants/events';
-import pick from '../../../util/pick';
+import { pick } from '../../../util/objects';
 import range from '../../../util/range';
 import { formatTime } from '../../../util/format';
 import Sticker from '../../Sticker';
