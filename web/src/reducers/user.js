@@ -26,6 +26,18 @@ export default callable({
     };
   },
 
+  unsetUser(user) {
+    const {
+      id,
+      name,
+      email,
+      salt,
+      ...rest
+    } = user;
+
+    return rest;
+  },
+
   setMasterPassword(user, error) {
     return {
       ...user,

@@ -4,6 +4,31 @@ import { loadLists } from './lists';
 import * as api from '../util/api';
 import { navigate } from '../util/history';
 
+const USER_KEY = 'USER';
+
+function save(data) {
+  localStorage.setItem(USER_KEY, JSON.stringify(data || {}));
+}
+
+export const loadUser = () => async (dispatch) => {
+  try {
+    dispatch(user.setUser(JSON.parse(localStorage.getItem(USER_KEY))));
+  } catch (e) {
+    dispatch(user.unsetUser());
+  }
+
+  try {
+    const data = await api.get('user/info');
+    dispatch(user.setUser(data));
+    save(data);
+  } catch (e) {
+    if (e.code === 401) {
+      dispatch(user.unsetUser());
+      save();
+    }
+  }
+};
+
 export const setMasterPassword = password => async (dispatch, getState) => {
   const { user: { salt } } = getState();
   await setPasswordKey(salt, password);
@@ -17,10 +42,12 @@ export const authenticate = (email, password) => async (dispatch) => {
 
   try {
     const data = await api.post('auth/login', { email, password: hash });
-    dispatch(user.setUser(data.user));
+    dispatch(user.setUser(data));
     dispatch(setMasterPassword(password));
+    save(data);
   } catch (e) {
     dispatch(user.authError(e.message));
+    save();
   }
 };
 
@@ -44,18 +71,21 @@ export const register = (name, email, password) => (dispatch) => {
         password: await authPasswordHash(email, password),
       });
 
-      dispatch(user.setUser({
+      const data = {
         id,
         email,
         name,
         salt,
-      }));
+      };
 
+      dispatch(user.setUser(data));
       dispatch(setMasterPassword(password));
+      save(data);
 
       navigate('/activate', { registered: true });
     } catch (e) {
       dispatch(user.authError(e.message));
+      save();
     }
   });
 };
@@ -66,8 +96,11 @@ export const activate = (email, token) => async (dispatch) => {
   try {
     const data = await api.post('auth/activate', { email, token });
     dispatch(user.setUser(data));
+    save(data);
+
     navigate('/');
   } catch (e) {
     dispatch(user.authError(e.message));
+    save();
   }
 };

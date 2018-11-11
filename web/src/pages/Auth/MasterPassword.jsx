@@ -32,6 +32,11 @@ class MasterPassword extends PureComponent {
       props.history.replace('/login');
     }
 
+    if (props.user && props.user.masterPasswordAdded) {
+      redirected = true;
+      props.history.replace('/');
+    }
+
     this.state = {
       password: '',
       redirected,

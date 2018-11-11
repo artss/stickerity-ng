@@ -8,6 +8,11 @@ import db from './models';
 import { passwordHash, activationToken } from './util/auth';
 import { verify } from './util/recaptcha';
 import { sendMail } from './util/mail';
+import pick from './util/pick';
+
+const JWT_COOKIE_NAME = 'jwt';
+const TOKEN_EXPIRES = 60 * 60 * 24 * 365;
+const AUTH_FAIL_TIMEOUT = 5000;
 
 passport.use(new LocalStrategy({
   usernameField: 'email',
@@ -23,6 +28,7 @@ passport.use(new LocalStrategy({
     if (user.password === hash) {
       done(null, {
         id: user.id,
+        email,
         name: user.name,
         salt: user.salt,
       });
@@ -33,18 +39,27 @@ passport.use(new LocalStrategy({
 
   setTimeout(() => {
     done({ message: 'Invalid credentials' });
-  }, 5000);
+  }, AUTH_FAIL_TIMEOUT);
 }));
 
 const jwtOpts = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: process.env.SECRET,
-  issuer: 'stickerity.com',
-  audience: process.env.DOMAIN || 'stickerity.com',
+  expiresIn: TOKEN_EXPIRES,
+  ignoreExpiration: false,
+  jwtFromRequest: ExtractJwt.fromExtractors([
+    req => req && req.cookies && req.cookies[JWT_COOKIE_NAME],
+    ExtractJwt.fromAuthHeaderAsBearerToken(),
+  ]),
 };
 
-passport.use(new JwtStrategy(jwtOpts, (payload, done) => {
-  done(null, payload);
+passport.use(new JwtStrategy(jwtOpts, (user, done) => {
+  const now = Date.now() / 1000;
+
+  if (user.iat > now || user.exp < now) {
+    return done({ message: 'Unauthorized' });
+  }
+
+  return done(null, pick(user, ['id', 'name', 'email', 'salt']));
 }));
 
 export const authenticate = (req, res) => {
@@ -60,8 +75,15 @@ export const authenticate = (req, res) => {
         return;
       }
 
-      const token = jwt.sign(user, process.env.SECRET);
-      res.json({ user, token });
+      const token = jwt.sign(user, process.env.SECRET, { expiresIn: TOKEN_EXPIRES });
+
+      res.setCookie(JWT_COOKIE_NAME, token, {
+        path: '/',
+        maxAge: TOKEN_EXPIRES,
+        secure: true,
+        httpOnly: true,
+      });
+      res.json(user);
     });
   })(req, res);
 };

@@ -26,11 +26,11 @@ export default function App() {
       <main>
         <Switch>
           <Route path="/login" exact component={Login} />
-          <Route path="/master" exact component={MasterPassword} />
           <Route path="/register" exact component={Register} />
           <Route path="/activate" exact component={Activate} />
           <Route path="/terms" exact component={Terms} />
 
+          <PrivateRoute path="/master" exact component={MasterPassword} />
           <PrivateRoute path="/" exact component={Board} />
           <PrivateRoute path="/lists/add" exact component={AddList} />
           <PrivateRoute path="/lists/:listId" exact component={List} />
