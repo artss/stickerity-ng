@@ -33,6 +33,7 @@ class UserMenu extends PureComponent {
       onClick: () => {
         const { logout: action } = this.props;
         action();
+        this.setState({ showDialog: false });
       },
     },
   ];
@@ -45,31 +46,31 @@ class UserMenu extends PureComponent {
     const { user: { id, name, email } } = this.props;
     const { showDialog } = this.state;
 
-    if (id) {
+    if (!id) {
       return (
         <div className={s.userMenu}>
-          <Link to="/profile" className={s.link}>{name || email}</Link>
-          <button type="button" onClick={this.logout} className={s.link}>Sign out</button>
-
-          <Dialog
-            actions={this.actions}
-            active={showDialog}
-            onEscKeyDown={this.handleToggle}
-            onOverlayClick={this.handleToggle}
-            title="Confirm sign out"
-          >
-            <p>
-              Do you really want to <b>sign out</b>?
-            </p>
-          </Dialog>
+          <Link to="/register" className={s.link}>Register</Link>
+          <Link to="/login" className={s.link}>Sign in</Link>
         </div>
       );
     }
 
     return (
       <div className={s.userMenu}>
-        <Link to="/register" className={s.link}>Register</Link>
-        <Link to="/login" className={s.link}>Sign in</Link>
+        <Link to="/profile" className={s.link}>{name || email}</Link>
+        <button type="button" onClick={this.logout} className={s.link}>Sign out</button>
+
+        <Dialog
+          actions={this.actions}
+          active={showDialog}
+          onEscKeyDown={this.handleToggle}
+          onOverlayClick={this.handleToggle}
+          title="Confirm sign out"
+        >
+          <p>
+            Do you really want to <b>sign out</b>?
+          </p>
+        </Dialog>
       </div>
     );
   }
