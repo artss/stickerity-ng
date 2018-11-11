@@ -56,6 +56,10 @@ export async function setPasswordKey(salt, password) {
   return key;
 }
 
+export function unsetPasswordKey() {
+  keys.password = null;
+}
+
 export function getPasswordKey() {
   return keys.password;
 }

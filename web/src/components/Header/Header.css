@@ -25,7 +25,11 @@
 
 .link {
   margin-left: 16px;
+  padding: 0;
+  border: 0;
   font-family: var(--decorationFont);
   color: var(--linkColor);
   text-decoration: none;
+  background-color: transparent;
+  cursor: pointer;
 }

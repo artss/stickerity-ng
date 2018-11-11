@@ -26,16 +26,13 @@ export default callable({
     };
   },
 
-  unsetUser(user) {
-    const {
-      id,
-      name,
-      email,
-      salt,
-      ...rest
-    } = user;
-
-    return rest;
+  unsetUser() {
+    return {
+      authPending: false,
+      authError: '',
+      masterPasswordAdded: false,
+      masterPasswordError: false,
+    };
   },
 
   setMasterPassword(user, error) {

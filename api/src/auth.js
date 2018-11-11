@@ -8,7 +8,7 @@ import db from './models';
 import { passwordHash, activationToken } from './util/auth';
 import { verify } from './util/recaptcha';
 import { sendMail } from './util/mail';
-import pick from './util/pick';
+import { pick } from './util/objects';
 
 const JWT_COOKIE_NAME = 'jwt';
 const TOKEN_EXPIRES = 60 * 60 * 24 * 365;
@@ -166,4 +166,13 @@ export const activate = async (req, res) => {
   });
 
   db.Users.update({ active: true }, { where: { id: user.id } });
+};
+
+export const logout = (req, res) => {
+  res.clearCookie(JWT_COOKIE_NAME, {
+    path: '/',
+    secure: true,
+    httpOnly: true,
+  });
+  res.json({ ok: true });
 };

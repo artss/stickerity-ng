@@ -1,6 +1,7 @@
 import reducer from '../reducers/items';
 import { generateId } from '../util/id';
 import { navigate } from '../util/history';
+import { omit } from '../util/objects';
 import {
   getKey,
   generateKey,
@@ -46,6 +47,17 @@ export const loadItems = ids => async (dispatch) => {
   }));
 
   dispatch(reducer.loadItems(items));
+};
+
+export const unloadItems = ids => (dispatch, getState) => {
+  const { items } = getState();
+
+  ids.forEach((memo, $id) => {
+    const itemsKey = `${ITEMS_KEY}${$id}`;
+    localStorage.removeItem(itemsKey);
+  });
+
+  dispatch(reducer.loadItems(omit(items, ids)));
 };
 
 export const addItem = ($listId, payload, follow) => (dispatch, getState) => {

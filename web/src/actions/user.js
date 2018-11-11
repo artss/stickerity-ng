@@ -1,20 +1,37 @@
-import { authPasswordHash, setPasswordKey, generateSalt } from '../util/crypt';
+import {
+  authPasswordHash,
+  setPasswordKey,
+  unsetPasswordKey,
+  generateSalt,
+} from '../util/crypt';
 import user from '../reducers/user';
-import { loadLists } from './lists';
+import { loadLists, unloadLists } from './lists';
 import * as api from '../util/api';
 import { navigate } from '../util/history';
 
 const USER_KEY = 'USER';
 
 function save(data) {
+  if (typeof data === 'undefined') {
+    localStorage.removeItem(USER_KEY);
+    return;
+  }
+
   localStorage.setItem(USER_KEY, JSON.stringify(data || {}));
 }
+
+export const unsetUser = () => (dispatch) => {
+  dispatch(user.unsetUser());
+  save();
+  dispatch(unloadLists());
+  unsetPasswordKey();
+};
 
 export const loadUser = () => async (dispatch) => {
   try {
     dispatch(user.setUser(JSON.parse(localStorage.getItem(USER_KEY))));
   } catch (e) {
-    dispatch(user.unsetUser());
+    dispatch(unsetUser());
   }
 
   try {
@@ -23,8 +40,7 @@ export const loadUser = () => async (dispatch) => {
     save(data);
   } catch (e) {
     if (e.code === 401) {
-      dispatch(user.unsetUser());
-      save();
+      dispatch(unsetUser());
     }
   }
 };
@@ -103,4 +119,14 @@ export const activate = (email, token) => async (dispatch) => {
     dispatch(user.authError(e.message));
     save();
   }
+};
+
+export const logout = () => async (dispatch) => {
+  try {
+    await api.post('auth/logout');
+  } catch (e) {
+    console.error(e);
+  }
+
+  dispatch(unsetUser());
 };

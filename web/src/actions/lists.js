@@ -1,4 +1,4 @@
-import { loadItems } from './items';
+import { loadItems, unloadItems } from './items';
 import reducer from '../reducers/lists';
 import user from '../reducers/user';
 import { generateId } from '../util/id';
@@ -46,6 +46,14 @@ export const loadLists = () => async (dispatch) => {
   } catch (e) {
     dispatch(user.setMasterPassword(e));
   }
+};
+
+export const unloadLists = () => (dispatch, getState) => {
+  const { lists } = getState();
+  dispatch(reducer.loadLists([]));
+  localStorage.removeItem(LISTS_KEY);
+
+  dispatch(unloadItems(lists.map(({ $id }) => $id)));
 };
 
 export const addList = payload => (dispatch, getState) => {

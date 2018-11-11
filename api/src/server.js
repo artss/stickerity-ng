@@ -8,6 +8,7 @@ import {
   register,
   activate,
   checkAuth,
+  logout,
 } from './auth';
 import { userInfo } from './user';
 
@@ -27,6 +28,7 @@ server.on('uncaughtException', (req, res, route, error) => {
 server.post('/api/auth/login', authenticate);
 server.post('/api/auth/register', register);
 server.post('/api/auth/activate', activate);
+server.post('/api/auth/logout', logout);
 
 server.get('/api/user/info', checkAuth, userInfo);
 
