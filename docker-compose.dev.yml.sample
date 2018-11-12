@@ -32,8 +32,6 @@ services:
       - ./web/postcss.config.js:/srv/web/postcss.config.js
       - ./web/webpack.common.js:/srv/web/webpack.common.js
       - ./web/webpack.dev.js:/srv/web/webpack.dev.js
-  nginx:
     ports:
-      - 80:80
-      - 443:443
+      - 443:5000
       - 5000:5000
