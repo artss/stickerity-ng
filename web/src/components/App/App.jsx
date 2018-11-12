@@ -29,7 +29,7 @@ export default function App() {
           <Route path="/activate" exact component={Activate} />
           <Route path="/terms" exact component={Terms} />
 
-          <PrivateRoute path="/" exact component={Board} />
+          <PrivateRoute path="/lists" exact component={Board} />
           <PrivateRoute path="/lists/add" exact component={AddList} />
           <PrivateRoute path="/lists/:listId" exact component={List} />
           <PrivateRoute path="/lists/:listId/edit" exact component={EditList} />

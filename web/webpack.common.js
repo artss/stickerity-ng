@@ -57,8 +57,8 @@ const config = {
     }),
 
     new HtmlWebpackPlugin({
-      template: './src/index.html',
-      filename: 'index.html',
+      template: './src/app.html',
+      filename: 'app.html',
       inject: 'body',
     }),
   ],

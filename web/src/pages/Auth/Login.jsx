@@ -102,7 +102,7 @@ class Login extends PureComponent {
   }
 }
 
-function mapStateToProps({ user }, { location: { state = { from: '/' } } }) {
+function mapStateToProps({ user }, { location: { state = { from: '/lists' } } }) {
   return { user, url: state.from };
 }
 

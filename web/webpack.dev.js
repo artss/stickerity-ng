@@ -24,7 +24,9 @@ const config = merge(common.config, {
     disableHostCheck: true,
     contentBase: '/',
     hot: true,
-    historyApiFallback: true,
+    historyApiFallback: {
+      index: 'app.html',
+    },
     inline: true,
     watchOptions: {
       aggregateTimeout: 300,

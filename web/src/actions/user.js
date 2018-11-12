@@ -114,7 +114,7 @@ export const activate = (email, token) => async (dispatch) => {
     dispatch(user.setUser(data));
     save(data);
 
-    navigate('/');
+    navigate('/lists');
   } catch (e) {
     dispatch(user.authError(e.message));
     save();

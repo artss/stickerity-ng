@@ -42,7 +42,7 @@ class AddList extends PureComponent {
     return (
       <Sticker
         className={s.root}
-        backUrl="/"
+        backUrl="/lists"
         title={headTitle}
       >
         <Helmet>
