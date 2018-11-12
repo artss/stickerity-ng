@@ -21,7 +21,7 @@ const cssLoader = [
 
 const config = {
   entry: {
-    app: './src/index.jsx',
+    app: './src/app.jsx',
   },
 
   output: {

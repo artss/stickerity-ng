@@ -20,14 +20,15 @@ const config = merge(common.config, {
   devServer: {
     host: '0.0.0.0',
     port: PORT,
-    // https: true,
+    https: true,
     disableHostCheck: true,
-    contentBase: '/',
     hot: true,
-    historyApiFallback: {
-      index: 'app.html',
-    },
     inline: true,
+    historyApiFallback: {
+      rewrites: [
+        { from: /\/lists/, to: '/app.html' },
+      ],
+    },
     watchOptions: {
       aggregateTimeout: 300,
       poll: 1000,
