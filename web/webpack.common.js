@@ -54,6 +54,7 @@ const config = {
       NODE_ENV: JSON.stringify(process.env.NODE_ENV),
       DOMAIN: JSON.stringify(process.env.DOMAIN),
       RECAPTCHA_KEY: JSON.stringify(process.env.RECAPTCHA_KEY),
+      API_URL: JSON.stringify(process.env.API_URL),
     }),
 
     new HtmlWebpackPlugin({

@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-
+const fs = require('fs');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 
@@ -20,7 +20,10 @@ const config = merge(common.config, {
   devServer: {
     host: '0.0.0.0',
     port: PORT,
-    https: true,
+    https: {
+      key: fs.readFileSync('/srv/ssl/server.key'),
+      cert: fs.readFileSync('/srv/ssl/server.crt'),
+    },
     disableHostCheck: true,
     hot: true,
     inline: true,

@@ -10,6 +10,7 @@ services:
       args:
         - DOMAIN
         - RECAPTCHA_KEY
+        - API_URL
     env_file: .env
     volumes:
       - ./ssl:/srv/ssl

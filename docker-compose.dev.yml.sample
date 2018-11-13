@@ -7,6 +7,7 @@ services:
   api:
     env_file: .env.dev
     volumes:
+      - ./ssl:/srv/ssl
       - ./api/src:/srv/api/src
       - ./api/.babelrc:/srv/api/.babelrc
       - ./api/nodemon.json:/srv/api/nodemon.json
@@ -15,6 +16,7 @@ services:
       - ./api/package.json:/srv/api/package.json
       - ./api/package-lock.json:/srv/api/package-lock.json
     ports:
+      - 5001:5001
       - 9229:9229
     command: ["npm", "start"]
   web:
@@ -25,6 +27,7 @@ services:
     environment:
       NODE_ENV: development
     volumes:
+      - ./ssl:/srv/ssl
       - ./web/src:/srv/web/src
       - ./web/.babelrc:/srv/web/.babelrc
       - ./web/package.json:/srv/web/package.json

@@ -1,5 +1,3 @@
-const API_URL = '/api';
-
 export class APIError extends Error {
   constructor({ code, message }) {
     super(message);
