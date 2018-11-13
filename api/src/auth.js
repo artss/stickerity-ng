@@ -94,6 +94,7 @@ export const register = async (req, res) => {
   const {
     name,
     email,
+    salt,
     password,
     recaptchaToken,
   } = req.body;
@@ -109,6 +110,7 @@ export const register = async (req, res) => {
     const { id } = await db.Users.create({
       name,
       email,
+      salt,
       password: passwordHash(password),
     });
 
