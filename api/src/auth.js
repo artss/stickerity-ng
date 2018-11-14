@@ -10,9 +10,7 @@ import { verify } from './util/recaptcha';
 import { sendMail } from './util/mail';
 import { pick } from './util/objects';
 
-const JWT_COOKIE_NAME = 'jwt';
-const TOKEN_EXPIRES = 60 * 60 * 24 * 365;
-const AUTH_FAIL_TIMEOUT = 5000;
+import { JWT_COOKIE_NAME, TOKEN_EXPIRES, AUTH_FAIL_DELAY } from './constants';
 
 passport.use(new LocalStrategy({
   usernameField: 'email',
@@ -39,7 +37,7 @@ passport.use(new LocalStrategy({
 
   setTimeout(() => {
     done({ message: 'Invalid credentials' });
-  }, AUTH_FAIL_TIMEOUT);
+  }, AUTH_FAIL_DELAY + Math.random());
 }));
 
 const jwtOpts = {
@@ -62,7 +60,14 @@ passport.use(new JwtStrategy(jwtOpts, (user, done) => {
   return done(null, pick(user, ['id', 'name', 'email', 'salt']));
 }));
 
-export const authenticate = (req, res) => {
+export const authenticate = async (req, res) => {
+  const { success } = await verify(req.body.recaptchaToken);
+
+  if (!success) {
+    res.json(400, { message: 'Recaptcha failed' });
+    return;
+  }
+
   passport.authenticate('local', { session: false }, (err, user, info) => {
     if (err || !user) {
       res.json(400, { ...err, ...info });
@@ -78,11 +83,13 @@ export const authenticate = (req, res) => {
       const token = jwt.sign(user, process.env.SECRET, { expiresIn: TOKEN_EXPIRES });
 
       res.setCookie(JWT_COOKIE_NAME, token, {
+        domain: '.' + process.env.DOMAIN,
         path: '/',
         maxAge: TOKEN_EXPIRES,
         secure: true,
         httpOnly: true,
       });
+
       res.json(user);
     });
   })(req, res);

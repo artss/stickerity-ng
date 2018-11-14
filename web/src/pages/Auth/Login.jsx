@@ -61,6 +61,7 @@ class Login extends PureComponent {
     return (
       <Sticker className={s.root} title={headTitle}>
         <Helmet>
+          <script src={'https://www.google.com/recaptcha/api.js?render=' + RECAPTCHA_KEY} />
           <title>{headTitle}</title>
         </Helmet>
 

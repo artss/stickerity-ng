@@ -54,17 +54,27 @@ export const setMasterPassword = password => async (dispatch, getState) => {
 
 export const authenticate = (email, password) => async (dispatch) => {
   dispatch(user.authPending());
-  const hash = await authPasswordHash(email, password);
 
-  try {
-    const data = await api.post('auth/login', { email, password: hash });
-    dispatch(user.setUser(data));
-    dispatch(setMasterPassword(password));
-    save(data);
-  } catch (e) {
-    dispatch(user.authError(e.message));
-    save();
-  }
+  grecaptcha.ready(async () => {
+    try {
+      const [hash, recaptchaToken] = await Promise.all([
+        authPasswordHash(email, password),
+        grecaptcha.execute(RECAPTCHA_KEY, { action: 'login' }),
+      ]);
+
+      const data = await api.post('auth/login', {
+        email,
+        recaptchaToken,
+        password: hash,
+      });
+      dispatch(user.setUser(data));
+      dispatch(setMasterPassword(password));
+      save(data);
+    } catch (e) {
+      dispatch(user.authError(e.message));
+      save();
+    }
+  });
 };
 
 export const register = (name, email, password) => (dispatch) => {

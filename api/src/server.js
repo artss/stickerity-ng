@@ -27,10 +27,10 @@ server.use(restify.plugins.bodyParser({ mapParams: false }));
 server.use(passport.initialize());
 
 const cors = CORS({
-  preflightMaxAge: 5,
+  preflightMaxAge: 10,
   origins: ['https://' + process.env.DOMAIN],
-  allowHeaders: ['API-Token'],
-  exposeHeaders: ['API-Token-Expiry'],
+  allowHeaders: ['Authorization', 'Cookie'],
+  exposeHeaders: ['Set-Cookie'],
 });
 
 server.pre(cors.preflight);
