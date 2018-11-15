@@ -50,8 +50,25 @@ export function encryptObject(obj, key) {
 }
 
 export async function setPasswordKey(salt, password) {
-  const hash = await crypto.subtle.digest({ name: 'SHA-256' }, encode(salt + password));
-  const key = await crypto.subtle.importKey('raw', hash, { name: 'AES-CBC' }, true, ['encrypt', 'decrypt']);
+  const pkey = await crypto.subtle.importKey(
+    'raw',
+    encode(password),
+    { name: 'PBKDF2' },
+    false,
+    ['deriveKey']
+  );
+  const key = await crypto.subtle.deriveKey(
+    {
+      name: 'PBKDF2',
+      salt: encode(salt),
+      iterations: 1024,
+      hash: 'SHA-512',
+    },
+    pkey,
+    { name: 'AES-CBC', length: 256 },
+    false,
+    ['encrypt', 'decrypt']
+  );
   keys.password = key;
   return key;
 }
@@ -96,7 +113,7 @@ export async function importKey(id, rawKey) {
 }
 
 export async function authPasswordHash(email, password) {
-  const hash = await crypto.subtle.digest({ name: 'SHA-256' }, encode(email + password));
+  const hash = await crypto.subtle.digest({ name: 'SHA-512' }, encode(email + password));
   return arrayToBase64(new Uint8Array(hash));
 }
 
