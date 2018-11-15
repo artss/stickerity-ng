@@ -30,12 +30,16 @@ async function processResponse(response) {
 }
 
 export function get(url) {
-  return processResponse(fetch(`${API_URL}/${url}`));
+  return processResponse(fetch(`${API_URL}/${url}`, {
+    method: 'GET',
+    credentials: 'include',
+  }));
 }
 
 export function post(url, params) {
   return processResponse(fetch(`${API_URL}/${url}`, {
     method: 'POST',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
     },

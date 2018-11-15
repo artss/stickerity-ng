@@ -29,8 +29,8 @@ server.use(passport.initialize());
 const cors = CORS({
   preflightMaxAge: 10,
   origins: ['https://' + process.env.DOMAIN],
-  allowHeaders: ['Authorization', 'Cookie'],
-  exposeHeaders: ['Set-Cookie'],
+  allowHeaders: ['Authorization'],
+  credentials: true,
 });
 
 server.pre(cors.preflight);
