@@ -27,7 +27,7 @@ passport.use(new LocalStrategy({
   });
 
   if (user) {
-    const hash = passwordHash(password);
+    const hash = await passwordHash(password, user.salt);
     if (user.password === hash) {
       done(null, {
         id: user.id,
@@ -117,10 +117,21 @@ export const register = async (req, res) => {
       name,
       email,
       salt,
-      password: passwordHash(password),
+      password: await passwordHash(password, salt),
     });
 
-    res.json({ id });
+    const user = {
+      id,
+      email,
+      name,
+      salt,
+    };
+
+    const token = jwt.sign(user, process.env.SECRET, { expiresIn: TOKEN_EXPIRES });
+
+    res.setCookie(JWT_COOKIE_NAME, token, JwtCookieOptions);
+
+    res.json(user);
 
     const link = 'https://stickerity.com/activate?' + querystring.stringify({
       email,

@@ -2,6 +2,9 @@ const keys = {};
 
 const VECTOR_SIZE = 16;
 const SALT_LENGTH = 32;
+const PBKDF2_ITERATIONS = 2 ** 16;
+
+export class EnctryptionError extends Error {}
 
 export function encode(str, encoding = 'utf-8') {
   const te = new TextEncoder(encoding);
@@ -22,6 +25,10 @@ export function base64ToArray(str) {
 }
 
 export async function decrypt(encData, key) {
+  if (!key) {
+    throw new EnctryptionError('Key is not defined');
+  }
+
   const dataArray = base64ToArray(encData);
   const iv = dataArray.slice(0, VECTOR_SIZE);
   const data = dataArray.slice(VECTOR_SIZE);
@@ -31,6 +38,9 @@ export async function decrypt(encData, key) {
 }
 
 export async function encrypt(data, key) {
+  if (!key) {
+    throw new EnctryptionError('Key is not defined');
+  }
   const iv = crypto.getRandomValues(new Uint8Array(VECTOR_SIZE));
   const result = await crypto.subtle.encrypt({ name: 'AES-CBC', iv }, key, encode(data));
   const resultArray = new Uint8Array(result);
@@ -50,10 +60,26 @@ export function encryptObject(obj, key) {
 }
 
 export async function setPasswordKey(salt, password) {
-  const hash = await crypto.subtle.digest({ name: 'SHA-256' }, encode(salt + password));
-  const key = await crypto.subtle.importKey('raw', hash, { name: 'AES-CBC' }, true, ['encrypt', 'decrypt']);
+  const pkey = await crypto.subtle.importKey(
+    'raw',
+    encode(salt + password),
+    { name: 'PBKDF2' },
+    false,
+    ['deriveKey']
+  );
+  const key = await crypto.subtle.deriveKey(
+    {
+      name: 'PBKDF2',
+      salt: encode(salt),
+      iterations: PBKDF2_ITERATIONS,
+      hash: 'SHA-512',
+    },
+    pkey,
+    { name: 'AES-CBC', length: 256 },
+    false,
+    ['encrypt', 'decrypt']
+  );
   keys.password = key;
-  return key;
 }
 
 export function unsetPasswordKey() {
@@ -96,7 +122,7 @@ export async function importKey(id, rawKey) {
 }
 
 export async function authPasswordHash(email, password) {
-  const hash = await crypto.subtle.digest({ name: 'SHA-256' }, encode(email + password));
+  const hash = await crypto.subtle.digest({ name: 'SHA-512' }, encode(email + password));
   return arrayToBase64(new Uint8Array(hash));
 }
 
