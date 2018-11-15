@@ -57,6 +57,7 @@ class UserMenu extends PureComponent {
 
     return (
       <div className={s.userMenu}>
+        <Link to="/lists" className={s.link}>My board</Link>
         <Link to="/profile" className={s.link}>{name || email}</Link>
         <button type="button" onClick={this.logout} className={s.link}>Sign out</button>
 

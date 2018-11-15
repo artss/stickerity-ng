@@ -21,7 +21,7 @@ const cssLoader = [
 
 const config = {
   entry: {
-    app: './src/index.jsx',
+    app: './src/app.jsx',
   },
 
   output: {
@@ -54,11 +54,12 @@ const config = {
       NODE_ENV: JSON.stringify(process.env.NODE_ENV),
       DOMAIN: JSON.stringify(process.env.DOMAIN),
       RECAPTCHA_KEY: JSON.stringify(process.env.RECAPTCHA_KEY),
+      API_URL: JSON.stringify(process.env.API_URL),
     }),
 
     new HtmlWebpackPlugin({
-      template: './src/index.html',
-      filename: 'index.html',
+      template: './src/app.html',
+      filename: 'app.html',
       inject: 'body',
     }),
   ],

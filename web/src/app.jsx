@@ -14,7 +14,7 @@ import reducers from './reducers';
 import getHistory from './util/history';
 
 // must be imported before all components
-import './index.css';
+import './app.css';
 
 import App from './components/App';
 

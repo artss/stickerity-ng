@@ -10,8 +10,10 @@ services:
       args:
         - DOMAIN
         - RECAPTCHA_KEY
+        - API_URL
     env_file: .env
-  nginx:
+    volumes:
+      - ./ssl:/srv/ssl
     ports:
       - 80:80
       - 443:443

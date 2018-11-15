@@ -70,7 +70,7 @@ class List extends PureComponent {
       <Sticker
         color={color}
         className={s.root}
-        backUrl="/"
+        backUrl="/lists"
         title={title}
       >
         <Helmet>
