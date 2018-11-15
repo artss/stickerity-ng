@@ -2,6 +2,9 @@ const keys = {};
 
 const VECTOR_SIZE = 16;
 const SALT_LENGTH = 32;
+const PBKDF2_ITERATIONS = 2 ** 16;
+
+export class EnctryptionError extends Error {}
 
 export function encode(str, encoding = 'utf-8') {
   const te = new TextEncoder(encoding);
@@ -22,6 +25,10 @@ export function base64ToArray(str) {
 }
 
 export async function decrypt(encData, key) {
+  if (!key) {
+    throw new EnctryptionError('Key is not defined');
+  }
+
   const dataArray = base64ToArray(encData);
   const iv = dataArray.slice(0, VECTOR_SIZE);
   const data = dataArray.slice(VECTOR_SIZE);
@@ -31,6 +38,9 @@ export async function decrypt(encData, key) {
 }
 
 export async function encrypt(data, key) {
+  if (!key) {
+    throw new EnctryptionError('Key is not defined');
+  }
   const iv = crypto.getRandomValues(new Uint8Array(VECTOR_SIZE));
   const result = await crypto.subtle.encrypt({ name: 'AES-CBC', iv }, key, encode(data));
   const resultArray = new Uint8Array(result);
@@ -52,7 +62,7 @@ export function encryptObject(obj, key) {
 export async function setPasswordKey(salt, password) {
   const pkey = await crypto.subtle.importKey(
     'raw',
-    encode(password),
+    encode(salt + password),
     { name: 'PBKDF2' },
     false,
     ['deriveKey']
@@ -61,7 +71,7 @@ export async function setPasswordKey(salt, password) {
     {
       name: 'PBKDF2',
       salt: encode(salt),
-      iterations: 1024,
+      iterations: PBKDF2_ITERATIONS,
       hash: 'SHA-512',
     },
     pkey,
@@ -70,7 +80,6 @@ export async function setPasswordKey(salt, password) {
     ['encrypt', 'decrypt']
   );
   keys.password = key;
-  return key;
 }
 
 export function unsetPasswordKey() {
