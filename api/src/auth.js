@@ -10,7 +10,12 @@ import { verify } from './util/recaptcha';
 import { sendMail } from './util/mail';
 import { pick } from './util/objects';
 
-import { JWT_COOKIE_NAME, TOKEN_EXPIRES, AUTH_FAIL_DELAY } from './constants';
+import {
+  JWT_COOKIE_NAME,
+  TOKEN_EXPIRES,
+  AUTH_FAIL_DELAY,
+  JwtCookieOptions,
+} from './constants';
 
 passport.use(new LocalStrategy({
   usernameField: 'email',
@@ -82,13 +87,7 @@ export const authenticate = async (req, res) => {
 
       const token = jwt.sign(user, process.env.SECRET, { expiresIn: TOKEN_EXPIRES });
 
-      res.setCookie(JWT_COOKIE_NAME, token, {
-        domain: '.' + process.env.DOMAIN,
-        path: '/',
-        maxAge: TOKEN_EXPIRES,
-        secure: true,
-        httpOnly: true,
-      });
+      res.setCookie(JWT_COOKIE_NAME, token, JwtCookieOptions);
 
       res.json(user);
     });
@@ -178,10 +177,6 @@ export const activate = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-  res.clearCookie(JWT_COOKIE_NAME, {
-    path: '/',
-    secure: true,
-    httpOnly: true,
-  });
+  res.clearCookie(JWT_COOKIE_NAME, JwtCookieOptions);
   res.json({ ok: true });
 };
