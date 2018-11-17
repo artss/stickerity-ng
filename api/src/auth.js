@@ -2,20 +2,27 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import jwt from 'jsonwebtoken';
+import isEmail from 'validator/lib/isEmail';
 import querystring from 'querystring';
 
 import db from './models';
 import { passwordHash, activationToken } from './util/auth';
 import { verify } from './util/recaptcha';
 import { sendMail } from './util/mail';
+import { redis } from './util/redis';
 import { pick } from './util/objects';
 
 import {
   JWT_COOKIE_NAME,
   TOKEN_EXPIRES,
   AUTH_FAIL_DELAY,
+  AUTH_ATTEMPTS,
+  AUTH_FAIL_TIMEOUT,
   JwtCookieOptions,
 } from './constants';
+
+const AUTH_FAIL_EMAIL = 'auth-fail-email';
+const AUTH_FAIL_ADDR = 'auth-fail-addr';
 
 passport.use(new LocalStrategy({
   usernameField: 'email',
@@ -66,22 +73,64 @@ passport.use(new JwtStrategy(jwtOpts, (user, done) => {
 }));
 
 export const authenticate = async (req, res) => {
+  const { email, password, recaptchaToken } = req.body;
+
+  if (!isEmail(email || '') || !password || !recaptchaToken) {
+    res.json(400, { message: 'Invalid credentials' });
+    return;
+  }
+
+  const authFailEmail = `${AUTH_FAIL_EMAIL}:${email}`;
+  const authFailAddr = `${AUTH_FAIL_ADDR}:${req.connection.remoteAddress}`;
+
+  const updateFailsCount = async () => {
+    try {
+      await redis.incr(authFailEmail);
+      await redis.expire(authFailEmail, AUTH_FAIL_TIMEOUT);
+      await redis.incr(authFailAddr);
+      await redis.expire(authFailAddr, AUTH_FAIL_TIMEOUT);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  console.log('===', authFailEmail, authFailAddr);
+
+  const authFailEmailCount = await redis.get(authFailEmail);
+
+  if (authFailEmailCount >= AUTH_ATTEMPTS) {
+    await updateFailsCount();
+    res.json(400, { message: 'Login attempts exceeded' });
+    return;
+  }
+
+  const authFailAddrCount = await redis.get(authFailAddr);
+
+  if (authFailAddrCount >= AUTH_ATTEMPTS) {
+    await updateFailsCount();
+    res.json(400, { message: 'Login attempts exceeded' });
+    return;
+  }
+
   const { success } = await verify(req.body.recaptchaToken);
 
   if (!success) {
+    await updateFailsCount();
     res.json(400, { message: 'Recaptcha failed' });
     return;
   }
 
-  passport.authenticate('local', { session: false }, (err, user, info) => {
+  passport.authenticate('local', { session: false }, async (err, user, info) => {
     if (err || !user) {
+      await updateFailsCount();
       res.json(400, { ...err, ...info });
       return;
     }
 
-    req.login(user, { session: false }, (authError) => {
+    req.login(user, { session: false }, async (authError) => {
       if (authError) {
-        res.send(authError);
+        await updateFailsCount();
+        res.send(400, authError);
         return;
       }
 
