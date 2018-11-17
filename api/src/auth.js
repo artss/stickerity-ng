@@ -94,8 +94,6 @@ export const authenticate = async (req, res) => {
     }
   };
 
-  console.log('===', authFailEmail, authFailAddr);
-
   const authFailEmailCount = await redis.get(authFailEmail);
 
   if (authFailEmailCount >= AUTH_ATTEMPTS) {
