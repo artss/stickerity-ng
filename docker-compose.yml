@@ -3,23 +3,18 @@ services:
   db:
     image: "postgres:11"
     volumes:
-      - ./db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-      - ./db/data/postgresql:/var/lib/postgresql/data
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./data/postgresql:/var/lib/postgresql/data
+  redis:
+    image: "redis:alpine"
+    volumes:
+      - ./data/redis:/data
   api:
     build:
       context: ./api
     depends_on:
       - db
+      - redis
   web:
     build:
       context: ./web
-
-  #nginx:
-  #  image: "nginx"
-  #  volumes:
-  #    - ./nginx:/srv/nginx
-  #    - ./ssl:/srv/ssl
-  #    - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-  #  depends_on:
-  #    - api
-  #    - web
