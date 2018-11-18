@@ -9,11 +9,20 @@ services:
     build:
       args:
         - DOMAIN
-        - RECAPTCHA_KEY
         - API_URL
+        - RECAPTCHA_KEY
     env_file: .env
     volumes:
       - ./ssl:/srv/ssl
+    depends_on:
+      - certbot
     ports:
       - 80:80
       - 443:443
+  certbot:
+    env_file: .env
+    image: certbot/certbot
+    volumes:
+      - ./ssl:/etc/letsencrypt
+    command: certonly --standalone -d ${DOMAIN} --email ${LETSENCRYPT_EMAIL} --agree-tos --keep --verbose
+
