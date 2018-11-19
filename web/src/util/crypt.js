@@ -4,7 +4,7 @@ const VECTOR_SIZE = 16;
 const SALT_LENGTH = 32;
 const PBKDF2_ITERATIONS = 2 ** 16;
 
-export class EnctryptionError extends Error {}
+export class EncryptionError extends Error {}
 
 export function encode(str, encoding = 'utf-8') {
   const te = new TextEncoder(encoding);
@@ -26,7 +26,7 @@ export function base64ToArray(str) {
 
 export async function decrypt(encData, key) {
   if (!key) {
-    throw new EnctryptionError('Key is not defined');
+    throw new EncryptionError('Key is not defined');
   }
 
   const dataArray = base64ToArray(encData);
@@ -39,7 +39,7 @@ export async function decrypt(encData, key) {
 
 export async function encrypt(data, key) {
   if (!key) {
-    throw new EnctryptionError('Key is not defined');
+    throw new EncryptionError('Key is not defined');
   }
   const iv = crypto.getRandomValues(new Uint8Array(VECTOR_SIZE));
   const result = await crypto.subtle.encrypt({ name: 'AES-CBC', iv }, key, encode(data));
