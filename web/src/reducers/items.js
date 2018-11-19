@@ -9,7 +9,7 @@ export default callable({
   addItem(items, $listId, $id, payload) {
     return {
       ...items,
-      [$listId]: [{ $id, ...payload }].concat(items[$listId]),
+      [$listId]: [{ $id, ...payload }].concat(items[$listId] || []),
     };
   },
 
