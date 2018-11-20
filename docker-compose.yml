@@ -20,4 +20,6 @@ services:
       context: ./web
     volumes:
       - ./ssl:/etc/letsencrypt
+    depends_on:
+      - api
 
