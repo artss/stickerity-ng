@@ -44,7 +44,7 @@ const config = merge(common.config, {
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
     new MiniCssExtractPlugin({
-      filename: 'styles.[hash:6].css',
+      filename: 'styles.[chunkhash:6].css',
     }),
     new CompressionPlugin({
       filename: '[path].gz[query]',
@@ -57,13 +57,13 @@ const config = merge(common.config, {
 
     // Staic pages
     .concat(
-      []
+      ['/', '/terms']
         .map(pathname => (
           new HtmlWebpackPlugin({
             template: './src/app.html',
             filename: pathname === '/'
               ? 'index.html'
-              : `${pathname}.html`,
+              : `${pathname.replace(/^\//, '')}.html`,
             inject: 'body',
             pageContent: renderPage(pathname),
           })
