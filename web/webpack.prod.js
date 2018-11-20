@@ -5,8 +5,9 @@ const merge = require('webpack-merge');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const renderPage = require('./render-page');
 const common = require('./webpack.common');
 
 common.cssLoader.unshift(MiniCssExtractPlugin.loader);
@@ -52,11 +53,22 @@ const config = merge(common.config, {
       minRatio: 0.80,
       algorithm: 'gzip',
     }),
-  ],
-});
+  ]
 
-if (process.env.NODE_ANALYZE) {
-  config.plugins.push(new BundleAnalyzerPlugin());
-}
+    // Staic pages
+    .concat(
+      []
+        .map(pathname => (
+          new HtmlWebpackPlugin({
+            template: './src/app.html',
+            filename: pathname === '/'
+              ? 'index.html'
+              : `${pathname}.html`,
+            inject: 'body',
+            pageContent: renderPage(pathname),
+          })
+        ))
+    ),
+});
 
 module.exports = config;
