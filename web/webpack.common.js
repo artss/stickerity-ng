@@ -27,7 +27,7 @@ const config = {
   output: {
     path: staticDir,
     pathinfo: true,
-    filename: '[name].[hash:6].js',
+    filename: '[name].[chunkhash:6].js',
   },
 
   module: {
