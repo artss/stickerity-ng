@@ -1,6 +1,7 @@
 import { loadItems, unloadItems } from './items';
 import reducer from '../reducers/lists';
 import user from '../reducers/user';
+import * as api from '../util/api';
 import { generateId } from '../util/id';
 import { navigate } from '../util/history';
 
@@ -25,7 +26,10 @@ async function save({ lists }) {
   const k = await exportKey(LISTS_KEY);
   const data = await encryptObject(lists, key);
 
-  localStorage.setItem(LISTS_KEY, JSON.stringify({ k, data }));
+  const encData = JSON.stringify({ k, data });
+
+  localStorage.setItem(LISTS_KEY, encData);
+  api.post('lists', { data: encData });
 }
 
 export const loadLists = () => async (dispatch) => {
@@ -39,7 +43,17 @@ export const loadLists = () => async (dispatch) => {
     const { k, data } = JSON.parse(rawData);
     const key = await importKey(LISTS_KEY, k);
 
-    const lists = await decryptObject(data, key);
+    /* eslint-disable no-console */
+    const localLists = await decryptObject(data, key);
+    console.log('++ localLists', localLists);
+
+    const { data: rData } = await api.get('lists');
+
+    const serverLists = await decryptObject(rData, key);
+    console.log('+++ serverLists', serverLists);
+
+    // TODO: merge lists
+    const lists = serverLists;
 
     dispatch(reducer.loadLists(lists));
     dispatch(loadItems(lists.map(({ $id }) => $id)));

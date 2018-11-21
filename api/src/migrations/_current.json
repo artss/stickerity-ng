@@ -10,16 +10,16 @@
                     "seqType": "Sequelize.INTEGER"
                 },
                 "email": {
-                    "seqType": "Sequelize.STRING"
+                    "seqType": "Sequelize.TEXT"
                 },
                 "name": {
-                    "seqType": "Sequelize.STRING"
+                    "seqType": "Sequelize.TEXT"
                 },
                 "salt": {
-                    "seqType": "Sequelize.STRING"
+                    "seqType": "Sequelize.TEXT"
                 },
                 "password": {
-                    "seqType": "Sequelize.STRING"
+                    "seqType": "Sequelize.TEXT"
                 },
                 "active": {
                     "seqType": "Sequelize.BOOLEAN"
@@ -55,7 +55,7 @@
                     "seqType": "Sequelize.INTEGER"
                 },
                 "data": {
-                    "seqType": "Sequelize.STRING"
+                    "seqType": "Sequelize.TEXT"
                 },
                 "updatedAt": {
                     "seqType": "Sequelize.TIME"
@@ -94,10 +94,10 @@
                     "seqType": "Sequelize.INTEGER"
                 },
                 "listId": {
-                    "seqType": "Sequelize.STRING"
+                    "seqType": "Sequelize.TEXT"
                 },
                 "data": {
-                    "seqType": "Sequelize.STRING"
+                    "seqType": "Sequelize.TEXT"
                 },
                 "updatedAt": {
                     "seqType": "Sequelize.TIME"
