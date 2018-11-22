@@ -6,19 +6,19 @@ export default callable({
     return { ...state, ...items };
   },
 
-  addItem(items, $listId, $id, payload) {
+  addItem(items, $listId, $id, $updatedAt, payload) {
     return {
       ...items,
-      [$listId]: [{ $id, ...payload }].concat(items[$listId] || []),
+      [$listId]: [{ $id, $updatedAt, ...payload }].concat(items[$listId] || []),
     };
   },
 
-  updateItem(items, $listId, $id, payload) {
+  updateItem(items, $listId, $id, $updatedAt, payload) {
     return {
       ...items,
       [$listId]: items[$listId].map(item => (
         item.$id === $id
-          ? { ...item, ...payload }
+          ? { ...item, ...payload, $updatedAt }
           : item
       )),
     };

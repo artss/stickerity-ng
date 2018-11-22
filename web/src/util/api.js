@@ -5,11 +5,17 @@ export class APIError extends Error {
   }
 }
 
+let delta = 0;
+
 async function processResponse(response) {
   const res = await response;
 
   let data;
   try {
+    const serverDate = res.headers.get('date');
+    if (serverDate) {
+      delta = new Date() - new Date(serverDate);
+    }
     data = await res.json();
   } catch (e) {
     if (res.status >= 400) {
@@ -45,4 +51,8 @@ export function post(url, params) {
     },
     body: JSON.stringify(params),
   }));
+}
+
+export function getTime() {
+  return Date.now() - delta;
 }

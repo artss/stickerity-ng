@@ -72,13 +72,13 @@ export const unloadLists = () => (dispatch, getState) => {
 
 export const addList = payload => (dispatch, getState) => {
   const $id = generateId();
-  dispatch(reducer.addList($id, payload));
+  dispatch(reducer.addList($id, api.getTime(), payload));
   navigate(`/lists/${$id}/edit`, null, true);
   save(getState());
 };
 
 export const updateList = ($id, payload) => (dispatch, getState) => {
-  dispatch(reducer.updateList($id, payload));
+  dispatch(reducer.updateList($id, api.getTime(), payload));
   save(getState());
 };
 

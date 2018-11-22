@@ -5,14 +5,14 @@ export default callable({
     return lists;
   },
 
-  addList(lists, $id, payload) {
-    return [{ $id, ...payload }].concat(lists);
+  addList(lists, $id, $updatedAt, payload) {
+    return [{ $id, $updatedAt, ...payload }].concat(lists);
   },
 
-  updateList(lists, $id, payload) {
+  updateList(lists, $id, $updatedAt, payload) {
     return lists.map(list => (
       list.$id === $id
-        ? { ...list, ...payload }
+        ? { ...list, ...payload, $updatedAt }
         : list
     ));
   },
