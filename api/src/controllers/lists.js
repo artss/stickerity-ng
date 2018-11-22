@@ -16,12 +16,19 @@ export async function getLists(req, res) {
 }
 
 export async function saveLists(req, res) {
-  const result = await db.Lists.upsert({
-    data: req.body.data,
-    userId: req.user.id,
+  const lists = await db.Lists.findOne({
+    where: { userId: req.user.id },
+    attributes: ['data'],
   });
 
-  res.json(result);
+  if (!lists) {
+    await db.Lists.create({
+      data: req.body.data,
+      userId: req.user.id,
+    });
+  }
+
+  res.json({ ok: true });
 }
 
 export default (server) => {

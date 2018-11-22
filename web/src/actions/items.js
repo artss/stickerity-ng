@@ -1,8 +1,8 @@
 import reducer from '../reducers/items';
-import * as api from '../util/api';
 import { generateId } from '../util/id';
 import { navigate } from '../util/history';
 import { omit } from '../util/objects';
+import { getTime } from '../util/time';
 import {
   getKey,
   generateKey,
@@ -63,7 +63,7 @@ export const unloadItems = ids => (dispatch, getState) => {
 
 export const addItem = ($listId, payload, follow) => (dispatch, getState) => {
   const $id = generateId();
-  dispatch(reducer.addItem($listId, $id, api.getTime(), payload));
+  dispatch(reducer.addItem($listId, $id, getTime(), payload));
 
   if (follow) {
     navigate(`/lists/${$listId}/${$id}`, null, true);
@@ -73,12 +73,12 @@ export const addItem = ($listId, payload, follow) => (dispatch, getState) => {
 };
 
 export const updateItem = ($listId, $id, payload) => (dispatch, getState) => {
-  dispatch(reducer.updateItem($listId, $id, api.getTime(), payload));
+  dispatch(reducer.updateItem($listId, $id, getTime(), payload));
   save($listId, getState());
 };
 
 export const deleteItem = ($listId, $id) => (dispatch, getState) => {
-  dispatch(reducer.deleteItem($listId, $id));
+  dispatch(reducer.deleteItem($listId, $id, getTime()));
   save($listId, getState());
 };
 

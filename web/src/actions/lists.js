@@ -1,59 +1,17 @@
 import { loadItems, unloadItems } from './items';
 import reducer from '../reducers/lists';
 import user from '../reducers/user';
-import * as api from '../util/api';
 import { generateId } from '../util/id';
 import { navigate } from '../util/history';
+import { load, unload, save } from '../util/sync';
+import { getTime } from '../util/time';
 
-import {
-  getKey,
-  generateKey,
-  exportKey,
-  importKey,
-  encryptObject,
-  decryptObject,
-} from '../util/crypt';
-
-const LISTS_KEY = 'LISTS';
-
-async function save({ lists }) {
-  let key = getKey(LISTS_KEY);
-
-  if (!key) {
-    key = await generateKey(LISTS_KEY);
-  }
-
-  const k = await exportKey(LISTS_KEY);
-  const data = await encryptObject(lists, key);
-
-  const encData = JSON.stringify({ k, data });
-
-  localStorage.setItem(LISTS_KEY, encData);
-  api.post('lists', { data: encData });
-}
+const KEY = 'LISTS';
+const ENDPOINT = 'lists';
 
 export const loadLists = () => async (dispatch) => {
-  const rawData = localStorage.getItem(LISTS_KEY);
-
-  if (!rawData) {
-    return;
-  }
-
   try {
-    const { k, data } = JSON.parse(rawData);
-    const key = await importKey(LISTS_KEY, k);
-
-    /* eslint-disable no-console */
-    const localLists = await decryptObject(data, key);
-    console.log('++ localLists', localLists);
-
-    const { data: rData } = await api.get('lists');
-
-    const serverLists = await decryptObject(rData, key);
-    console.log('+++ serverLists', serverLists);
-
-    // TODO: merge lists
-    const lists = serverLists;
+    const lists = await load(KEY, ENDPOINT);
 
     dispatch(reducer.loadLists(lists));
     dispatch(loadItems(lists.map(({ $id }) => $id)));
@@ -65,24 +23,24 @@ export const loadLists = () => async (dispatch) => {
 export const unloadLists = () => (dispatch, getState) => {
   const { lists } = getState();
   dispatch(reducer.loadLists([]));
-  localStorage.removeItem(LISTS_KEY);
+  unload(KEY);
 
   dispatch(unloadItems(lists.map(({ $id }) => $id)));
 };
 
 export const addList = payload => (dispatch, getState) => {
   const $id = generateId();
-  dispatch(reducer.addList($id, api.getTime(), payload));
+  dispatch(reducer.addList($id, getTime(), payload));
   navigate(`/lists/${$id}/edit`, null, true);
-  save(getState());
+  save(getState().lists, KEY, ENDPOINT);
 };
 
 export const updateList = ($id, payload) => (dispatch, getState) => {
-  dispatch(reducer.updateList($id, api.getTime(), payload));
-  save(getState());
+  dispatch(reducer.updateList($id, getTime(), payload));
+  save(getState().lists, KEY, ENDPOINT);
 };
 
 export const deleteList = $id => (dispatch, getState) => {
-  dispatch(reducer.deleteList($id));
-  save(getState());
+  dispatch(reducer.deleteList($id, getTime()));
+  save(getState().lists, KEY, ENDPOINT);
 };

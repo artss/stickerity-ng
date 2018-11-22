@@ -24,10 +24,14 @@ export default callable({
     };
   },
 
-  deleteItem(items, $listId, $id) {
+  deleteItem(items, $listId, $id, $updatedAt) {
     return {
       ...items,
-      [$listId]: items[$listId].filter(item => item.$id !== $id),
+      [$listId]: items[$listId].map(item => (
+        item.$id === $id
+          ? { ...item, $updatedAt }
+          : item
+      )),
     };
   },
 

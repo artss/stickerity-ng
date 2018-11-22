@@ -1,11 +1,11 @@
+import { setTime } from './time';
+
 export class APIError extends Error {
   constructor({ code, message }) {
     super(message);
     this.code = code;
   }
 }
-
-let delta = 0;
 
 async function processResponse(response) {
   const res = await response;
@@ -14,7 +14,7 @@ async function processResponse(response) {
   try {
     const serverDate = res.headers.get('date');
     if (serverDate) {
-      delta = new Date() - new Date(serverDate);
+      setTime(new Date(serverDate));
     }
     data = await res.json();
   } catch (e) {
@@ -51,8 +51,4 @@ export function post(url, params) {
     },
     body: JSON.stringify(params),
   }));
-}
-
-export function getTime() {
-  return Date.now() - delta;
 }

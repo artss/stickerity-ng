@@ -17,7 +17,11 @@ export default callable({
     ));
   },
 
-  deleteList(lists, $id) {
-    return lists.filter(item => item.$id !== $id);
+  deleteList(lists, $id, $updatedAt) {
+    return lists.map(list => (
+      list.$id === $id
+        ? { ...list, $updatedAt, $deleted: true }
+        : list
+    ));
   },
 }, [], 'lists');
