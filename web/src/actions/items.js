@@ -13,7 +13,7 @@ import {
 const KEY = 'ITEMS';
 const ENDPOINT = 'items';
 
-async function saveItems($listId, { items }) {
+export async function saveItems($listId, { items }) {
   const itemsKey = `${KEY}${$listId}`;
   const itemsEndpoint = `${ENDPOINT}/${$listId}`;
 

@@ -1,10 +1,15 @@
-import { loadItems, unloadItems, deleteItems } from './items';
 import reducer from '../reducers/lists';
 import user from '../reducers/user';
 import { generateId } from '../util/id';
 import { navigate } from '../util/history';
 import { load, unload, save } from '../util/sync';
 import { getTime } from '../util/time';
+import {
+  loadItems,
+  unloadItems,
+  saveItems,
+  deleteItems,
+} from './items';
 
 const KEY = 'LISTS';
 const ENDPOINT = 'lists';
@@ -32,7 +37,11 @@ export const addList = payload => (dispatch, getState) => {
   const $id = generateId();
   dispatch(reducer.addList($id, getTime(), payload));
   navigate(`/lists/${$id}/edit`, null, true);
-  save(getState().lists, KEY, ENDPOINT);
+
+  const { lists, items } = getState();
+
+  save(lists, KEY, ENDPOINT);
+  saveItems($id, { items });
 };
 
 export const updateList = ($id, payload) => (dispatch, getState) => {
