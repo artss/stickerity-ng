@@ -44,7 +44,7 @@ const config = merge(common.config, {
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
     new MiniCssExtractPlugin({
-      filename: 'styles.[chunkhash:6].css',
+      filename: 'styles.[contenthash:6].css',
     }),
     new CompressionPlugin({
       filename: '[path].gz[query]',

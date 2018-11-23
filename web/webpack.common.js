@@ -27,7 +27,9 @@ const config = {
   output: {
     path: staticDir,
     pathinfo: true,
-    filename: '[name].[hash:6].js',
+    filename: process.env.NODE_ENV === 'production'
+      ? '[name].[contenthash:6].js'
+      : '[name].[hash:6].js',
   },
 
   module: {
