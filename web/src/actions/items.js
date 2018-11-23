@@ -5,6 +5,7 @@ import { omit } from '../util/objects';
 import { getTime } from '../util/time';
 import {
   load,
+  loadLocal,
   unload,
   save,
   del,
@@ -21,14 +22,26 @@ export async function saveItems($listId, { items }) {
 }
 
 export const loadItems = ids => async (dispatch) => {
+  const loadPromises = [];
   const items = {};
+  const localItems = {};
 
   await Promise.all(ids.map(async ($listId) => {
     const itemsKey = `${KEY}${$listId}`;
     const itemsEndpoint = `${ENDPOINT}/${$listId}`;
 
-    items[$listId] = await load(itemsKey, itemsEndpoint);
+    localItems[$listId] = await loadLocal(itemsKey, itemsEndpoint);
+
+    loadPromises.push((async () => {
+      items[$listId] = await load(itemsKey, itemsEndpoint, localItems[$listId]);
+    })());
   }));
+
+  if (Object.keys(localItems).length > 0) {
+    dispatch(reducer.loadItems(localItems));
+  }
+
+  await Promise.all(loadPromises);
 
   dispatch(reducer.loadItems(items));
 };

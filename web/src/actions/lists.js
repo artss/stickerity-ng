@@ -2,7 +2,12 @@ import reducer from '../reducers/lists';
 import user from '../reducers/user';
 import { generateId } from '../util/id';
 import { navigate } from '../util/history';
-import { load, unload, save } from '../util/sync';
+import {
+  load,
+  loadLocal,
+  unload,
+  save,
+} from '../util/sync';
 import { getTime } from '../util/time';
 import {
   loadItems,
@@ -15,8 +20,14 @@ const KEY = 'LISTS';
 const ENDPOINT = 'lists';
 
 export const loadLists = () => async (dispatch) => {
+  const localLists = await loadLocal(KEY);
+
+  if (localLists) {
+    dispatch(reducer.loadLists(localLists));
+  }
+
   try {
-    const lists = await load(KEY, ENDPOINT);
+    const lists = await load(KEY, ENDPOINT, localLists);
 
     dispatch(reducer.loadLists(lists));
     dispatch(loadItems(lists.map(({ $id }) => $id)));

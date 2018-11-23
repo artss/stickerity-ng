@@ -90,20 +90,26 @@ export async function save(list, localStorageKey, apiEndpoint) {
   return api.post(apiEndpoint, { data: encData });
 }
 
-export async function load(localStorageKey, apiEndpoint) {
-  let localList;
-  let serverList;
-  let key;
-
+export async function loadLocal(localStorageKey) {
   const localData = localStorage.getItem(localStorageKey);
 
-  if (localData) {
-    const { k, data } = JSON.parse(localData);
-    key = await importKey(localStorageKey, k);
-
-    localList = await decryptObject(data, key);
+  if (!localData) {
+    return null;
   }
 
+  try {
+    const { k, data } = JSON.parse(localData);
+    const key = await importKey(localStorageKey, k);
+    return decryptObject(data, key);
+  } catch (e) {
+    console.error(e);
+    // localStorage.removeItem(localStorageKey);
+    return null;
+  }
+}
+
+export async function load(localStorageKey, apiEndpoint, localList) {
+  let serverList;
   let serverData;
 
   try {
@@ -116,10 +122,7 @@ export async function load(localStorageKey, apiEndpoint) {
     const { k, data } = serverData;
 
     if (data) {
-      if (!key) {
-        key = await importKey(localStorageKey, k);
-      }
-
+      const key = getKey(localStorageKey) || await importKey(localStorageKey, k);
       serverList = await decryptObject(data, key);
     }
   }
