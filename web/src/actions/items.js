@@ -71,4 +71,7 @@ export const deleteItems = $listId => () => {
   del(itemsKey, itemsEndpoint);
 };
 
-export const sortItems = ($listId, ids) => reducer.sortItems($listId, ids);
+export const sortItems = ($listId, ids, movedId) => (dispatch, getState) => {
+  dispatch(reducer.sortItems($listId, ids, movedId, getTime()));
+  saveItems($listId, getState());
+};

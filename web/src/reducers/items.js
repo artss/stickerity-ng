@@ -35,13 +35,17 @@ export default callable({
     };
   },
 
-  sortItems(items, $listId, ids) {
+  sortItems(items, $listId, ids, movedId, $updatedAt) {
     const activeItems = items[$listId].filter(({ $deleted }) => !$deleted);
     const deletedItems = items[$listId].filter(({ $deleted }) => $deleted);
     return {
       ...items,
       [$listId]: ids
-        .map(i => activeItems[i])
+        .map(i => (
+          activeItems[i].$id === movedId
+            ? { ...activeItems[i], $updatedAt }
+            : activeItems[i]
+        ))
         .concat(deletedItems),
     };
   },

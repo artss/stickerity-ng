@@ -33,7 +33,7 @@ export default class Sortable extends PureComponent {
     ids.splice(id, 0, dragging);
     ids = ids.filter(i => i !== null);
 
-    onSort(ids);
+    onSort(ids, dragging);
   }
 
   render() {

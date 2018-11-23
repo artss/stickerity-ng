@@ -39,9 +39,9 @@ class ChecklistList extends PureComponent {
     add($listId, { checked: false, text: '' });
   }
 
-  onSort = (ids) => {
+  onSort = (ids, movedId) => {
     const { $listId, sortItems: sort } = this.props;
-    sort($listId, ids);
+    sort($listId, ids, movedId);
   }
 
   render() {
