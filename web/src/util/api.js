@@ -52,3 +52,10 @@ export function post(url, params) {
     body: JSON.stringify(params),
   }));
 }
+
+export function del(url) {
+  return processResponse(fetch(`${API_URL}/${url}`, {
+    method: 'DELETE',
+    credentials: 'include',
+  }));
+}

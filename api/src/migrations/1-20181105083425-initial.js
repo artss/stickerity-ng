@@ -159,6 +159,14 @@ var migrationCommands = [{
                 "indicesType": "UNIQUE"
             }
         ]
+    },
+    {
+        fn: "addIndex",
+        params: [
+            "Items",
+            ["userId"],
+            {}
+        ]
     }
 ];
 

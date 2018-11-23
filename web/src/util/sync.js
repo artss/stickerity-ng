@@ -136,3 +136,8 @@ export async function load(localStorageKey, apiEndpoint) {
 export function unload(localStorageKey) {
   localStorage.removeItem(localStorageKey);
 }
+
+export function del(localStorageKey, apiEndpoint) {
+  unload(localStorageKey);
+  return api.del(apiEndpoint);
+}

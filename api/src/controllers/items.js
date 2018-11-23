@@ -41,7 +41,19 @@ export async function saveItems(req, res) {
   res.json({ ok: true });
 }
 
+export async function deleteItems(req, res) {
+  const userId = req.user.id;
+  const { listId } = req.params;
+
+  await db.Items.destroy({
+    where: { userId, listId },
+  });
+
+  res.json({ ok: true });
+}
+
 export default (server) => {
   server.get('/api/items/:listId', checkAuth, getItems);
   server.post('/api/items/:listId', checkAuth, saveItems);
+  server.del('/api/items/:listId', checkAuth, deleteItems);
 };

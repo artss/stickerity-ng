@@ -3,7 +3,12 @@ import { generateId } from '../util/id';
 import { navigate } from '../util/history';
 import { omit } from '../util/objects';
 import { getTime } from '../util/time';
-import { load, unload, save } from '../util/sync';
+import {
+  load,
+  unload,
+  save,
+  del,
+} from '../util/sync';
 
 const KEY = 'ITEMS';
 const ENDPOINT = 'items';
@@ -58,6 +63,12 @@ export const updateItem = ($listId, $id, payload) => (dispatch, getState) => {
 export const deleteItem = ($listId, $id) => (dispatch, getState) => {
   dispatch(reducer.deleteItem($listId, $id, getTime()));
   saveItems($listId, getState());
+};
+
+export const deleteItems = $listId => () => {
+  const itemsKey = `${KEY}${$listId}`;
+  const itemsEndpoint = `${ENDPOINT}/${$listId}`;
+  del(itemsKey, itemsEndpoint);
 };
 
 export const sortItems = ($listId, ids) => reducer.sortItems($listId, ids);

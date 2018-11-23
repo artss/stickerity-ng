@@ -1,4 +1,4 @@
-import { loadItems, unloadItems } from './items';
+import { loadItems, unloadItems, deleteItems } from './items';
 import reducer from '../reducers/lists';
 import user from '../reducers/user';
 import { generateId } from '../util/id';
@@ -42,5 +42,6 @@ export const updateList = ($id, payload) => (dispatch, getState) => {
 
 export const deleteList = $id => (dispatch, getState) => {
   dispatch(reducer.deleteList($id, getTime()));
+  dispatch(deleteItems($id));
   save(getState().lists, KEY, ENDPOINT);
 };
