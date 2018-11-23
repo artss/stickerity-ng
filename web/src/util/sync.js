@@ -26,7 +26,7 @@ export function maxUpdatedAt(list) {
 }
 
 export function merge(list1, list2, defaultValue) {
-  if (!list1 && list2) {
+  if (!list1 && !list2) {
     return defaultValue;
   }
 
@@ -109,7 +109,7 @@ export async function load(localStorageKey, apiEndpoint) {
   try {
     serverData = await api.get(apiEndpoint);
   } catch (e) {
-    console.error('serverList', e);
+    console.error('serverData', e);
   }
 
   if (serverData) {

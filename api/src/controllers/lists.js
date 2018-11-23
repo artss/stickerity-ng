@@ -12,7 +12,7 @@ export async function getLists(req, res) {
   try {
     res.json(JSON.parse(lists.data));
   } catch (e) {
-    console.error(e);
+    // console.error(e);
     res.json({});
   }
 }
