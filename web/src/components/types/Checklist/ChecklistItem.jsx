@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import Checkbox from 'react-toolbox/lib/checkbox';
-import Input from 'react-toolbox/lib/input';
 import { IconButton } from 'react-toolbox/lib/button';
 
+import DebouncedInput from '../../DebouncedInput';
 import { checklistType } from '../../../proptypes/checklist';
 
 import s from './ChecklistList.css';
@@ -69,7 +69,7 @@ export default class ChecklistItem extends Component {
           onChange={this.toggleCheck}
         />
 
-        <Input
+        <DebouncedInput
           className={s.input}
           value={text}
           onFocus={this.onFocus}

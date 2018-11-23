@@ -5,14 +5,10 @@ import CORS from 'restify-cors-middleware';
 import { InternalServerError } from 'restify-errors';
 import passport from 'passport';
 
-import {
-  authenticate,
-  register,
-  activate,
-  checkAuth,
-  logout,
-} from './auth';
-import { userInfo } from './user';
+import authController from './controllers/auth';
+import userController from './controllers/user';
+import listsController from './controllers/lists';
+import itemsController from './controllers/items';
 
 const IS_DEV = process.env.NODE_ENV === 'development';
 
@@ -41,12 +37,10 @@ server.on('uncaughtException', (req, res, route, error) => {
   res.send(new InternalServerError());
 });
 
-server.post('/api/auth/login', authenticate);
-server.post('/api/auth/register', register);
-server.post('/api/auth/activate', activate);
-server.post('/api/auth/logout', logout);
-
-server.get('/api/user/info', checkAuth, userInfo);
+authController(server);
+userController(server);
+listsController(server);
+itemsController(server);
 
 server.listen(process.env.PORT || 5001, '0.0.0.0', () => {
   console.log('%s listening at %s', server.name, server.url);

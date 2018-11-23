@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const Items = sequelize.define('Items', {
-    listId: DataTypes.STRING,
-    data: DataTypes.STRING,
+    listId: DataTypes.TEXT,
+    data: DataTypes.TEXT,
     updatedAt: DataTypes.TIME,
   },
   {

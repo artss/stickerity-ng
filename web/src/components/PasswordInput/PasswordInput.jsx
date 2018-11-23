@@ -2,14 +2,23 @@ import React, { Suspense, lazy } from 'react';
 import cx from 'classnames';
 import Input from 'react-toolbox/lib/input';
 
+import DebouncedInput from '../DebouncedInput';
 import s from './PasswordInput.css';
 
 const PasswordInput = lazy(() => import(/* webpackChunkName: "password-input" */ './PasswordInput.impl'));
 
-function PasswordInputFallback({ checkOnMount, className, ...props }) {
+function PasswordInputFallback({
+  debounced,
+  checkOnMount,
+  className,
+  ...props
+}) {
   return (
     <div className={cx(s.root, className)}>
-      <Input type="password" theme={s} {...props} />
+      {debounced
+        ? <DebouncedInput type="password" theme={s} {...props} />
+        : <Input type="password" theme={s} {...props} />
+      }
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { setTime } from './time';
+
 export class APIError extends Error {
   constructor({ code, message }) {
     super(message);
@@ -10,6 +12,10 @@ async function processResponse(response) {
 
   let data;
   try {
+    const serverDate = res.headers.get('date');
+    if (serverDate) {
+      setTime(new Date(serverDate));
+    }
     data = await res.json();
   } catch (e) {
     if (res.status >= 400) {
@@ -44,5 +50,12 @@ export function post(url, params) {
       'Content-Type': 'application/json; charset=utf-8',
     },
     body: JSON.stringify(params),
+  }));
+}
+
+export function del(url) {
+  return processResponse(fetch(`${API_URL}/${url}`, {
+    method: 'DELETE',
+    credentials: 'include',
   }));
 }

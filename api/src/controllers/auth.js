@@ -5,12 +5,12 @@ import jwt from 'jsonwebtoken';
 import isEmail from 'validator/lib/isEmail';
 import querystring from 'querystring';
 
-import db from './models';
-import { passwordHash, activationToken } from './util/auth';
-import { verify } from './util/recaptcha';
-import { sendMail } from './util/mail';
-import { redis } from './util/redis';
-import { pick } from './util/objects';
+import db from '../models';
+import { passwordHash, activationToken } from '../util/auth';
+import { verify } from '../util/recaptcha';
+import { sendMail } from '../util/mail';
+import { redis } from '../util/redis';
+import { pick } from '../util/objects';
 
 import {
   JWT_COOKIE_NAME,
@@ -19,7 +19,7 @@ import {
   AUTH_ATTEMPTS,
   AUTH_FAIL_TIMEOUT,
   JwtCookieOptions,
-} from './constants';
+} from '../constants';
 
 const AUTH_FAIL_EMAIL = 'auth-fail-email';
 const AUTH_FAIL_ADDR = 'auth-fail-addr';
@@ -237,4 +237,11 @@ export const activate = async (req, res) => {
 export const logout = (req, res) => {
   res.clearCookie(JWT_COOKIE_NAME, JwtCookieOptions);
   res.json({ ok: true });
+};
+
+export default (server) => {
+  server.post('/api/auth/login', authenticate);
+  server.post('/api/auth/register', register);
+  server.post('/api/auth/activate', activate);
+  server.post('/api/auth/logout', logout);
 };

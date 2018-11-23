@@ -6,6 +6,7 @@ import { withRouter } from 'react-router';
 import { Helmet } from 'react-helmet';
 
 import { getListById } from '../../selectors/lists';
+import { getItems } from '../../selectors/items';
 import { listType } from '../../proptypes/list';
 import { itemType } from '../../proptypes/item';
 import { updateItem } from '../../actions/items';
@@ -88,7 +89,7 @@ class List extends PureComponent {
 function mapStateToProps({ lists, items }, { match: { params: { listId } } }) {
   return {
     list: getListById(lists, listId),
-    items: items[listId],
+    items: getItems(items[listId]),
   };
 }
 

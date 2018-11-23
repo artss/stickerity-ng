@@ -2,49 +2,46 @@ import reducer from '../reducers/items';
 import { generateId } from '../util/id';
 import { navigate } from '../util/history';
 import { omit } from '../util/objects';
+import { getTime } from '../util/time';
 import {
-  getKey,
-  generateKey,
-  exportKey,
-  importKey,
-  encryptObject,
-  decryptObject,
-} from '../util/crypt';
+  load,
+  loadLocal,
+  unload,
+  save,
+  del,
+} from '../util/sync';
 
-const ITEMS_KEY = 'ITEMS';
+const KEY = 'ITEMS';
+const ENDPOINT = 'items';
 
-async function save($listId, { items }) {
-  const itemsKey = `${ITEMS_KEY}${$listId}`;
+export async function saveItems($listId, { items }) {
+  const itemsKey = `${KEY}${$listId}`;
+  const itemsEndpoint = `${ENDPOINT}/${$listId}`;
 
-  let key = getKey(itemsKey);
-
-  if (!key) {
-    key = await generateKey(itemsKey);
-  }
-
-  const k = await exportKey(itemsKey);
-  const data = await encryptObject(items[$listId], key);
-
-  localStorage.setItem(itemsKey, JSON.stringify({ k, data }));
+  await save(items[$listId], itemsKey, itemsEndpoint);
 }
 
 export const loadItems = ids => async (dispatch) => {
+  const loadPromises = [];
   const items = {};
+  const localItems = {};
 
-  await Promise.all(ids.map(async ($id) => {
-    const itemsKey = `${ITEMS_KEY}${$id}`;
+  await Promise.all(ids.map(async ($listId) => {
+    const itemsKey = `${KEY}${$listId}`;
+    const itemsEndpoint = `${ENDPOINT}/${$listId}`;
 
-    const rawData = localStorage.getItem(itemsKey);
+    localItems[$listId] = await loadLocal(itemsKey, itemsEndpoint);
 
-    if (!rawData) {
-      return;
-    }
-
-    const { k, data } = JSON.parse(rawData);
-    const key = await importKey(itemsKey, k);
-
-    items[$id] = await decryptObject(data, key);
+    loadPromises.push((async () => {
+      items[$listId] = await load(itemsKey, itemsEndpoint, localItems[$listId]);
+    })());
   }));
+
+  if (Object.keys(localItems).length > 0) {
+    dispatch(reducer.loadItems(localItems));
+  }
+
+  await Promise.all(loadPromises);
 
   dispatch(reducer.loadItems(items));
 };
@@ -52,9 +49,9 @@ export const loadItems = ids => async (dispatch) => {
 export const unloadItems = ids => (dispatch, getState) => {
   const { items } = getState();
 
-  ids.forEach((memo, $id) => {
-    const itemsKey = `${ITEMS_KEY}${$id}`;
-    localStorage.removeItem(itemsKey);
+  ids.forEach(($listId) => {
+    const itemsKey = `${KEY}${$listId}`;
+    unload(itemsKey);
   });
 
   dispatch(reducer.loadItems(omit(items, ids)));
@@ -62,23 +59,32 @@ export const unloadItems = ids => (dispatch, getState) => {
 
 export const addItem = ($listId, payload, follow) => (dispatch, getState) => {
   const $id = generateId();
-  dispatch(reducer.addItem($listId, $id, payload));
+  dispatch(reducer.addItem($listId, $id, getTime(), payload));
 
   if (follow) {
     navigate(`/lists/${$listId}/${$id}`, null, true);
   }
 
-  save($listId, getState());
+  saveItems($listId, getState());
 };
 
 export const updateItem = ($listId, $id, payload) => (dispatch, getState) => {
-  dispatch(reducer.updateItem($listId, $id, payload));
-  save($listId, getState());
+  dispatch(reducer.updateItem($listId, $id, getTime(), payload));
+  saveItems($listId, getState());
 };
 
 export const deleteItem = ($listId, $id) => (dispatch, getState) => {
-  dispatch(reducer.deleteItem($listId, $id));
-  save($listId, getState());
+  dispatch(reducer.deleteItem($listId, $id, getTime()));
+  saveItems($listId, getState());
 };
 
-export const sortItems = ($listId, ids) => reducer.sortItems($listId, ids);
+export const deleteItems = $listId => () => {
+  const itemsKey = `${KEY}${$listId}`;
+  const itemsEndpoint = `${ENDPOINT}/${$listId}`;
+  del(itemsKey, itemsEndpoint);
+};
+
+export const sortItems = ($listId, ids, movedId) => (dispatch, getState) => {
+  dispatch(reducer.sortItems($listId, ids, movedId, getTime()));
+  saveItems($listId, getState());
+};

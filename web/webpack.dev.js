@@ -29,7 +29,7 @@ const config = merge(common.config, {
     inline: true,
     historyApiFallback: {
       rewrites: [
-        { from: /\/(lists|login|register|activate|terms)/, to: '/app.html' },
+        { from: /^\/.*/, to: '/app.html' },
       ],
     },
     watchOptions: {

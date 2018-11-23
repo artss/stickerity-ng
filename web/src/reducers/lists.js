@@ -5,19 +5,23 @@ export default callable({
     return lists;
   },
 
-  addList(lists, $id, payload) {
-    return [{ $id, ...payload }].concat(lists);
+  addList(lists, $id, $updatedAt, payload) {
+    return [{ $id, $updatedAt, ...payload }].concat(lists);
   },
 
-  updateList(lists, $id, payload) {
+  updateList(lists, $id, $updatedAt, payload) {
     return lists.map(list => (
       list.$id === $id
-        ? { ...list, ...payload }
+        ? { ...list, ...payload, $updatedAt }
         : list
     ));
   },
 
-  deleteList(lists, $id) {
-    return lists.filter(item => item.$id !== $id);
+  deleteList(lists, $id, $updatedAt) {
+    return lists.map(list => (
+      list.$id === $id
+        ? { ...list, $updatedAt, $deleted: true }
+        : list
+    ));
   },
 }, [], 'lists');

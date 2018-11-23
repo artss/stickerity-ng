@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 
 export const listType = {
-  $id: PropTypes.string, // .isRequired,
-  $type: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  // color: PropTypes.string,
+  $id: PropTypes.string,
+  $type: PropTypes.string,
+  $updatedAt: PropTypes.number,
+  // $color: PropTypes.string,
+  title: PropTypes.string,
 };

@@ -1,3 +1,5 @@
+import { getTime } from './time';
+
 export function generateId() {
-  return btoa(Date.now()).replace(/[^a-z0-9-]+/ig, '');
+  return getTime().toString(36);
 }

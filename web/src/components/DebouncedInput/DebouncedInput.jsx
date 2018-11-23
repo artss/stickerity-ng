@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import debounce from 'debounce';
 import { Input } from 'react-toolbox/lib/input';
 
+const DEBOUNCE_TIME = 2000;
+
 export default class DebouncedInput extends PureComponent {
   static propTypes = {
     component: PropTypes.instanceOf(Component),
@@ -16,7 +18,7 @@ export default class DebouncedInput extends PureComponent {
     component: null,
     value: '',
     onChange: () => {},
-    wait: 400,
+    wait: DEBOUNCE_TIME,
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {

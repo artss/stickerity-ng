@@ -33,16 +33,16 @@ var migrationCommands = [{
                     "allowNull": false
                 },
                 "email": {
-                    "type": Sequelize.STRING
+                    "type": Sequelize.TEXT
                 },
                 "name": {
-                    "type": Sequelize.STRING
+                    "type": Sequelize.TEXT
                 },
                 "salt": {
-                    "type": Sequelize.STRING
+                    "type": Sequelize.TEXT
                 },
                 "password": {
-                    "type": Sequelize.STRING
+                    "type": Sequelize.TEXT
                 },
                 "active": {
                     "type": Sequelize.BOOLEAN
@@ -71,7 +71,7 @@ var migrationCommands = [{
                     "allowNull": false
                 },
                 "data": {
-                    "type": Sequelize.STRING
+                    "type": Sequelize.TEXT
                 },
                 "updatedAt": {
                     "type": Sequelize.TIME
@@ -106,10 +106,10 @@ var migrationCommands = [{
                     "allowNull": false
                 },
                 "listId": {
-                    "type": Sequelize.STRING
+                    "type": Sequelize.TEXT
                 },
                 "data": {
-                    "type": Sequelize.STRING
+                    "type": Sequelize.TEXT
                 },
                 "updatedAt": {
                     "type": Sequelize.TIME
@@ -158,6 +158,14 @@ var migrationCommands = [{
             {
                 "indicesType": "UNIQUE"
             }
+        ]
+    },
+    {
+        fn: "addIndex",
+        params: [
+            "Items",
+            ["userId"],
+            {}
         ]
     }
 ];

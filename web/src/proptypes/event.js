@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 export const eventTypeType = PropTypes.number;
 
 export const eventType = {
+  $listId: PropTypes.string,
   $id: PropTypes.string,
+  $updatedAt: PropTypes.number,
   type: eventTypeType,
   year: PropTypes.number,
   month: PropTypes.number,

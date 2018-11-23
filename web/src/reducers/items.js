@@ -6,39 +6,51 @@ export default callable({
     return { ...state, ...items };
   },
 
-  addItem(items, $listId, $id, payload) {
+  addItem(items, $listId, $id, $updatedAt, payload) {
     return {
       ...items,
-      [$listId]: [{ $id, ...payload }].concat(items[$listId] || []),
+      [$listId]: [{ $id, $updatedAt, ...payload }].concat(items[$listId] || []),
     };
   },
 
-  updateItem(items, $listId, $id, payload) {
+  updateItem(items, $listId, $id, $updatedAt, payload) {
     return {
       ...items,
       [$listId]: items[$listId].map(item => (
         item.$id === $id
-          ? { ...item, ...payload }
+          ? { ...item, ...payload, $updatedAt }
           : item
       )),
     };
   },
 
-  deleteItem(items, $listId, $id) {
+  deleteItem(items, $listId, $id, $updatedAt) {
     return {
       ...items,
-      [$listId]: items[$listId].filter(item => item.$id !== $id),
+      [$listId]: items[$listId].map(item => (
+        item.$id === $id
+          ? { ...item, $updatedAt, $deleted: true }
+          : item
+      )),
     };
   },
 
-  sortItems(items, $listId, ids) {
+  sortItems(items, $listId, ids, movedId, $updatedAt) {
+    const activeItems = items[$listId].filter(({ $deleted }) => !$deleted);
+    const deletedItems = items[$listId].filter(({ $deleted }) => $deleted);
     return {
       ...items,
-      [$listId]: ids.map(i => items[$listId][i]),
+      [$listId]: ids
+        .map(i => (
+          activeItems[i].$id === movedId
+            ? { ...activeItems[i], $updatedAt }
+            : activeItems[i]
+        ))
+        .concat(deletedItems),
     };
   },
 
   [lists.addList]: (items, $id) => ({ ...items, [$id]: [] }),
 
-  [lists.deleteList]: (items, $id) => ({ ...items, [$id]: undefined }),
+  // [lists.deleteList]: (items, $id) => ({ ...items, [$id]: undefined }),
 }, {}, 'items');

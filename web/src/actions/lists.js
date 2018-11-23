@@ -1,45 +1,33 @@
-import { loadItems, unloadItems } from './items';
 import reducer from '../reducers/lists';
 import user from '../reducers/user';
 import { generateId } from '../util/id';
 import { navigate } from '../util/history';
-
 import {
-  getKey,
-  generateKey,
-  exportKey,
-  importKey,
-  encryptObject,
-  decryptObject,
-} from '../util/crypt';
+  load,
+  loadLocal,
+  unload,
+  save,
+} from '../util/sync';
+import { getTime } from '../util/time';
+import {
+  loadItems,
+  unloadItems,
+  saveItems,
+  deleteItems,
+} from './items';
 
-const LISTS_KEY = 'LISTS';
-
-async function save({ lists }) {
-  let key = getKey(LISTS_KEY);
-
-  if (!key) {
-    key = await generateKey(LISTS_KEY);
-  }
-
-  const k = await exportKey(LISTS_KEY);
-  const data = await encryptObject(lists, key);
-
-  localStorage.setItem(LISTS_KEY, JSON.stringify({ k, data }));
-}
+const KEY = 'LISTS';
+const ENDPOINT = 'lists';
 
 export const loadLists = () => async (dispatch) => {
-  const rawData = localStorage.getItem(LISTS_KEY);
+  const localLists = await loadLocal(KEY);
 
-  if (!rawData) {
-    return;
+  if (localLists) {
+    dispatch(reducer.loadLists(localLists));
   }
 
   try {
-    const { k, data } = JSON.parse(rawData);
-    const key = await importKey(LISTS_KEY, k);
-
-    const lists = await decryptObject(data, key);
+    const lists = await load(KEY, ENDPOINT, localLists);
 
     dispatch(reducer.loadLists(lists));
     dispatch(loadItems(lists.map(({ $id }) => $id)));
@@ -51,24 +39,29 @@ export const loadLists = () => async (dispatch) => {
 export const unloadLists = () => (dispatch, getState) => {
   const { lists } = getState();
   dispatch(reducer.loadLists([]));
-  localStorage.removeItem(LISTS_KEY);
+  unload(KEY);
 
   dispatch(unloadItems(lists.map(({ $id }) => $id)));
 };
 
 export const addList = payload => (dispatch, getState) => {
   const $id = generateId();
-  dispatch(reducer.addList($id, payload));
+  dispatch(reducer.addList($id, getTime(), payload));
   navigate(`/lists/${$id}/edit`, null, true);
-  save(getState());
+
+  const { lists, items } = getState();
+
+  save(lists, KEY, ENDPOINT);
+  saveItems($id, { items });
 };
 
 export const updateList = ($id, payload) => (dispatch, getState) => {
-  dispatch(reducer.updateList($id, payload));
-  save(getState());
+  dispatch(reducer.updateList($id, getTime(), payload));
+  save(getState().lists, KEY, ENDPOINT);
 };
 
 export const deleteList = $id => (dispatch, getState) => {
-  dispatch(reducer.deleteList($id));
-  save(getState());
+  dispatch(reducer.deleteList($id, getTime()));
+  dispatch(deleteItems($id));
+  save(getState().lists, KEY, ENDPOINT);
 };
