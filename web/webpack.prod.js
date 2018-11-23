@@ -69,6 +69,8 @@ const config = merge(common.config, {
           })
         ))
     ),
+
+  devtool: 'inline-source-map',
 });
 
 module.exports = config;
