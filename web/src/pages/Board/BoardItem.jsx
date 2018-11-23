@@ -5,6 +5,7 @@ import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import { FontIcon } from 'react-toolbox/lib/font_icon';
 
+import { getItems } from '../../selectors/items';
 import { listType } from '../../proptypes/list';
 import { itemType } from '../../proptypes/item';
 import Sticker from '../../components/Sticker';
@@ -60,7 +61,7 @@ class BoardItem extends PureComponent {
 }
 
 function mapStateToProps({ items }, { $id }) {
-  return { items: items[$id] };
+  return { items: getItems(items[$id]) };
 }
 
 export default connect(mapStateToProps)(BoardItem);

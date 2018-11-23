@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { FontIcon } from 'react-toolbox/lib/font_icon';
 
 import { listType } from '../../proptypes/list';
+import { getLists } from '../../selectors/lists';
 import Sticker from '../../components/Sticker';
 import BoardItem from './BoardItem';
 
@@ -44,7 +45,7 @@ class Board extends PureComponent {
 }
 
 function mapStateToProps({ lists }) {
-  return { lists };
+  return { lists: getLists(lists) };
 }
 
 export default connect(mapStateToProps)(Board);

@@ -29,7 +29,7 @@ export default callable({
       ...items,
       [$listId]: items[$listId].map(item => (
         item.$id === $id
-          ? { ...item, $updatedAt }
+          ? { ...item, $updatedAt, $deleted: true }
           : item
       )),
     };
@@ -44,5 +44,5 @@ export default callable({
 
   [lists.addList]: (items, $id) => ({ ...items, [$id]: [] }),
 
-  [lists.deleteList]: (items, $id) => ({ ...items, [$id]: undefined }),
+  // [lists.deleteList]: (items, $id) => ({ ...items, [$id]: undefined }),
 }, {}, 'items');
