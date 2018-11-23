@@ -8,6 +8,7 @@ import passport from 'passport';
 import authController from './controllers/auth';
 import userController from './controllers/user';
 import listsController from './controllers/lists';
+import itemsController from './controllers/items';
 
 const IS_DEV = process.env.NODE_ENV === 'development';
 
@@ -39,6 +40,7 @@ server.on('uncaughtException', (req, res, route, error) => {
 authController(server);
 userController(server);
 listsController(server);
+itemsController(server);
 
 server.listen(process.env.PORT || 5001, '0.0.0.0', () => {
   console.log('%s listening at %s', server.name, server.url);

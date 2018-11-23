@@ -3,48 +3,26 @@ import { generateId } from '../util/id';
 import { navigate } from '../util/history';
 import { omit } from '../util/objects';
 import { getTime } from '../util/time';
-import {
-  getKey,
-  generateKey,
-  exportKey,
-  importKey,
-  encryptObject,
-  decryptObject,
-} from '../util/crypt';
+import { load, unload, save } from '../util/sync';
 
-const ITEMS_KEY = 'ITEMS';
+const KEY = 'ITEMS';
+const ENDPOINT = 'items';
 
-async function save($listId, { items }) {
-  const itemsKey = `${ITEMS_KEY}${$listId}`;
+async function saveItems($listId, { items }) {
+  const itemsKey = `${KEY}${$listId}`;
+  const itemsEndpoint = `${ENDPOINT}/${$listId}`;
 
-  let key = getKey(itemsKey);
-
-  if (!key) {
-    key = await generateKey(itemsKey);
-  }
-
-  const k = await exportKey(itemsKey);
-  const data = await encryptObject(items[$listId], key);
-
-  localStorage.setItem(itemsKey, JSON.stringify({ k, data }));
+  await save(items[$listId], itemsKey, itemsEndpoint);
 }
 
 export const loadItems = ids => async (dispatch) => {
   const items = {};
 
-  await Promise.all(ids.map(async ($id) => {
-    const itemsKey = `${ITEMS_KEY}${$id}`;
+  await Promise.all(ids.map(async ($listId) => {
+    const itemsKey = `${KEY}${$listId}`;
+    const itemsEndpoint = `${ENDPOINT}/${$listId}`;
 
-    const rawData = localStorage.getItem(itemsKey);
-
-    if (!rawData) {
-      return;
-    }
-
-    const { k, data } = JSON.parse(rawData);
-    const key = await importKey(itemsKey, k);
-
-    items[$id] = await decryptObject(data, key);
+    items[$listId] = await load(itemsKey, itemsEndpoint);
   }));
 
   dispatch(reducer.loadItems(items));
@@ -53,9 +31,9 @@ export const loadItems = ids => async (dispatch) => {
 export const unloadItems = ids => (dispatch, getState) => {
   const { items } = getState();
 
-  ids.forEach((memo, $id) => {
-    const itemsKey = `${ITEMS_KEY}${$id}`;
-    localStorage.removeItem(itemsKey);
+  ids.forEach(($listId) => {
+    const itemsKey = `${KEY}${$listId}`;
+    unload(itemsKey);
   });
 
   dispatch(reducer.loadItems(omit(items, ids)));
@@ -69,17 +47,17 @@ export const addItem = ($listId, payload, follow) => (dispatch, getState) => {
     navigate(`/lists/${$listId}/${$id}`, null, true);
   }
 
-  save($listId, getState());
+  saveItems($listId, getState());
 };
 
 export const updateItem = ($listId, $id, payload) => (dispatch, getState) => {
   dispatch(reducer.updateItem($listId, $id, getTime(), payload));
-  save($listId, getState());
+  saveItems($listId, getState());
 };
 
 export const deleteItem = ($listId, $id) => (dispatch, getState) => {
   dispatch(reducer.deleteItem($listId, $id, getTime()));
-  save($listId, getState());
+  saveItems($listId, getState());
 };
 
 export const sortItems = ($listId, ids) => reducer.sortItems($listId, ids);

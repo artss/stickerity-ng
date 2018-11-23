@@ -2,8 +2,10 @@ import db from '../models';
 import { checkAuth } from './auth';
 
 export async function getLists(req, res) {
+  const userId = req.user.id;
+
   const lists = await db.Lists.findOne({
-    where: { userId: req.user.id },
+    where: { userId },
     attributes: ['data'],
   });
 
@@ -16,15 +18,20 @@ export async function getLists(req, res) {
 }
 
 export async function saveLists(req, res) {
+  const userId = req.user.id;
+  const { data } = req.body;
+
   const lists = await db.Lists.findOne({
-    where: { userId: req.user.id },
-    attributes: ['data'],
+    where: { userId },
+    attributes: ['id', 'data'],
   });
 
-  if (!lists) {
+  if (lists) {
+    await lists.update({ data });
+  } else {
     await db.Lists.create({
-      data: req.body.data,
-      userId: req.user.id,
+      userId,
+      data,
     });
   }
 
