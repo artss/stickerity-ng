@@ -36,9 +36,13 @@ export default callable({
   },
 
   sortItems(items, $listId, ids) {
+    const activeItems = items[$listId].filter(({ $deleted }) => !$deleted);
+    const deletedItems = items[$listId].filter(({ $deleted }) => $deleted);
     return {
       ...items,
-      [$listId]: ids.map(i => items[$listId][i]),
+      [$listId]: ids
+        .map(i => activeItems[i])
+        .concat(deletedItems),
     };
   },
 
