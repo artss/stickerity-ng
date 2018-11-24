@@ -6,7 +6,12 @@ import { IconButton } from 'react-toolbox/lib/button';
 
 import DebouncedInput from '../../DebouncedInput';
 import { checklistType } from '../../../proptypes/checklist';
-import { ENTER, BACKSPACE } from '../../../constants/keys';
+import {
+  ENTER,
+  BACKSPACE,
+  ARROW_UP,
+  ARROW_DOWN,
+} from '../../../constants/keys';
 
 import s from './ChecklistList.css';
 
@@ -19,6 +24,8 @@ export default class ChecklistItem extends Component {
     onChange: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onInsert: PropTypes.func.isRequired,
+    onArrowUp: PropTypes.func.isRequired,
+    onArrowDown: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -84,7 +91,14 @@ export default class ChecklistItem extends Component {
   onKeyPress = (e) => {
     const { value } = e.target;
 
-    const { $id, onDelete, onInsert } = this.props;
+    const {
+      $id,
+      onDelete,
+      onInsert,
+      onArrowUp,
+      onArrowDown,
+    } = this.props;
+
     const { prevText } = this.state;
 
     switch (e.nativeEvent.code) {
@@ -98,7 +112,16 @@ export default class ChecklistItem extends Component {
         onInsert($id);
         break;
 
-      default: break;
+      case ARROW_UP:
+        onArrowUp($id);
+        break;
+
+      case ARROW_DOWN:
+        onArrowDown($id);
+        break;
+
+      default:
+        break;
     }
 
     this.setState({ prevText: value });

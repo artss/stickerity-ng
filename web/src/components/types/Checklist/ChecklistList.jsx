@@ -98,6 +98,34 @@ class ChecklistList extends PureComponent {
     sort($listId, ids, movedId);
   }
 
+  onArrowUp = ($id) => {
+    const { items } = this.props;
+
+    const position = items.findIndex(item => item.$id === $id);
+
+    if (position <= 0) {
+      return;
+    }
+
+    this.setState({
+      activeId: items[position - 1].$id,
+    });
+  }
+
+  onArrowDown = ($id) => {
+    const { items } = this.props;
+
+    const position = items.findIndex(item => item.$id === $id);
+
+    if (position >= items.length - 1) {
+      return;
+    }
+
+    this.setState({
+      activeId: items[position + 1].$id,
+    });
+  }
+
   render() {
     const { $listId, items } = this.props;
 
@@ -122,6 +150,8 @@ class ChecklistList extends PureComponent {
               onChange={this.onItemChange}
               onDelete={this.onItemDelete}
               onInsert={this.addItem}
+              onArrowUp={this.onArrowUp}
+              onArrowDown={this.onArrowDown}
               focus={item.$active || i === 0}
             />
           ))}
