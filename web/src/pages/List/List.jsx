@@ -6,57 +6,23 @@ import { withRouter } from 'react-router';
 import { Helmet } from 'react-helmet';
 
 import { getListById } from '../../selectors/lists';
-import { getItems } from '../../selectors/items';
 import { listType } from '../../proptypes/list';
-import { itemType } from '../../proptypes/item';
 import { updateItem } from '../../actions/items';
 import Sticker from '../../components/Sticker';
 import ListMenu from '../../components/ListMenu';
 import ListNotFound from '../../components/ListNotFound';
-import { getListComponent, getItemComponent } from '../../components/types';
+import ListContent from './ListContent';
 
 import s from './List.css';
 
 class List extends PureComponent {
   static propTypes = {
     list: PropTypes.shape(listType),
-    items: PropTypes.arrayOf(PropTypes.shape(itemType)),
-    updateItem: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     list: null,
-    items: [],
   };
-
-  renderItems() {
-    const {
-      list: { $id, $type },
-      items,
-      updateItem, // eslint-disable-line no-shadow
-    } = this.props;
-
-    const TypeList = getListComponent($type);
-
-    if (TypeList) {
-      return <TypeList $listId={$id} items={items} />;
-    }
-
-    const Item = getItemComponent($type);
-
-    return (
-      <ul className={s.items}>
-        {items.map(item => (
-          <Item
-            key={item.$id}
-            $listId={$id}
-            {...item}
-            updateItem={updateItem}
-          />
-        ))}
-      </ul>
-    );
-  }
 
   render() {
     const { list } = this.props;
@@ -80,16 +46,15 @@ class List extends PureComponent {
 
         <ListMenu $id={$id} />
 
-        {this.renderItems()}
+        <ListContent />
       </Sticker>
     );
   }
 }
 
-function mapStateToProps({ lists, items }, { match: { params: { listId } } }) {
+function mapStateToProps({ lists }, { match: { params: { listId } } }) {
   return {
     list: getListById(lists, listId),
-    items: getItems(items[listId]),
   };
 }
 

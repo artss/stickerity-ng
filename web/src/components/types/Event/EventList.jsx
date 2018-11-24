@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { IconButton } from 'react-toolbox/lib/button';
+import { Button, IconButton } from 'react-toolbox/lib/button';
 import Dropdown from 'react-toolbox/lib/dropdown';
 import Input from 'react-toolbox/lib/input';
 
+import { navigate } from '../../../util/history';
 import { MONDAY } from '../../../constants/dates';
 import { eventType } from '../../../proptypes/event';
 import { getMonthEvents } from '../../../selectors/events';
@@ -44,6 +45,12 @@ export default class EventList extends PureComponent {
       year,
       month,
     };
+  }
+
+  addItem = () => {
+    const { $listId } = this.props;
+
+    navigate(`/lists/${$listId}/add`);
   }
 
   onYearChange = (year) => {
@@ -92,6 +99,16 @@ export default class EventList extends PureComponent {
 
     return (
       <div className={s.root}>
+
+        <Button
+          icon="add"
+          className={s.addButton}
+          primary
+          onClick={this.addItem}
+        >
+          Add event
+        </Button>
+
         <div className={s.calendarWrap}>
           <div className={s.dateSelector}>
             <IconButton
