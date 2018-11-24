@@ -87,7 +87,11 @@ export async function save(list, localStorageKey, apiEndpoint) {
   const encData = JSON.stringify({ k, data });
 
   localStorage.setItem(localStorageKey, encData);
-  return api.post(apiEndpoint, { data: encData });
+  try {
+    return api.abortablePost(apiEndpoint, { data: encData });
+  } catch (e) {
+    return null;
+  }
 }
 
 export async function loadLocal(localStorageKey) {

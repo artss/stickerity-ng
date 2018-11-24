@@ -7,6 +7,8 @@ export class APIError extends Error {
   }
 }
 
+const DEBOUNCE_TIME = 2000;
+
 async function processResponse(response) {
   const res = await response;
 
@@ -42,7 +44,7 @@ export function get(url) {
   }));
 }
 
-export function post(url, params) {
+export function post(url, params, signal) {
   return processResponse(fetch(`${API_URL}/${url}`, {
     method: 'POST',
     credentials: 'include',
@@ -50,7 +52,36 @@ export function post(url, params) {
       'Content-Type': 'application/json; charset=utf-8',
     },
     body: JSON.stringify(params),
+    signal,
   }));
+}
+
+const abortControllers = {};
+
+export function abortablePost(url, params) {
+  if (abortControllers[url]) {
+    const { controller, timeout } = abortControllers[url];
+
+    controller.abort();
+    clearTimeout(timeout);
+  }
+
+  return new Promise((resolve, reject) => {
+    const controller = new AbortController();
+
+    const timeout = setTimeout(async () => {
+      try {
+        resolve(post(url, params, controller.signal));
+      } catch (e) {
+        reject(e);
+      }
+    }, DEBOUNCE_TIME);
+
+    abortControllers[url] = {
+      controller,
+      timeout,
+    };
+  });
 }
 
 export function del(url) {
