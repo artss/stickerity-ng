@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { IconMenu, MenuItem, MenuDivider } from 'react-toolbox/lib/menu';
 import { Link } from 'react-router-dom';
 import Dialog from 'react-toolbox/lib/dialog';
 
@@ -9,6 +10,10 @@ import { userType } from '../../proptypes/user';
 import { logout } from '../../actions/user';
 
 import s from './Header.css';
+
+const menuTheme = {
+  menu: s.userMenuPopup,
+};
 
 class UserMenu extends PureComponent {
   static propTypes = {
@@ -49,17 +54,33 @@ class UserMenu extends PureComponent {
     if (!id) {
       return (
         <div className={s.userMenu}>
-          <Link to="/register" className={s.link}>Register</Link>
-          <Link to="/login" className={s.link}>Sign in</Link>
+          <Link to="/register" className={s.menuLink}>Register</Link>
+          <Link to="/login" className={s.menuLink}>Sign in</Link>
         </div>
       );
     }
 
     return (
       <div className={s.userMenu}>
-        <Link to="/lists" className={s.link}>My board</Link>
-        <Link to="/profile" className={s.link}>{name || email}</Link>
-        <button type="button" onClick={this.logout} className={s.link}>Sign out</button>
+        <Link to="/lists" className={s.menuLink}>My board</Link>
+
+        <IconMenu icon="menu" className={s.userMenuButton} theme={menuTheme}>
+          <MenuItem
+            icon="person_outline"
+            className={s.userMenuItem}
+            caption={name || email}
+            onClick={this.openProfile}
+          />
+
+          <MenuDivider />
+
+          <MenuItem
+            icon="power_settings_new"
+            className={s.userMenuItem}
+            caption="Sign out"
+            onClick={this.logout}
+          />
+        </IconMenu>
 
         <Dialog
           actions={this.actions}

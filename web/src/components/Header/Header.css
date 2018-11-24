@@ -23,7 +23,7 @@
   height: var(--headerHeight);
 }
 
-.link {
+.menuLink {
   margin-left: 16px;
   padding: 0;
   border: 0;
@@ -32,4 +32,22 @@
   text-decoration: none;
   background-color: transparent;
   cursor: pointer;
+}
+
+.userMenuButton {
+  margin: 0 -16px 0 16px;
+}
+
+.userMenuPopup {
+  margin-top: 36px;
+}
+
+.userMenuItem {
+  text-align: left;
+}
+
+.userLink {
+  text-align: left;
+  color: var(--baseColor);
+  text-decoration: none;
 }

@@ -1,5 +1,31 @@
+@import '../../vars.css';
+
 .root {
-  max-width: 480px;
+  display: flex;
+  justify-content: center;
   margin: 0 auto;
-  padding-bottom: 4px;
+  padding: 0 24px 40px;
+}
+
+.main {
+  max-width: 640px;
+}
+
+.tld {
+  color: #aaa;
+}
+
+.header {
+  font-size: 48px;
+}
+
+.subheader {
+  font-family: var(--decorationFont);
+  font-size: 24px;
+  color: #888;
+
+  b {
+    font-size: 1.2em;
+    color: #f66;
+  }
 }
