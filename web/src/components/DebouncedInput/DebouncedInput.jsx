@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import debounce from 'debounce';
 import { Input } from 'react-toolbox/lib/input';
 
-const DEBOUNCE_TIME = 2000;
+const DEBOUNCE_TIME = 400;
 
 export default class DebouncedInput extends PureComponent {
   static propTypes = {
