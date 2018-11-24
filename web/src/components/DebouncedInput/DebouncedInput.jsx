@@ -50,6 +50,21 @@ export default class DebouncedInput extends PureComponent {
     }, props.wait);
   }
 
+  componentWillUnmount() {
+    this.onChangeProp.clear();
+  }
+
+  refInput = (el) => {
+    this.input = el;
+  }
+
+  focus = () => {
+    const input = this.input.inputNode;
+    if (input) {
+      input.focus();
+    }
+  }
+
   onChange = (value, e) => {
     this.setState({ value });
     this.onChangeProp(value, e.nativeEvent);
@@ -64,6 +79,7 @@ export default class DebouncedInput extends PureComponent {
     return (
       <Comp
         {...this.props}
+        innerRef={this.refInput}
         value={value}
         onChange={this.onChange}
       />

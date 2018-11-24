@@ -24,19 +24,73 @@ class ChecklistList extends PureComponent {
     updateItem: PropTypes.func.isRequired,
   };
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      activeId: props.items.length > 0
+        ? props.items[0].$id
+        : null,
+    };
+
+    this.itemRefs = {};
+  }
+
+  componentDidUpdate() {
+    const { activeId } = this.state;
+
+    if (activeId !== null && this.itemRefs[activeId]) {
+      this.itemRefs[activeId].focus();
+    }
+  }
+
+  refItem = ($id, el) => {
+    this.itemRefs = { ...this.itemRefs, [$id]: el };
+  }
+
+  onItemFocus = ($id) => {
+    this.setState({ activeId: $id });
+  }
+
+  onItemBlur = () => {
+    this.setState({ activeId: null });
+  }
+
   onItemChange = ($id, payload) => {
     const { $listId, updateItem: update } = this.props;
     update($listId, $id, payload);
   }
 
   onItemDelete = ($id) => {
-    const { $listId, deleteItem: del } = this.props;
+    const { $listId, items, deleteItem: del } = this.props;
     del($listId, $id);
+
+    const position = items.findIndex(item => item.$id === $id);
+    this.setState({
+      activeId: position > 0
+        ? items[position - 1].$id
+        : null,
+    });
   }
 
-  addItem = () => {
+  addItem = (after) => {
     const { $listId, addItem: add } = this.props;
-    add($listId, { checked: false, text: '' });
+    add($listId, { checked: false, text: '' }, after);
+
+    if (typeof after === 'undefined') {
+      return;
+    }
+
+    setTimeout(() => {
+      const { items } = this.props;
+      const position = items.findIndex(item => item.$id === after);
+
+      this.setState({
+        activeId: position < items.length
+          ? items[position + 1].$id
+          : null,
+      });
+    }, 0);
   }
 
   onSort = (ids, movedId) => {
@@ -60,11 +114,15 @@ class ChecklistList extends PureComponent {
           {items.map((item, i) => (
             <ChecklistItem
               key={item.$id}
+              reference={this.refItem}
               $listId={$listId}
               {...item}
+              onFocus={this.onItemFocus}
+              onBlur={this.onItemBlur}
               onChange={this.onItemChange}
               onDelete={this.onItemDelete}
-              focus={i === 0}
+              onInsert={this.addItem}
+              focus={item.$active || i === 0}
             />
           ))}
         </Sortable>
