@@ -135,6 +135,7 @@ class ChecklistList extends PureComponent {
           className={s.addButton}
           icon="add"
           label="Add item"
+          primary
           onClick={this.addItem}
         />
 

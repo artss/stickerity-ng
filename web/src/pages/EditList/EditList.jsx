@@ -12,6 +12,7 @@ import { updateList } from '../../actions/lists';
 import Sticker from '../../components/Sticker';
 import ListForm from '../../components/ListForm';
 import ListNotFound from '../../components/ListNotFound';
+import ListContent from '../List/ListContent';
 
 import s from './EditList.css';
 
@@ -60,6 +61,8 @@ class EditList extends PureComponent {
           items={items}
           onChange={this.onChange}
         />
+
+        <ListContent />
       </Sticker>
     );
   }
