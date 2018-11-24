@@ -57,9 +57,9 @@ export const unloadItems = ids => (dispatch, getState) => {
   dispatch(reducer.loadItems(omit(items, ids)));
 };
 
-export const addItem = ($listId, payload, follow) => (dispatch, getState) => {
+export const addItem = ($listId, payload, after, follow) => (dispatch, getState) => {
   const $id = generateId();
-  dispatch(reducer.addItem($listId, $id, getTime(), payload));
+  dispatch(reducer.addItem($listId, $id, getTime(), payload, after));
 
   if (follow) {
     navigate(`/lists/${$listId}/${$id}`, null, true);

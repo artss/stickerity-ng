@@ -30,7 +30,7 @@ export const loadLists = () => async (dispatch) => {
     const lists = await load(KEY, ENDPOINT, localLists);
 
     dispatch(reducer.loadLists(lists));
-    dispatch(loadItems(lists.map(({ $id }) => $id)));
+    dispatch(loadItems(lists.filter(({ $deleted }) => !$deleted).map(({ $id }) => $id)));
   } catch (e) {
     dispatch(user.setMasterPassword(e));
   }

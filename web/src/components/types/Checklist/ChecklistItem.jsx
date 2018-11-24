@@ -6,6 +6,12 @@ import { IconButton } from 'react-toolbox/lib/button';
 
 import DebouncedInput from '../../DebouncedInput';
 import { checklistType } from '../../../proptypes/checklist';
+import {
+  ENTER,
+  BACKSPACE,
+  ARROW_UP,
+  ARROW_DOWN,
+} from '../../../constants/keys';
 
 import s from './ChecklistList.css';
 
@@ -13,8 +19,13 @@ export default class ChecklistItem extends Component {
   static propTypes = {
     ...checklistType,
     focus: PropTypes.bool,
+    onFocus: PropTypes.func.isRequired,
+    onBlur: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
+    onInsert: PropTypes.func.isRequired,
+    onArrowUp: PropTypes.func.isRequired,
+    onArrowDown: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -26,7 +37,22 @@ export default class ChecklistItem extends Component {
 
     this.state = {
       focus: props.focus || false,
+      prevText: props.text,
     };
+  }
+
+  refItem = (el) => {
+    const { $id, reference } = this.props;
+    reference($id, el);
+  }
+
+  refInput = (el) => {
+    this.input = el;
+  }
+
+  focus = () => {
+    this.setState({ focus: true });
+    this.input.focus();
   }
 
   toggleCheck = () => {
@@ -50,11 +76,55 @@ export default class ChecklistItem extends Component {
   }
 
   onFocus = () => {
+    const { $id, onFocus } = this.props;
+    onFocus($id);
+
     this.setState({ focus: true });
   }
 
   onBlur = () => {
+    const { $id, onBlur } = this.props;
+    onBlur($id);
     this.setState({ focus: false });
+  }
+
+  onKeyPress = (e) => {
+    const { value } = e.target;
+
+    const {
+      $id,
+      onDelete,
+      onInsert,
+      onArrowUp,
+      onArrowDown,
+    } = this.props;
+
+    const { prevText } = this.state;
+
+    switch (e.nativeEvent.code) {
+      case BACKSPACE:
+        if (value === '' && prevText === '') {
+          onDelete($id);
+        }
+        break;
+
+      case ENTER:
+        onInsert($id);
+        break;
+
+      case ARROW_UP:
+        onArrowUp($id);
+        break;
+
+      case ARROW_DOWN:
+        onArrowDown($id);
+        break;
+
+      default:
+        break;
+    }
+
+    this.setState({ prevText: value });
   }
 
   render() {
@@ -70,10 +140,12 @@ export default class ChecklistItem extends Component {
         />
 
         <DebouncedInput
+          ref={this.refItem}
           className={s.input}
           value={text}
           onFocus={this.onFocus}
           onBlur={this.onBlur}
+          onKeyUp={this.onKeyPress}
           onChange={this.onInputChange}
           autoFocus={focus}
         />

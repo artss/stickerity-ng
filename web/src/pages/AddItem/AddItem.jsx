@@ -17,7 +17,7 @@ class AddItemPage extends PureComponent {
 
   onChange = (item) => {
     const { list, addItem: add } = this.props;
-    add(list.$id, item, true);
+    add(list.$id, item, null, true);
   }
 
   onDelete = () => {}

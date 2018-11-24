@@ -6,10 +6,27 @@ export default callable({
     return { ...state, ...items };
   },
 
-  addItem(items, $listId, $id, $updatedAt, payload) {
+  addItem(items, $listId, $id, $updatedAt, payload, after) {
+    const newItem = { $id, $updatedAt, ...payload };
+
+    let listItems;
+
+    if (typeof after === 'string' && Array.isArray(items[$listId])) {
+      const position = items[$listId].findIndex(item => item.$id === after);
+
+      if (position > -1) {
+        listItems = [...items[$listId]];
+        listItems.splice(position + 1, 0, newItem);
+      }
+    }
+
+    if (!listItems) {
+      listItems = [newItem].concat(items[$listId] || []);
+    }
+
     return {
       ...items,
-      [$listId]: [{ $id, $updatedAt, ...payload }].concat(items[$listId] || []),
+      [$listId]: listItems,
     };
   },
 
