@@ -1,5 +1,18 @@
-Brand new Stickerity
-====================
+STIK.RS
+=======
+
+Secure notes keeper.
+
+Keeps data encrypted with AES-CBC, each list encrypts with it's own key.
+
+At the moment, supports four types of lists:
+
+* Rich text notes
+* Events
+* Passwords
+* Checklist
+
+## Installation
 
 1. Install [docker-ce](https://www.docker.com/community-edition).
 
@@ -16,5 +29,5 @@ Brand new Stickerity
     docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
     ```
 
-4. Open `http://localhost:5000/` in your browser.
+4. Open `https://localhost:5000/` in your browser.
 
