@@ -180,13 +180,13 @@ export const register = async (req, res) => {
 
     res.json(user);
 
-    const link = 'https://stickerity.com/activate?' + querystring.stringify({
+    const link = 'https://' + process.env.DOMAIN + '/activate?' + querystring.stringify({
       email,
       token: activationToken(email),
     });
 
     sendMail(email, name, 'activation.txt', {
-      subject: 'Stickerity account activation',
+      subject: 'STIKRS account activation',
       name: name || 'user',
       link,
     });

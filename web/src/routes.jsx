@@ -6,6 +6,7 @@ import Main from './pages/Main';
 import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
 import Activate from './pages/Auth/Activate';
+import Profile from './pages/Profile';
 import Terms from './pages/Terms';
 import Board from './pages/Board';
 import AddList from './pages/AddList';
@@ -30,6 +31,7 @@ export default function Routes() {
       <PrivateRoute path="/lists/:listId/edit" exact component={EditList} />
       <PrivateRoute path="/lists/:listId/add" exact component={AddItem} />
       <PrivateRoute path="/lists/:listId/:itemId" exact component={Item} />
+      <PrivateRoute path="/profile" exact component={Profile} />
 
       <Route component={PageNotFound} />
     </Switch>

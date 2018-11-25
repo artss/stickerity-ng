@@ -47,7 +47,7 @@ export async function sendMail(email, name, templateName, data) {
 
   const message = {
     from: {
-      name: 'Stickerity',
+      name: 'STIKRS',
       address: process.env.MAIL_ADDRESS,
     },
     to: {
