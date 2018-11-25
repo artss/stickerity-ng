@@ -35,7 +35,7 @@ export const loadUser = () => async (dispatch) => {
   }
 
   try {
-    const data = await api.get('user/info');
+    const data = await api.get('user/profile');
     dispatch(user.setUser(data));
     save(data);
   } catch (e) {
@@ -128,6 +128,29 @@ export const activate = (email, token) => async (dispatch) => {
   } catch (e) {
     dispatch(user.authError(e.message));
     save();
+  }
+};
+
+export const saveProfile = ({ name, newEmail, password }) => async (dispatch, getState) => {
+  dispatch(user.authPending());
+  const { user: { email } } = getState();
+
+  const newEmailPassword = await authPasswordHash(newEmail, password);
+  const currentPassword = await authPasswordHash(email, password);
+
+  try {
+    const data = await api.post('user/profile', {
+      name,
+      email,
+      newEmail,
+      password: currentPassword,
+      newEmailPassword,
+    });
+
+    dispatch(user.setUser(data));
+    save(data);
+  } catch (e) {
+    dispatch(user.authError(e.message));
   }
 };
 
