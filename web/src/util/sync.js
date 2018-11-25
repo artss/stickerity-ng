@@ -88,7 +88,7 @@ export async function save(list, localStorageKey, apiEndpoint) {
 
   localStorage.setItem(localStorageKey, encData);
   try {
-    return api.abortablePost(apiEndpoint, { data: encData });
+    return api.abortable(api.post, apiEndpoint, { data: encData });
   } catch (e) {
     return null;
   }

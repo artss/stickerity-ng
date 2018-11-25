@@ -56,11 +56,13 @@ export function post(url, params, signal) {
   }));
 }
 
-const abortControllers = {};
+const abortControllers = new Map();
 
-export function abortablePost(url, params) {
-  if (abortControllers[url]) {
-    const { controller, timeout } = abortControllers[url];
+export function abortable(method, url, params) {
+  const ac = abortControllers.get(method);
+
+  if (ac && ac[url]) {
+    const { controller, timeout } = ac[url];
 
     controller.abort();
     clearTimeout(timeout);
@@ -71,16 +73,19 @@ export function abortablePost(url, params) {
 
     const timeout = setTimeout(async () => {
       try {
-        resolve(post(url, params, controller.signal));
+        resolve(method(url, params, controller.signal));
       } catch (e) {
         reject(e);
       }
     }, DEBOUNCE_TIME);
 
-    abortControllers[url] = {
-      controller,
-      timeout,
-    };
+    abortControllers.set(method, {
+      ...(abortControllers.get(method) || {}),
+      [url]: {
+        controller,
+        timeout,
+      },
+    });
   });
 }
 
