@@ -6,6 +6,7 @@ import { IconMenu, MenuItem, MenuDivider } from 'react-toolbox/lib/menu';
 import { Link } from 'react-router-dom';
 import Dialog from 'react-toolbox/lib/dialog';
 
+import { navigate } from '../../util/history';
 import { userType } from '../../proptypes/user';
 import { logout } from '../../actions/user';
 
@@ -42,6 +43,10 @@ class UserMenu extends PureComponent {
       },
     },
   ];
+
+  openProfile = () => {
+    navigate('/profile');
+  }
 
   logout = () => {
     this.setState({ showDialog: true });
