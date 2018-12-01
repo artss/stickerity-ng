@@ -1,7 +1,7 @@
 {
-  "name": "stickerity-ng",
+  "name": "stikrs",
   "version": "1.0.0",
-  "description": "Brand new Stickerity",
+  "description": "STIKRS",
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
@@ -24,10 +24,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/arts/stickerity-ng.git"
+    "url": "git+ssh://git@bitbucket.org/arts/stikrs.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "homepage": "https://bitbucket.org/arts/stickerity-ng#readme"
+  "homepage": "https://bitbucket.org/arts/stikrs#readme"
 }
