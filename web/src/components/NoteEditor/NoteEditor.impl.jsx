@@ -50,6 +50,7 @@ export default class NoteEditor extends PureComponent {
     this.state = {
       toolbarPosition: null,
       editorState,
+      prevContent: null,
     };
   }
 
@@ -88,24 +89,30 @@ export default class NoteEditor extends PureComponent {
         top: rangeRect.top - editorRect.top,
       },
     });
-  }
+  };
 
   debouncedOnChange = debounce((editorState) => {
     const { onChange } = this.props;
     if (onChange) {
-      onChange(convertToRaw(editorState.getCurrentContent()));
+      const content = editorState.getCurrentContent();
+      const { prevContent } = this.state;
+      if (content === prevContent) {
+        return;
+      }
+      this.setState({ prevContent: content });
+      onChange(convertToRaw(content));
     }
-  }, 400)
+  }, 400);
 
   onChange = (editorState) => {
     this.setState({ editorState }, this.updateToolbarPosition);
     this.debouncedOnChange(editorState);
-  }
+  };
 
   onToggle = (style) => {
     const { editorState } = this.state;
     this.onChange(RichUtils.toggleInlineStyle(editorState, style));
-  }
+  };
 
   handleKeyCommand = (command) => {
     const { editorState } = this.state;
@@ -115,15 +122,15 @@ export default class NoteEditor extends PureComponent {
       return true;
     }
     return false;
-  }
+  };
 
   refEditor = (el) => {
     this.editor = el;
-  }
+  };
 
   refToolbar = (el) => {
     this.toolbar = el;
-  }
+  };
 
   render() {
     const { placeholder } = this.props;

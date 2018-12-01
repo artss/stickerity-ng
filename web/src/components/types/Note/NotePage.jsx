@@ -19,7 +19,7 @@ export default class NotePage extends PureComponent {
   };
 
   onChange(item) {
-    // TODO: chect title and text
+    // TODO: check title and text
     const { onChange } = this.props;
     onChange(item);
   }
@@ -31,7 +31,7 @@ export default class NotePage extends PureComponent {
 
   onTextChange = (text) => {
     this.onChange({ text });
-  }
+  };
 
   render() {
     const {
@@ -78,6 +78,7 @@ export default class NotePage extends PureComponent {
             value={text}
             onChange={this.onTextChange}
             focus={Boolean($id)}
+            placeholder="Text"
           />
         </div>
 

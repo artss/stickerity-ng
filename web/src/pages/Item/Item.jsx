@@ -15,29 +15,30 @@ import ItemNotFound from '../../components/ItemNotFound';
 
 class ItemPage extends PureComponent {
   static propTypes = {
-    list: PropTypes.shape(listType).isRequired,
+    list: PropTypes.shape(listType),
     item: PropTypes.shape(itemType),
   };
 
   static defaultProps = {
+    list: null,
     item: null,
-  }
+  };
 
   onChange = (payload) => {
     const { list, item, updateItem: update } = this.props;
     update(list.$id, item.$id, payload);
-  }
+  };
 
   onDelete = () => {
     const { list, item, deleteItem: del } = this.props;
     navigate(`/lists/${list.$id}`, null, true);
     del(list.$id, item.$id);
-  }
+  };
 
   render() {
     const { list, item } = this.props;
 
-    if (!item) {
+    if (!list || !item) {
       return <ItemNotFound />;
     }
 
@@ -57,7 +58,7 @@ class ItemPage extends PureComponent {
 
 function mapStateToProps({ lists, items }, { match: { params: { listId, itemId } } }) {
   const list = getListById(lists, listId);
-  const item = getItemById(items[listId], itemId);
+  const item = list && items && items[listId] && getItemById(items[listId], itemId);
 
   return { list, item };
 }
