@@ -1,13 +1,15 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import range from '../../util/range';
+import { getMonthEvents } from '../../selectors/events';
 import { weekDayShortNames, MONDAY } from '../../constants/dates';
 import { eventType } from '../../proptypes/event';
 import Day from './Day';
 import s from './Calendar.css';
 
-export default class Calendar extends PureComponent {
+class Calendar extends PureComponent {
   static propTypes = {
     year: PropTypes.number.isRequired,
     month: PropTypes.number.isRequired,
@@ -65,9 +67,9 @@ export default class Calendar extends PureComponent {
             const dayKey = Number(d);
             return (
               <Day
-                key={`day${dayKey}`}
+                key={`day${n}`}
                 day={n}
-                today={Number(today) === dayKey}
+                today={n === today.getDate()}
                 events={events[dayKey]}
                 onClick={onDayClick}
               />
@@ -78,3 +80,9 @@ export default class Calendar extends PureComponent {
     );
   }
 }
+
+function mapStateToProps(state, { items, year, month }) {
+  return { events: getMonthEvents(items, year, month) };
+}
+
+export default connect(mapStateToProps)(Calendar);

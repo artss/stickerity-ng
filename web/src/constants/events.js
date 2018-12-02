@@ -12,4 +12,4 @@ export const eventTypes = {
   [TODO]: { icon: 'done', title: 'To Do' },
 };
 
-export const UPCOMING_EVENTS_LIMIT = 20;
+export const UPCOMING_EVENTS_LIMIT = 3 * 30 * 24 * 60 * 60 * 1000;
