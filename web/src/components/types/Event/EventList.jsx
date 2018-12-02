@@ -30,6 +30,7 @@ export default class EventList extends PureComponent {
     this.state = {
       year,
       month,
+      day: null,
     };
   }
 
@@ -40,11 +41,11 @@ export default class EventList extends PureComponent {
   };
 
   onYearChange = (year) => {
-    this.setState({ year: Number(year) });
+    this.setState({ year: Number(year), day: null });
   };
 
   onMonthChange = (month) => {
-    this.setState({ month: Number(month) });
+    this.setState({ month: Number(month), day: null });
   };
 
   onMonthDecrement = () => {
@@ -57,7 +58,7 @@ export default class EventList extends PureComponent {
         y -= 1;
       }
 
-      return { year: y, month: m };
+      return { year: y, month: m, day: null };
     });
   };
 
@@ -71,15 +72,18 @@ export default class EventList extends PureComponent {
         y += 1;
       }
 
-      return { year: y, month: m };
+      return { year: y, month: m, day: null };
     });
   };
 
-  onDayClick = () => {};
+  onDayClick = (day) => {
+    const { day: selectedDay } = this.state;
+    this.setState({ day: day === selectedDay ? null : day });
+  };
 
   render() {
     const { $listId, items } = this.props;
-    const { year, month } = this.state;
+    const { year, month, day } = this.state;
 
     return (
       <div className={s.root}>
@@ -126,6 +130,7 @@ export default class EventList extends PureComponent {
             firstDayOfWeek={MONDAY}
             year={year}
             month={month}
+            day={day}
             items={items}
             onDayClick={this.onDayClick}
           />
@@ -135,6 +140,7 @@ export default class EventList extends PureComponent {
           $listId={$listId}
           year={year}
           month={month}
+          day={day}
           items={items}
         />
       </div>

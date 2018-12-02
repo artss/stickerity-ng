@@ -11,6 +11,7 @@ export default class Day extends PureComponent {
   static propTypes = {
     day: PropTypes.number.isRequired,
     today: PropTypes.bool,
+    selected: PropTypes.bool,
     onClick: PropTypes.func,
     events: PropTypes.arrayOf(
       PropTypes.shape(eventType)
@@ -19,6 +20,7 @@ export default class Day extends PureComponent {
 
   static defaultProps = {
     today: false,
+    selected: false,
     events: null,
     onClick: null,
   };
@@ -31,13 +33,14 @@ export default class Day extends PureComponent {
   }
 
   render() {
-    const { day, today, events } = this.props;
+    const { day, today, selected, events } = this.props;
 
     return (
       <Button
         className={cx(
           s.day,
-          today && s.today
+          today && s.today,
+          selected && s.selected
         )}
         onClick={this.onClick}
       >

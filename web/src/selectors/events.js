@@ -1,12 +1,12 @@
 import { createSelector } from 'reselect';
 
-const getDayKey = item => Number(new Date(item.year, item.month - 1, item.day));
+export const getDayKey = ({ month, day }) => `${month}-${day}`;
 
 export const getMonthEvents = createSelector(
   [
     items => items,
     (items, currentYear) => currentYear,
-    (items, currentYear, currentMonth) => currentMonth,
+    (items, y, currentMonth) => currentMonth,
   ],
   (items, currentYear, currentMonth) => items
     .filter(({ annual, year, month }) => (
@@ -14,15 +14,30 @@ export const getMonthEvents = createSelector(
     ))
     .reduce(
       (acc, item) => {
-        const day = getDayKey(item);
-        if (!acc[day]) {
-          acc[day] = [];
+        const dayKey = getDayKey(item);
+        if (!acc[dayKey]) {
+          acc[dayKey] = [];
         }
-        acc[day].push(item);
+        acc[dayKey].push(item);
         return acc;
       },
       {}
     )
+);
+
+export const getDayEvents = createSelector(
+  [
+    items => items,
+    (items, currentYear) => currentYear,
+    (items, y, currentMonth) => currentMonth,
+    (items, y, m, currentDay) => currentDay,
+  ],
+  (items, currentYear, currentMonth, currentDay) => ({
+    [currentDay]: items.filter(({ annual, year, month, day }) => (
+      (annual || year === currentYear)
+      && month === currentMonth
+      && day === currentDay)),
+  })
 );
 
 export const getUpcomingEvents = createSelector(
@@ -36,12 +51,7 @@ export const getUpcomingEvents = createSelector(
     const currentDate = new Date(currentYear, currentMonth - 1, 1);
 
     return items
-      .filter(({
-        annual,
-        year,
-        month,
-        day,
-      }) => {
+      .filter(({ annual, year, month, day }) => {
         let eventDate;
 
         if (annual) {
@@ -76,12 +86,12 @@ export const getUpcomingEvents = createSelector(
       })
       .reduce(
         (acc, item) => {
-          const day = getDayKey(item);
+          const dayKey = getDayKey(item);
 
-          if (!acc[day]) {
-            acc[day] = [];
+          if (!acc[dayKey]) {
+            acc[dayKey] = [];
           }
-          acc[day].push(item);
+          acc[dayKey].push(item);
           return acc;
         },
         {}

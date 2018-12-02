@@ -31,6 +31,15 @@
   }
 }
 
+.selected {
+  font-weight: 700;
+
+  &,
+  &:hover {
+    background-color: #ddd;
+  }
+}
+
 .dayEvents {
   position: absolute;
   display: block;
