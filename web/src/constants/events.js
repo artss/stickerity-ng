@@ -11,3 +11,5 @@ export const eventTypes = {
   [DEPARTURE]: { icon: 'flight_takeoff', title: 'Departure' },
   [TODO]: { icon: 'done', title: 'To Do' },
 };
+
+export const UPCOMING_EVENTS_LIMIT = 20;

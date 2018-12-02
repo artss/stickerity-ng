@@ -9,8 +9,6 @@ import s from './Agenda.css';
 export default class Agenda extends PureComponent {
   static propTypes = {
     $listId: PropTypes.string.isRequired,
-    year: PropTypes.number.isRequired,
-    month: PropTypes.number.isRequired,
     events: PropTypes.objectOf(
       PropTypes.arrayOf(
         PropTypes.shape(eventType)
@@ -25,8 +23,6 @@ export default class Agenda extends PureComponent {
   render() {
     const {
       $listId,
-      year,
-      month,
       events,
     } = this.props;
 
@@ -34,16 +30,23 @@ export default class Agenda extends PureComponent {
       <div className={s.root}>
         {Object.keys(events)
           .sort((a, b) => a - b)
-          .map(day => (
-            <Day
-              key={day}
-              $listId={$listId}
-              year={year}
-              month={month}
-              day={Number(day)}
-              events={events[day]}
-            />
-          ))
+          .map((dayKey) => {
+            const d = new Date(Number(dayKey));
+            const year = d.getFullYear();
+            const month = d.getMonth() + 1;
+            const day = d.getDate();
+
+            return (
+              <Day
+                key={day}
+                $listId={$listId}
+                year={year}
+                month={month}
+                day={day}
+                events={events[dayKey]}
+              />
+            );
+          })
         }
       </div>
     );

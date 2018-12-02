@@ -38,6 +38,7 @@ export default class Calendar extends PureComponent {
     } = this.props;
 
     const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const firstDay = new Date(year, month - 1, 1);
     const lastDay = new Date(year, month, 0);
 
@@ -59,19 +60,19 @@ export default class Calendar extends PureComponent {
         {range(skipDays).map(n => <div key={`skip${n}`} />)}
 
         {range(1, lastDay.getDate() + 1)
-          .map(n => (
-            <Day
-              key={`day${n}`}
-              day={n}
-              today={
-                year === now.getFullYear()
-                && month === now.getMonth() + 1
-                && n === now.getDate()
-              }
-              events={events[n]}
-              onClick={onDayClick}
-            />
-          ))
+          .map((n) => {
+            const d = new Date(year, month - 1, n);
+            const dayKey = Number(d);
+            return (
+              <Day
+                key={`day${dayKey}`}
+                day={n}
+                today={Number(today) === dayKey}
+                events={events[dayKey]}
+                onClick={onDayClick}
+              />
+            );
+          })
         }
       </div>
     );

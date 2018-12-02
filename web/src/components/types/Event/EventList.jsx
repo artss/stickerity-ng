@@ -5,27 +5,15 @@ import Dropdown from 'react-toolbox/lib/dropdown';
 import Input from 'react-toolbox/lib/input';
 
 import { navigate } from '../../../util/history';
-import { MONDAY } from '../../../constants/dates';
+import { monthFullNames, MONDAY } from '../../../constants/dates';
+import { UPCOMING_EVENTS_LIMIT } from '../../../constants/events';
 import { eventType } from '../../../proptypes/event';
-import { getMonthEvents } from '../../../selectors/events';
+import { getMonthEvents, getUpcomingEvents } from '../../../selectors/events';
 import Calendar from '../../Calendar';
 import Agenda from '../../Agenda';
 import s from './EventList.css';
 
-const months = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-]
+const months = monthFullNames
   .map((label, i) => ({ label, value: i + 1 }));
 
 export default class EventList extends PureComponent {
@@ -51,15 +39,15 @@ export default class EventList extends PureComponent {
     const { $listId } = this.props;
 
     navigate(`/lists/${$listId}/add`);
-  }
+  };
 
   onYearChange = (year) => {
     this.setState({ year: Number(year) });
-  }
+  };
 
   onMonthChange = (month) => {
     this.setState({ month: Number(month) });
-  }
+  };
 
   onMonthDecrement = () => {
     this.setState(({ year, month }) => {
@@ -73,7 +61,7 @@ export default class EventList extends PureComponent {
 
       return { year: y, month: m };
     });
-  }
+  };
 
   onMonthIncrement = () => {
     this.setState(({ year, month }) => {
@@ -87,15 +75,16 @@ export default class EventList extends PureComponent {
 
       return { year: y, month: m };
     });
-  }
+  };
 
-  onDayClick = () => {}
+  onDayClick = () => {};
 
   render() {
     const { $listId, items } = this.props;
     const { year, month } = this.state;
 
-    const events = getMonthEvents(items, year, month);
+    const monthEvents = getMonthEvents(items, year, month);
+    const events = getUpcomingEvents(items, year, month, UPCOMING_EVENTS_LIMIT);
 
     return (
       <div className={s.root}>
@@ -142,15 +131,13 @@ export default class EventList extends PureComponent {
             firstDayOfWeek={MONDAY}
             year={year}
             month={month}
-            events={events}
+            events={monthEvents}
             onDayClick={this.onDayClick}
           />
         </div>
 
         <Agenda
           $listId={$listId}
-          year={year}
-          month={month}
           events={events}
         />
       </div>

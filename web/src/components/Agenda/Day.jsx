@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 
 import { eventType } from '../../proptypes/event';
-import { weekDayShortNames } from '../../constants/dates';
+import { monthShortNames, weekDayShortNames } from '../../constants/dates';
 
 import Event from './Event';
 
@@ -33,14 +34,19 @@ export default class Day extends PureComponent {
       events,
     } = this.props;
 
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const d = new Date(year, month - 1, day);
 
     const dayOfWeek = d.getDay() % 7;
 
     return (
-      <div className={s.day}>
+      <div className={cx(s.day, d < today && s.past)}>
         <div className={s.dayWrap}>
           <div className={s.dayNumber}>{day}</div>
+          <div className={s.month}>
+            {monthShortNames[month - 1]}
+          </div>
           <div className={s.dayOfWeek}>
             {weekDayShortNames[dayOfWeek]}
           </div>
