@@ -6,9 +6,7 @@ import Input from 'react-toolbox/lib/input';
 
 import { navigate } from '../../../util/history';
 import { monthFullNames, MONDAY } from '../../../constants/dates';
-import { UPCOMING_EVENTS_LIMIT } from '../../../constants/events';
 import { eventType } from '../../../proptypes/event';
-import { getMonthEvents, getUpcomingEvents } from '../../../selectors/events';
 import Calendar from '../../Calendar';
 import Agenda from '../../Agenda';
 import s from './EventList.css';
@@ -83,9 +81,6 @@ export default class EventList extends PureComponent {
     const { $listId, items } = this.props;
     const { year, month } = this.state;
 
-    const monthEvents = getMonthEvents(items, year, month);
-    const events = getUpcomingEvents(items, year, month, UPCOMING_EVENTS_LIMIT);
-
     return (
       <div className={s.root}>
 
@@ -131,14 +126,16 @@ export default class EventList extends PureComponent {
             firstDayOfWeek={MONDAY}
             year={year}
             month={month}
-            events={monthEvents}
+            items={items}
             onDayClick={this.onDayClick}
           />
         </div>
 
         <Agenda
           $listId={$listId}
-          events={events}
+          year={year}
+          month={month}
+          items={items}
         />
       </div>
     );
