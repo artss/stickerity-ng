@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { eventType } from '../../proptypes/event';
 import { UPCOMING_EVENTS_LIMIT } from '../../constants/events';
-import { getUpcomingEvents } from '../../selectors/events';
+import { getDayEvents, getUpcomingEvents } from '../../selectors/events';
 
 import Day from './Day';
 import s from './Agenda.css';
@@ -58,8 +58,12 @@ class Agenda extends PureComponent {
   }
 }
 
-function mapStateToProps(state, { items, year, month }) {
-  return { events: getUpcomingEvents(items, year, month, UPCOMING_EVENTS_LIMIT) };
+function mapStateToProps(state, { items, year, month, day }) {
+  return {
+    events: day
+      ? getDayEvents(items, year, month, day)
+      : getUpcomingEvents(items, year, month, UPCOMING_EVENTS_LIMIT),
+  };
 }
 
 export default connect(mapStateToProps)(Agenda);

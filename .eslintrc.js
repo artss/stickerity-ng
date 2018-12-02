@@ -24,6 +24,7 @@ module.exports = {
       'functions': 'ignore'
     }],
     'indent': [2, 2, {'SwitchCase': 1, 'VariableDeclarator': 1}],
+    'object-curly-newline': 'off',
     'eol-last': 'off',
     'no-console': ['error', {'allow': ['warn', 'error']}],
 

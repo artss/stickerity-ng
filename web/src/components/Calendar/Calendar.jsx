@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import range from '../../util/range';
-import { getMonthEvents } from '../../selectors/events';
+import { getDayKey, getMonthEvents } from '../../selectors/events';
 import { weekDayShortNames, MONDAY } from '../../constants/dates';
 import { eventType } from '../../proptypes/event';
 import Day from './Day';
@@ -13,7 +13,7 @@ class Calendar extends PureComponent {
   static propTypes = {
     year: PropTypes.number.isRequired,
     month: PropTypes.number.isRequired,
-    // day: PropTypes.number,
+    day: PropTypes.number,
     firstDayOfWeek: PropTypes.number,
     events: PropTypes.objectOf(
       PropTypes.arrayOf(
@@ -24,7 +24,7 @@ class Calendar extends PureComponent {
   };
 
   static defaultProps = {
-    // day: null,
+    day: null,
     firstDayOfWeek: MONDAY,
     events: {},
     onDayClick: null,
@@ -34,6 +34,7 @@ class Calendar extends PureComponent {
     const {
       year,
       month,
+      day,
       firstDayOfWeek,
       events,
       onDayClick,
@@ -63,13 +64,13 @@ class Calendar extends PureComponent {
 
         {range(1, lastDay.getDate() + 1)
           .map((n) => {
-            const d = new Date(year, month - 1, n);
-            const dayKey = Number(d);
+            const dayKey = getDayKey({ month, day: n });
             return (
               <Day
                 key={`day${n}`}
                 day={n}
                 today={n === today.getDate()}
+                selected={n === day}
                 events={events[dayKey]}
                 onClick={onDayClick}
               />
