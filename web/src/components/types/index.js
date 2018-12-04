@@ -7,7 +7,6 @@ import PasswordItem from './Password/PasswordItem';
 import PasswordPage from './Password/PasswordPage';
 import EventPage from './Event/EventPage';
 
-// TODO: dynamic import
 const listTypeMapping = {
   Checklist: ChecklistList,
   Event: EventList,

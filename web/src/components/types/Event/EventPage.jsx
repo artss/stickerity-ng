@@ -129,7 +129,6 @@ export default class EventPage extends PureComponent {
 
     const headTitle = title || (description ? description.substr(0, 16) : 'Event');
 
-    // TODO: validation
     const titleError = $id && !title && !description && 'Ether title or description should be filled';
 
     return (

@@ -1,7 +1,4 @@
-/* eslint-disable react/default-props-match-prop-types */
-
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import { formatTime } from '../../util/format';
@@ -11,10 +8,7 @@ import EventIcon from './EventIcon';
 import s from './Agenda.css';
 
 export default class Event extends PureComponent {
-  static propTypes = {
-    $listId: PropTypes.string.isRequired,
-    ...eventType,
-  };
+  static propTypes = eventType;
 
   static defaultProps = {
     title: '',
